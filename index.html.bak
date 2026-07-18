@@ -83,7 +83,7 @@ body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0b1020,#1e293b
     $("relock").hidden = true;
     $("pass").value = "";
     $("lock").hidden = false;
-    document.title = "Quant Trading Site";
+    document.title = "Cockpit";
   }
   $("go").addEventListener("click", () => unlock());
   $("pass").addEventListener("keydown", e => { if (e.key === "Enter") unlock(); });

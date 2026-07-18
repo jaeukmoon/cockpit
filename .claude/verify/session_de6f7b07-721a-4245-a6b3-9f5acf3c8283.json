@@ -1,0 +1,16 @@
+{
+ "files": {
+  "C:\\Users\\user\\Desktop\\Github\\cockpit\\README.md": {
+   "overall": "pass",
+   "checks": [
+    {
+     "name": "md_frontmatter",
+     "status": "pass",
+     "stderr_tail": "no frontmatter (ok)"
+    }
+   ],
+   "ts": "2026-07-19T00:47:38"
+  }
+ },
+ "updated": "2026-07-19T00:47:38"
+}
