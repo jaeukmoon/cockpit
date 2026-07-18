@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cockpit</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🔒%3C/text%3E%3C/svg%3E">
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0b1020,#1e293b);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR","Malgun Gothic",sans-serif;color:#e7ecf5}
+.lock{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:16px;
+  padding:30px 32px;max-width:380px;width:100%;display:flex;flex-direction:column;gap:12px}
+.box h1{margin:0;font-size:20px;letter-spacing:-.2px}
+.box p{margin:0;color:#aab3c5;font-size:13px;line-height:1.6}
+.box input[type=password]{padding:10px 13px;border:1px solid rgba(255,255,255,.25);border-radius:10px;
+  font-size:15px;background:rgba(0,0,0,.25);color:#fff;outline:none}
+.box input[type=password]:focus{border-color:#3b5bdb}
+.box label{font-size:12.5px;color:#aab3c5;display:flex;align-items:center;gap:7px;cursor:pointer}
+.box button{padding:10px 14px;border-radius:10px;border:0;background:#3b5bdb;color:#fff;
+  font-weight:700;font-size:14px;cursor:pointer}
+.box button:hover{background:#3450c4}
+#msg{min-height:18px;font-size:12.5px;color:#f0a8a8}
+#frame{position:fixed;inset:0;width:100%;height:100%;border:0;background:#f4f6fb}
+#relock{position:fixed;right:14px;bottom:14px;z-index:10;width:40px;height:40px;border-radius:999px;
+  border:1px solid rgba(0,0,0,.15);background:rgba(30,41,59,.85);color:#fff;font-size:16px;cursor:pointer}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="lock" id="lock">
+  <div class="box">
+    <h1>🔒 Cockpit</h1>
+    <p>개인 페이지입니다. 암호화되어 있으며 패스프레이즈를 입력해야 열립니다.</p>
+    <input type="password" id="pass" placeholder="passphrase" autocomplete="current-password" autofocus>
+    <label><input type="checkbox" id="remember"> 이 기기에서 기억</label>
+    <button id="go" type="button">열기</button>
+    <div id="msg"></div>
+  </div>
+</div>
+
+<iframe id="frame" title="cockpit" hidden></iframe>
+<button id="relock" type="button" title="잠그기" hidden>🔒</button>
+
+<script>
+(function () {
+  const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  const $ = id => document.getElementById(id);
+  async function unlock(auto) {
+    const pass = $("pass").value;
+    const msg = $("msg");
+    if (!pass) return;
+    msg.textContent = "복호화 중…";
+    try {
+      const enc = await fetch("data/cockpit.enc.json", { cache: "no-store" })
+        .then(r => { if (!r.ok) throw new Error("payload"); return r.json(); });
+      const km = await crypto.subtle.importKey("raw", new TextEncoder().encode(pass),
+        "PBKDF2", false, ["deriveKey"]);
+      const key = await crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt: b64(enc.salt), iterations: enc.iter, hash: "SHA-256" },
+        km, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+      const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.nonce) }, key, b64(enc.ct));
+      const data = JSON.parse(new TextDecoder().decode(pt));
+      ($("remember").checked ? localStorage : sessionStorage).setItem("ckpass", pass);
+      $("frame").srcdoc = data.html;
+      $("frame").hidden = false;
+      $("relock").hidden = false;
+      $("lock").hidden = true;
+      msg.textContent = "";
+      document.title = "WBQ Cockpit";
+    } catch (e) {
+      sessionStorage.removeItem("ckpass"); localStorage.removeItem("ckpass");
+      msg.textContent = auto === true ? "" : "복호화 실패 — 패스프레이즈를 확인하세요.";
+    }
+  }
+  function lock() {
+    sessionStorage.removeItem("ckpass"); localStorage.removeItem("ckpass");
+    $("frame").srcdoc = "";
+    $("frame").hidden = true;
+    $("relock").hidden = true;
+    $("pass").value = "";
+    $("lock").hidden = false;
+    document.title = "Cockpit";
+  }
+  $("go").addEventListener("click", () => unlock());
+  $("pass").addEventListener("keydown", e => { if (e.key === "Enter") unlock(); });
+  $("relock").addEventListener("click", lock);
+  const saved = sessionStorage.getItem("ckpass") || localStorage.getItem("ckpass");
+  if (saved) { $("pass").value = saved; unlock(true); }
+})();
+</script>
+</body>
+</html>
