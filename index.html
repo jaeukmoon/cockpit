@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quant Trading Site</title>
+<title>World Best Quant</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🔒%3C/text%3E%3C/svg%3E">
 <style>
@@ -33,7 +33,7 @@ body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0b1020,#1e293b
 
 <div class="lock" id="lock">
   <div class="box">
-    <h1>🔒 Quant Trading Site</h1>
+    <h1>🔒 World Best Quant</h1>
     <p>개인 페이지입니다. 암호화되어 있으며 패스프레이즈를 입력해야 열립니다.</p>
     <input type="password" id="pass" placeholder="passphrase" autocomplete="current-password" autofocus>
     <label><input type="checkbox" id="remember"> 이 기기에서 기억</label>
@@ -70,7 +70,7 @@ body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0b1020,#1e293b
       $("relock").hidden = false;
       $("lock").hidden = true;
       msg.textContent = "";
-      document.title = "Quant Trading Site";
+      document.title = "World Best Quant";
     } catch (e) {
       sessionStorage.removeItem("ckpass"); localStorage.removeItem("ckpass");
       msg.textContent = auto === true ? "" : "복호화 실패 — 패스프레이즈를 확인하세요.";
@@ -83,7 +83,7 @@ body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0b1020,#1e293b
     $("relock").hidden = true;
     $("pass").value = "";
     $("lock").hidden = false;
-    document.title = "Quant Trading Site";
+    document.title = "World Best Quant";
   }
   $("go").addEventListener("click", () => unlock());
   $("pass").addEventListener("keydown", e => { if (e.key === "Enter") unlock(); });
