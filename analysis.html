@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>World Best Quant</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🔒%3C/text%3E%3C/svg%3E">
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0b1020,#1e293b);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR","Malgun Gothic",sans-serif;color:#e7ecf5}
+.lock{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:16px;
+  padding:30px 32px;max-width:380px;width:100%;display:flex;flex-direction:column;gap:12px}
+.box h1{margin:0;font-size:20px;letter-spacing:-.2px}
+.box p{margin:0;color:#aab3c5;font-size:13px;line-height:1.6}
+.box input[type=password]{padding:10px 13px;border:1px solid rgba(255,255,255,.25);border-radius:10px;
+  font-size:15px;background:rgba(0,0,0,.25);color:#fff;outline:none}
+.box input[type=password]:focus{border-color:#3b5bdb}
+.box label{font-size:12.5px;color:#aab3c5;display:flex;align-items:center;gap:7px;cursor:pointer}
+.box button{padding:10px 14px;border-radius:10px;border:0;background:#3b5bdb;color:#fff;
+  font-weight:700;font-size:14px;cursor:pointer}
+.box button:hover{background:#3450c4}
+#msg{min-height:18px;font-size:12.5px;color:#f0a8a8}
+
+/* ---- app ---- */
+#app{max-width:900px;margin:0 auto;padding:16px 14px 60px}
+header{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+header h1{font-size:18px;margin:0}
+header .sub{font-size:12px;color:#8d99ae}
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tabs button{flex:1;min-width:130px;padding:10px;border-radius:10px;cursor:pointer;font-size:13.5px;
+  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:#c9d3e4;font-weight:600}
+.tabs button.on{background:#3b5bdb;border-color:#3b5bdb;color:#fff}
+.card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);border-radius:14px;
+  padding:15px 16px;margin-bottom:13px}
+.card h2{font-size:14.5px;margin:0 0 4px}
+.note{font-size:12px;color:#93a0b8;line-height:1.65;margin:6px 0 0}
+.warn{font-size:12px;line-height:1.65;margin:8px 0 0;padding:9px 11px;border-radius:9px;
+  background:rgba(234,179,8,.12);border:1px solid rgba(234,179,8,.35);color:#f5d78a}
+.gap{font-size:13px;line-height:1.7;padding:12px;border-radius:10px;
+  background:rgba(59,91,219,.12);border:1px solid rgba(59,91,219,.35);color:#c3cffb}
+input[type=search]{width:100%;padding:11px 13px;border-radius:10px;font-size:15px;
+  border:1px solid rgba(255,255,255,.22);background:rgba(0,0,0,.25);color:#fff;outline:none}
+input[type=search]:focus{border-color:#3b5bdb}
+.hits{list-style:none;margin:9px 0 0;padding:0;max-height:230px;overflow:auto}
+.hits li{padding:9px 11px;border-radius:9px;cursor:pointer;font-size:13.5px;
+  border:1px solid transparent;display:flex;gap:8px;align-items:center}
+.hits li:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14)}
+.mk{font-size:10.5px;padding:2px 6px;border-radius:5px;background:rgba(255,255,255,.12);color:#aeb9cd}
+.stats{display:flex;flex-wrap:wrap;gap:9px;margin:10px 0 2px}
+.stat{flex:1;min-width:88px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:9px 11px}
+.stat .k{font-size:11px;color:#8d99ae}
+.stat .v{font-size:16px;font-weight:700;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:9px}
+th,td{padding:6px 7px;text-align:right;border-bottom:1px solid rgba(255,255,255,.08);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:#8d99ae;font-weight:600}
+.scroll{overflow-x:auto}
+.hm td{text-align:center;border:1px solid rgba(0,0,0,.35);font-weight:600;padding:7px 6px}
+.hm th{font-size:11px;color:#aeb9cd}
+.up{color:#ff6b6b}.down{color:#5b8def}
+svg{display:block;width:100%;height:auto}
+#relock{position:fixed;right:14px;bottom:14px;z-index:10;width:40px;height:40px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.2);background:rgba(30,41,59,.9);color:#fff;font-size:16px;cursor:pointer}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="lock" id="lock">
+  <div class="box">
+    <h1>🔒 상관관계 · 계절성</h1>
+    <p>개인 페이지입니다. 암호화되어 있으며 패스프레이즈를 입력해야 열립니다.</p>
+    <input type="password" id="pass" placeholder="passphrase" autocomplete="current-password" autofocus>
+    <label><input type="checkbox" id="remember"> 이 기기에서 기억</label>
+    <button id="go" type="button">열기</button>
+    <div id="msg"></div>
+  </div>
+</div>
+
+<div id="app" hidden></div>
+<button id="relock" type="button" title="잠그기" hidden>🔒</button>
+
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const pct = (v, d) => (v === null || v === undefined) ? "—" : (v >= 0 ? "+" : "") + v.toFixed(d === undefined ? 1 : d) + "%";
+  const MONTHS = ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"];
+
+  let PASS = null, PORTFOLIO = null, SEASON = null, TAB = "portfolio", PICK = null;
+
+  // -- payload: fetch -> derive key -> AES-GCM decrypt -> gunzip -> JSON -----
+  async function load(name) {
+    const enc = await fetch("data/" + name, { cache: "no-store" })
+      .then(r => { if (!r.ok) throw new Error("payload " + name); return r.json(); });
+    const km = await crypto.subtle.importKey("raw", new TextEncoder().encode(PASS),
+      "PBKDF2", false, ["deriveKey"]);
+    const key = await crypto.subtle.deriveKey(
+      { name: "PBKDF2", salt: b64(enc.salt), iterations: enc.iter, hash: "SHA-256" },
+      km, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+    let bytes = new Uint8Array(
+      await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.nonce) }, key, b64(enc.ct)));
+    if (enc.gz) {
+      const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
+      bytes = new Uint8Array(await new Response(stream).arrayBuffer());
+    }
+    return JSON.parse(new TextDecoder().decode(bytes));
+  }
+
+  async function unlock(auto) {
+    const pass = $("pass").value;
+    if (!pass) return;
+    PASS = pass;
+    $("msg").textContent = "복호화 중…";
+    try {
+      PORTFOLIO = await load("portfolio.enc.json");
+      ($("remember").checked ? localStorage : sessionStorage).setItem("ckpass", pass);
+      $("lock").hidden = true; $("app").hidden = false; $("relock").hidden = false;
+      $("msg").textContent = "";
+      render();
+    } catch (e) {
+      PASS = null;
+      sessionStorage.removeItem("ckpass"); localStorage.removeItem("ckpass");
+      $("msg").textContent = auto === true ? "" : "복호화 실패 — 패스프레이즈를 확인하세요.";
+    }
+  }
+
+  function lock() {
+    PASS = PORTFOLIO = SEASON = null; PICK = null;
+    sessionStorage.removeItem("ckpass"); localStorage.removeItem("ckpass");
+    $("app").innerHTML = ""; $("app").hidden = true;
+    $("relock").hidden = true; $("pass").value = ""; $("lock").hidden = false;
+  }
+
+  // -- shell ----------------------------------------------------------------
+  function render() {
+    $("app").innerHTML =
+      '<header><h1>상관관계 · 계절성</h1>' +
+      '<span class="sub">기준일 ' + esc(PORTFOLIO.as_of) + ' · 생성 ' + esc(PORTFOLIO.generated_at) + '</span></header>' +
+      '<div class="tabs">' +
+      '<button data-tab="portfolio" class="' + (TAB === "portfolio" ? "on" : "") + '">내 포트폴리오</button>' +
+      '<button data-tab="season" class="' + (TAB === "season" ? "on" : "") + '">종목 계절성</button>' +
+      '</div><div id="body"></div>';
+    $("app").querySelectorAll(".tabs button").forEach(b =>
+      b.addEventListener("click", () => { TAB = b.dataset.tab; render(); }));
+    if (TAB === "portfolio") renderPortfolio(); else renderSeason();
+  }
+
+  // -- tab 1: holdings and how much of them is one bet ----------------------
+  function renderPortfolio() {
+    const holdings = PORTFOLIO.holdings || [];
+    let html = "";
+
+    if (!holdings.length) {
+      html += '<div class="card"><h2>보유 종목</h2><div class="gap">' +
+        '관찰된 실계좌 보유 종목이 없습니다. 계좌에 매수가 들어오면 다음 갱신부터 여기에 표시되고, ' +
+        '아래 상관관계도 그 종목들로 자동 계산됩니다.<br><span class="note">출처: ' +
+        esc(PORTFOLIO.source) + '</span></div></div>';
+    } else {
+      const total = holdings.reduce((a, h) => a + (h.value || 0), 0);
+      html += '<div class="card"><h2>보유 종목</h2>' +
+        '<p class="note">출처: ' + esc(PORTFOLIO.source) + ' · 평가금액 합계 ' +
+        total.toLocaleString() + '원</p><div class="scroll"><table><tr>' +
+        '<th>종목</th><th>수량</th><th>평균매입가</th><th>현재가</th><th>평가금액</th><th>수익률</th></tr>' +
+        holdings.map(h =>
+          '<tr><td>' + esc(h.name) + ' (' + esc(h.symbol) + ')</td>' +
+          '<td>' + h.qty.toLocaleString() + '</td>' +
+          '<td>' + Math.round(h.avg).toLocaleString() + '</td>' +
+          '<td>' + Math.round(h.price).toLocaleString() + '</td>' +
+          '<td>' + Math.round(h.value).toLocaleString() + '</td>' +
+          '<td class="' + (h.ret >= 0 ? "up" : "down") + '">' + pct(h.ret, 2) + '</td></tr>').join("") +
+        '</table></div></div>';
+    }
+
+    const freq = window.__freq || "daily";
+    const c = (PORTFOLIO.correlation || {})[freq] || {};
+    html += '<div class="card"><h2>상관관계</h2>' +
+      '<div class="tabs" style="margin:9px 0 4px">' +
+      '<button data-freq="daily" class="' + (freq === "daily" ? "on" : "") + '">일간</button>' +
+      '<button data-freq="weekly" class="' + (freq === "weekly" ? "on" : "") + '">주간</button></div>';
+
+    if (!c.ok) {
+      html += '<div class="gap">' + esc(c.reason || "계산할 보유 종목이 없습니다.") + '</div>';
+    } else {
+      html += '<div class="stats">' +
+        stat("평균 상관계수", c.average.toFixed(2)) +
+        stat("표본 수", c.observations + "개") +
+        stat("구간", c.start + " ~ " + c.end) + '</div>' + heatmap(c.labels, c.matrix);
+      if (c.top_pairs && c.top_pairs.length) {
+        html += '<table><tr><th>함께 움직이는 쌍</th><th>상관계수</th></tr>' +
+          c.top_pairs.map(p => '<tr><td>' + esc(p[0]) + ' ↔ ' + esc(p[1]) + '</td><td>' +
+            p[2].toFixed(2) + '</td></tr>').join("") + '</table>' +
+          '<p class="note">상관계수가 높은 두 종목은 분산이 아니라 같은 베팅을 두 번 한 것에 가깝습니다. ' +
+          '하락장에서 같이 떨어집니다.</p>';
+      }
+      html += '<p class="note">원화 환산 · 최근 ' + PORTFOLIO.lookback_days +
+        '일 · 두 종목이 모두 거래된 날만 사용.</p>';
+      (c.notes || []).forEach(n => { html += '<p class="note">' + esc(n) + '</p>'; });
+      if (c.dropped && c.dropped.length) {
+        html += '<p class="note">주가 데이터가 없어 제외: ' + esc(c.dropped.join(", ")) + '</p>';
+      }
+    }
+    html += '</div>';
+
+    $("body").innerHTML = html;
+    $("body").querySelectorAll("[data-freq]").forEach(b =>
+      b.addEventListener("click", () => { window.__freq = b.dataset.freq; renderPortfolio(); }));
+  }
+
+  function stat(k, v) {
+    return '<div class="stat"><div class="k">' + esc(k) + '</div><div class="v">' + esc(v) + '</div></div>';
+  }
+
+  function heatmap(labels, matrix) {
+    const short = labels.map(l => l.replace(/\s*\(.*\)$/, ""));
+    let html = '<div class="scroll"><table class="hm"><tr><th></th>' +
+      short.map(s => '<th>' + esc(s) + '</th>').join("") + '</tr>';
+    matrix.forEach((row, i) => {
+      html += '<tr><th style="text-align:left">' + esc(short[i]) + '</th>' +
+        row.map(v => {
+          if (v === null) return '<td>—</td>';
+          // Red = moves together (a diversification problem), blue = moves apart.
+          const a = Math.min(Math.abs(v), 1) * 0.72;
+          const color = v >= 0 ? "239,68,68" : "59,130,246";
+          return '<td style="background:rgba(' + color + ',' + a.toFixed(2) + ')">' +
+            v.toFixed(2) + '</td>';
+        }).join("") + '</tr>';
+    });
+    return html + '</table></div>';
+  }
+
+  // -- tab 2: seasonality, loaded on demand ---------------------------------
+  async function renderSeason() {
+    if (!SEASON) {
+      $("body").innerHTML = '<div class="card"><div class="gap">계절성 데이터를 받는 중입니다 ' +
+        '(약 4 MB, 처음 한 번만)…</div></div>';
+      try {
+        SEASON = await load("analysis.enc.json");
+      } catch (e) {
+        $("body").innerHTML = '<div class="card"><div class="gap">계절성 데이터를 불러오지 못했습니다. ' +
+          '아직 생성되지 않았을 수 있습니다.</div></div>';
+        return;
+      }
+    }
+    $("body").innerHTML =
+      '<div class="card"><h2>종목 계절성</h2>' +
+      '<p class="note">' + SEASON.instruments.length.toLocaleString() +
+      '개 종목 · 이름이나 코드/티커로 검색하세요.</p>' +
+      '<input type="search" id="q" placeholder="예: 삼성전자, 005930, AAPL" autocomplete="off">' +
+      '<ul class="hits" id="hits"></ul></div><div id="detail"></div>';
+    const q = $("q");
+    q.addEventListener("input", () => hits(q.value));
+    hits("");
+    if (PICK) detail(PICK);
+  }
+
+  function hits(query) {
+    const needle = query.trim().toLowerCase();
+    const rows = needle
+      ? SEASON.instruments.filter(r =>
+          r[1].toLowerCase().includes(needle) || r[2].toLowerCase().includes(needle)).slice(0, 40)
+      : [];
+    $("hits").innerHTML = rows.map(r =>
+      '<li data-key="' + r[0] + ':' + r[1] + '"><span class="mk">' + r[0] + '</span>' +
+      esc(r[2]) + ' <span class="sub" style="color:#8d99ae">(' + esc(r[1]) + ')</span></li>').join("");
+    $("hits").querySelectorAll("li").forEach(li =>
+      li.addEventListener("click", () => { PICK = li.dataset.key; detail(PICK); }));
+  }
+
+  function detail(key) {
+    const d = SEASON.seasonality[key];
+    if (!d) return;
+    const meta = SEASON.instruments.find(r => r[0] + ":" + r[1] === key) || ["", key, key];
+    const currency = meta[0] === "KR" ? "원" : "달러";
+    let html = '<div class="card"><h2>' + esc(meta[2]) + ' (' + esc(meta[1]) + ')</h2>' +
+      '<p class="note">' + currency + ' 기준 수익률입니다. 환율은 반영하지 않았습니다 — ' +
+      '계절성은 그 종목 자체의 반복 패턴을 보는 것이기 때문입니다.</p>';
+
+    if (d.w) {
+      const w = d.w;  // buy, sell, hold, avg, median, winYears, years, boundary
+      if (w[7]) {
+        html += '<div class="warn">이 구간은 12월 31일(또는 1월 1일)에 걸려 있습니다. 구간을 한 해 ' +
+          '안에서만 찾기 때문에 생기는 경계이며, 실제 계절적 고점은 해를 넘겨 1월에 있을 수 있습니다. ' +
+          '아래 날짜를 “계절 고점”이 아니라 “연말까지 보유”로 읽으세요.</div>';
+      }
+      html += '<div class="stats">' + stat("계절적 매수일", w[0]) + stat("계절적 매도일", w[1]) +
+        stat("평균 수익률", pct(w[3])) + stat("성공한 해", w[5] + "/" + w[6] + "년") + '</div>';
+    }
+    if (d.p) html += pathChart(d.p, d.w);
+    if (d.w) {
+      html += '<p class="note">' + (d.yr ? d.yr[0] + "~" + d.yr[1] + "년의 완전한 " + d.w[6] + "개 연도" : "") +
+        '를 겹쳐 평균낸 경로입니다. 연간 상승 추세는 제거한 뒤 저점→고점 구간을 찾았습니다 ' +
+        '(제거하지 않으면 오르는 주식은 전부 “1월 1일 매수, 12월 31일 매도”가 됩니다). ' +
+        '중앙값 ' + pct(d.w[4]) + ' · 보유 ' + d.w[2] + '일.</p>';
+    }
+    html += '</div>';
+
+    if (d.m) {
+      html += '<div class="card"><h2>월별 계절성</h2>' + monthChart(d.m) +
+        '<div class="scroll"><table><tr><th>월</th><th>평균</th><th>상승 확률</th><th>표본</th></tr>' +
+        d.m.map(r => '<tr><td>' + MONTHS[r[0] - 1] + '</td><td class="' + (r[1] >= 0 ? "up" : "down") +
+          '">' + pct(r[1], 2) + '</td><td>' + r[2].toFixed(0) + '%</td><td>' + r[3] + '년</td></tr>').join("") +
+        '</table></div><p class="note">' + d.y + '년치 월말 종가 기준. 표본이 10년이면 한 달당 관측은 ' +
+        '10번뿐이라 평균 하나로 판단하지 말고 상승 확률과 같이 보세요.</p></div>';
+    }
+    $("detail").innerHTML = html;
+    $("detail").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function monthChart(months) {
+    const W = 660, H = 190, pad = 26, bw = (W - pad * 2) / 12;
+    const values = months.map(m => m[1]);
+    const top = Math.max(0.5, Math.max(...values.map(Math.abs)));
+    const zero = pad + (H - pad * 2) / 2;
+    const scale = (H - pad * 2) / 2 / top;
+    let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img">' +
+      '<line x1="' + pad + '" y1="' + zero + '" x2="' + (W - pad) + '" y2="' + zero +
+      '" stroke="rgba(255,255,255,.25)"/>';
+    months.forEach((m, i) => {
+      const h = Math.abs(m[1]) * scale, x = pad + i * bw + bw * 0.18, w = bw * 0.64;
+      const y = m[1] >= 0 ? zero - h : zero;
+      svg += '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) +
+        '" height="' + Math.max(h, 1).toFixed(1) + '" fill="' + (m[1] >= 0 ? "#ef4444" : "#3b82f6") +
+        '" rx="2"><title>' + MONTHS[m[0] - 1] + " 평균 " + m[1].toFixed(2) + "% · 상승 확률 " +
+        m[2].toFixed(0) + "% · 표본 " + m[3] + '년</title></rect>' +
+        '<text x="' + (x + w / 2).toFixed(1) + '" y="' + (H - 7) + '" fill="#8d99ae" font-size="11" ' +
+        'text-anchor="middle">' + (m[0]) + '</text>';
+    });
+    return svg + '</svg>';
+  }
+
+  function pathChart(path, w) {
+    const W = 660, H = 230, padL = 38, padR = 12, padT = 12, padB = 26;
+    const xs = path.map(p => p[0]), ys = path.map(p => p[1]);
+    const lo = Math.min(...ys), hi = Math.max(...ys), span = (hi - lo) || 1;
+    const X = d => padL + (d - 1) / 365 * (W - padL - padR);
+    const Y = v => padT + (hi - v) / span * (H - padT - padB);
+    let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img">';
+    if (w) {
+      const md = s => { const p = s.split("-"); return (Date.UTC(2024, +p[0] - 1, +p[1]) - Date.UTC(2024, 0, 1)) / 86400000 + 1; };
+      const x0 = X(md(w[0])), x1 = X(md(w[1]));
+      svg += '<rect x="' + x0.toFixed(1) + '" y="' + padT + '" width="' + Math.max(x1 - x0, 1).toFixed(1) +
+        '" height="' + (H - padT - padB) + '" fill="rgba(239,68,68,.14)"/>';
+    }
+    const zeroY = Y(0);
+    if (zeroY > padT && zeroY < H - padB) {
+      svg += '<line x1="' + padL + '" y1="' + zeroY.toFixed(1) + '" x2="' + (W - padR) +
+        '" y2="' + zeroY.toFixed(1) + '" stroke="rgba(255,255,255,.2)" stroke-dasharray="3 3"/>';
+    }
+    svg += '<polyline fill="none" stroke="#22d3ee" stroke-width="2" points="' +
+      path.map(p => X(p[0]).toFixed(1) + "," + Y(p[1]).toFixed(1)).join(" ") + '"/>';
+    [[1, "1월"], [92, "4월"], [183, "7월"], [275, "10월"], [366, "12월"]].forEach(t => {
+      svg += '<text x="' + X(t[0]).toFixed(1) + '" y="' + (H - 8) + '" fill="#8d99ae" font-size="11" ' +
+        'text-anchor="middle">' + t[1] + '</text>';
+    });
+    svg += '<text x="4" y="' + (padT + 10) + '" fill="#8d99ae" font-size="11">' + hi.toFixed(0) + '%</text>' +
+      '<text x="4" y="' + (H - padB) + '" fill="#8d99ae" font-size="11">' + lo.toFixed(0) + '%</text></svg>' +
+      '<p class="note">연초 대비 누적 수익률의 연도 평균. 붉은 구간이 계절 매수→매도 창입니다.</p>';
+    return svg;
+  }
+
+  $("go").addEventListener("click", () => unlock());
+  $("pass").addEventListener("keydown", e => { if (e.key === "Enter") unlock(); });
+  $("relock").addEventListener("click", lock);
+  const saved = sessionStorage.getItem("ckpass") || localStorage.getItem("ckpass");
+  if (saved) { $("pass").value = saved; unlock(true); }
+})();
+</script>
+</body>
+</html>
