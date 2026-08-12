@@ -2,94 +2,118 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>World Best Quant</title>
-<meta name="robots" content="noindex">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🔒%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>WorldBestQuant</title>
 <style>
+:root{color-scheme:dark;--bg:#0e1117;--panel:#151922;--line:#292f3a;--text:#f3f4f6;
+  --muted:#9ca3af;--cyan:#06b6d4;--red:#ef4444}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0b1020,#1e293b);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR","Malgun Gothic",sans-serif;color:#e7ecf5}
-.lock{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:16px;
-  padding:30px 32px;max-width:380px;width:100%;display:flex;flex-direction:column;gap:12px}
-.box h1{margin:0;font-size:20px;letter-spacing:-.2px}
-.box p{margin:0;color:#aab3c5;font-size:13px;line-height:1.6}
-.box input[type=password]{padding:10px 13px;border:1px solid rgba(255,255,255,.25);border-radius:10px;
-  font-size:15px;background:rgba(0,0,0,.25);color:#fff;outline:none}
-.box input[type=password]:focus{border-color:#3b5bdb}
-.box label{font-size:12.5px;color:#aab3c5;display:flex;align-items:center;gap:7px;cursor:pointer}
-.box button{padding:10px 14px;border-radius:10px;border:0;background:#3b5bdb;color:#fff;
-  font-weight:700;font-size:14px;cursor:pointer}
-.box button:hover{background:#3450c4}
-#msg{min-height:18px;font-size:12.5px;color:#f0a8a8}
-#frame{position:fixed;inset:0;width:100%;height:100%;border:0;background:#f4f6fb}
-#relock{position:fixed;right:14px;bottom:14px;z-index:10;width:40px;height:40px;border-radius:999px;
-  border:1px solid rgba(0,0,0,.15);background:rgba(30,41,59,.85);color:#fff;font-size:16px;cursor:pointer}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif}
+.lock{min-height:100vh;display:grid;place-items:center;padding:24px;
+  background:radial-gradient(circle at 50% 20%,rgba(6,182,212,.08),transparent 34%)}
+.shell{width:min(420px,100%)}
+.brand{margin-bottom:24px;text-align:center}
+.brand-mark{display:inline-block;width:10px;height:10px;margin-right:9px;border-radius:99px;
+  background:var(--cyan);box-shadow:0 0 18px rgba(6,182,212,.75)}
+.brand strong{font-size:22px;letter-spacing:-.45px}
+.brand p{margin:7px 0 0;color:var(--muted);font-size:12px}
+.box{padding:26px;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 20px 70px rgba(0,0,0,.28)}
+.eyebrow{color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+h1{margin:8px 0 7px;font-size:23px;letter-spacing:-.5px}
+.intro{margin:0 0 20px;color:var(--muted);font-size:13px;line-height:1.65}
+label{display:block;margin-bottom:7px;color:#c9cfd8;font-size:12px;font-weight:700}
+input{display:block;width:100%;padding:12px 13px;border:1px solid #394150;border-radius:8px;
+  background:#0f131a;color:#fff;font-size:15px;outline:none}
+input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(6,182,212,.12)}
+button{width:100%;margin-top:12px;padding:12px 14px;border:0;border-radius:8px;background:#0891b2;
+  color:#fff;font-weight:800;cursor:pointer}
+button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
+#msg{min-height:20px;margin-top:10px;color:#fca5a5;font-size:12px}
+.security{margin-top:17px;padding-top:15px;border-top:1px solid var(--line);color:#737d8b;font-size:11px;line-height:1.6}
+#frame{position:fixed;inset:0;width:100%;height:100%;border:0;background:var(--bg)}
+#relock{position:fixed;right:16px;bottom:16px;z-index:10;width:auto;margin:0;padding:8px 12px;
+  border:1px solid #3a4351;background:rgba(15,19,26,.9);font-size:12px}
 [hidden]{display:none!important}
 </style>
 </head>
 <body>
-
-<div class="lock" id="lock">
-  <div class="box">
-    <h1>🔒 World Best Quant</h1>
-    <p>개인 페이지입니다. 암호화되어 있으며 패스프레이즈를 입력해야 열립니다.</p>
-    <input type="password" id="pass" placeholder="passphrase" autocomplete="current-password" autofocus>
-    <label><input type="checkbox" id="remember"> 이 기기에서 기억</label>
-    <button id="go" type="button">열기</button>
-    <div id="msg"></div>
+<main class="lock" id="lock">
+  <div class="shell">
+    <div class="brand">
+      <strong><span class="brand-mark"></span>WorldBestQuant</strong>
+      <p>Personal Quant Investment Platform</p>
+    </div>
+    <section class="box" aria-labelledby="lock-title">
+      <div class="eyebrow">Encrypted dashboard</div>
+      <h1 id="lock-title">대시보드 잠금 해제</h1>
+      <p class="intro">암호화된 읽기 전용 투자 대시보드입니다. 패스프레이즈는 이 브라우저 안에서 복호화할 때만 사용됩니다.</p>
+      <label for="pass">패스프레이즈</label>
+      <input type="password" id="pass" autocomplete="current-password" autofocus>
+      <button id="go" type="button" aria-label="대시보드 잠금 해제">대시보드 열기</button>
+      <div id="msg" role="status" aria-live="polite"></div>
+      <div class="security">입력값은 서버로 전송하거나 브라우저에 저장하지 않습니다. 페이지를 새로 열면 다시 입력해야 합니다.</div>
+    </section>
   </div>
-</div>
+</main>
 
-<iframe id="frame" title="cockpit" hidden></iframe>
-<button id="relock" type="button" title="잠그기" hidden>🔒</button>
+<iframe id="frame" title="WorldBestQuant 읽기 전용 대시보드" sandbox="allow-scripts" hidden></iframe>
+<button id="relock" type="button" aria-label="대시보드 다시 잠그기" hidden>다시 잠그기</button>
 
 <script>
-(function () {
-  const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
-  const $ = id => document.getElementById(id);
-  async function unlock(auto) {
-    const pass = $("pass").value;
-    const msg = $("msg");
-    if (!pass) return;
-    msg.textContent = "복호화 중…";
-    try {
-      const enc = await fetch("data/cockpit.enc.json", { cache: "no-store" })
-        .then(r => { if (!r.ok) throw new Error("payload"); return r.json(); });
-      const km = await crypto.subtle.importKey("raw", new TextEncoder().encode(pass),
-        "PBKDF2", false, ["deriveKey"]);
-      const key = await crypto.subtle.deriveKey(
-        { name: "PBKDF2", salt: b64(enc.salt), iterations: enc.iter, hash: "SHA-256" },
-        km, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
-      const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.nonce) }, key, b64(enc.ct));
-      const data = JSON.parse(new TextDecoder().decode(pt));
-      ($("remember").checked ? localStorage : sessionStorage).setItem("ckpass", pass);
-      $("frame").srcdoc = data.html;
-      $("frame").hidden = false;
-      $("relock").hidden = false;
-      $("lock").hidden = true;
-      msg.textContent = "";
-      document.title = "World Best Quant";
-    } catch (e) {
-      sessionStorage.removeItem("ckpass"); localStorage.removeItem("ckpass");
-      msg.textContent = auto === true ? "" : "복호화 실패 — 패스프레이즈를 확인하세요.";
+(function(){
+  const b64=function(value){return Uint8Array.from(atob(value),function(char){return char.charCodeAt(0);});};
+  const byId=function(id){return document.getElementById(id);};
+  async function unlock(){
+    const pass=byId("pass").value;
+    const message=byId("msg");
+    const button=byId("go");
+    if(!pass){message.textContent="패스프레이즈를 입력하세요.";return;}
+    button.disabled=true;message.textContent="복호화 중…";
+    try{
+      const enc=await fetch("data/cockpit.enc.json",{cache:"no-store"}).then(function(response){
+        if(!response.ok)throw new Error("payload");return response.json();
+      });
+      if(enc.v!==1||enc.kdf!=="PBKDF2-SHA256"||enc.iter<600000||!enc.salt||!enc.nonce||!enc.ct){
+        throw new Error("schema");
+      }
+      const material=await crypto.subtle.importKey(
+        "raw",new TextEncoder().encode(pass),"PBKDF2",false,["deriveKey"]
+      );
+      const key=await crypto.subtle.deriveKey(
+        {name:"PBKDF2",salt:b64(enc.salt),iterations:enc.iter,hash:"SHA-256"},
+        material,{name:"AES-GCM",length:256},false,["decrypt"]
+      );
+      const plain=await crypto.subtle.decrypt(
+        {name:"AES-GCM",iv:b64(enc.nonce)},key,b64(enc.ct)
+      );
+      const payload=JSON.parse(new TextDecoder().decode(plain));
+      if(!payload||typeof payload.html!=="string")throw new Error("content");
+      byId("frame").srcdoc=payload.html;
+      byId("frame").hidden=false;
+      byId("relock").hidden=false;
+      byId("lock").hidden=true;
+      byId("pass").value="";
+      message.textContent="";
+    }catch(error){
+      message.textContent="잠금을 열지 못했습니다. 패스프레이즈와 payload를 확인하세요.";
+    }finally{
+      button.disabled=false;
     }
   }
-  function lock() {
-    sessionStorage.removeItem("ckpass"); localStorage.removeItem("ckpass");
-    $("frame").srcdoc = "";
-    $("frame").hidden = true;
-    $("relock").hidden = true;
-    $("pass").value = "";
-    $("lock").hidden = false;
-    document.title = "World Best Quant";
+  function relock(){
+    byId("frame").srcdoc="";
+    byId("frame").hidden=true;
+    byId("relock").hidden=true;
+    byId("lock").hidden=false;
+    byId("pass").focus();
   }
-  $("go").addEventListener("click", () => unlock());
-  $("pass").addEventListener("keydown", e => { if (e.key === "Enter") unlock(); });
-  $("relock").addEventListener("click", lock);
-  const saved = sessionStorage.getItem("ckpass") || localStorage.getItem("ckpass");
-  if (saved) { $("pass").value = saved; unlock(true); }
+  byId("go").addEventListener("click",unlock);
+  byId("pass").addEventListener("keydown",function(event){if(event.key==="Enter")unlock();});
+  byId("relock").addEventListener("click",relock);
 })();
 </script>
 </body>
