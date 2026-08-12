@@ -67,6 +67,32 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
 (function(){
   const b64=function(value){return Uint8Array.from(atob(value),function(char){return char.charCodeAt(0);});};
   const byId=function(id){return document.getElementById(id);};
+  let KEY_MATERIAL=null;
+  let ANALYSIS_PAYLOAD=null;
+  let ANALYSIS_LOADING=null;
+  function validateEnvelope(enc){
+    if(enc.v!==1||enc.kdf!=="PBKDF2-SHA256"||enc.iter<600000||!enc.salt||!enc.nonce||!enc.ct){
+      throw new Error("schema");
+    }
+  }
+  async function decryptFile(path,material){
+    const enc=await fetch(path,{cache:"no-store"}).then(function(response){
+      if(!response.ok)throw new Error("payload");return response.json();
+    });
+    validateEnvelope(enc);
+    const key=await crypto.subtle.deriveKey(
+      {name:"PBKDF2",salt:b64(enc.salt),iterations:enc.iter,hash:"SHA-256"},
+      material,{name:"AES-GCM",length:256},false,["decrypt"]
+    );
+    let bytes=new Uint8Array(await crypto.subtle.decrypt(
+      {name:"AES-GCM",iv:b64(enc.nonce)},key,b64(enc.ct)
+    ));
+    if(enc.gz){
+      const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
+      bytes=new Uint8Array(await new Response(stream).arrayBuffer());
+    }
+    return JSON.parse(new TextDecoder().decode(bytes));
+  }
   async function unlock(){
     const pass=byId("pass").value;
     const message=byId("msg");
@@ -74,24 +100,12 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
     if(!pass){message.textContent="패스프레이즈를 입력하세요.";return;}
     button.disabled=true;message.textContent="복호화 중…";
     try{
-      const enc=await fetch("data/cockpit.enc.json",{cache:"no-store"}).then(function(response){
-        if(!response.ok)throw new Error("payload");return response.json();
-      });
-      if(enc.v!==1||enc.kdf!=="PBKDF2-SHA256"||enc.iter<600000||!enc.salt||!enc.nonce||!enc.ct){
-        throw new Error("schema");
-      }
       const material=await crypto.subtle.importKey(
         "raw",new TextEncoder().encode(pass),"PBKDF2",false,["deriveKey"]
       );
-      const key=await crypto.subtle.deriveKey(
-        {name:"PBKDF2",salt:b64(enc.salt),iterations:enc.iter,hash:"SHA-256"},
-        material,{name:"AES-GCM",length:256},false,["decrypt"]
-      );
-      const plain=await crypto.subtle.decrypt(
-        {name:"AES-GCM",iv:b64(enc.nonce)},key,b64(enc.ct)
-      );
-      const payload=JSON.parse(new TextDecoder().decode(plain));
+      const payload=await decryptFile("data/cockpit.enc.json",material);
       if(!payload||typeof payload.html!=="string")throw new Error("content");
+      KEY_MATERIAL=material;
       byId("frame").srcdoc=payload.html;
       byId("frame").hidden=false;
       byId("relock").hidden=false;
@@ -105,6 +119,9 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
     }
   }
   function relock(){
+    KEY_MATERIAL=null;
+    ANALYSIS_PAYLOAD=null;
+    ANALYSIS_LOADING=null;
     byId("frame").srcdoc="";
     byId("frame").hidden=true;
     byId("relock").hidden=true;
@@ -114,6 +131,29 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
   byId("go").addEventListener("click",unlock);
   byId("pass").addEventListener("keydown",function(event){if(event.key==="Enter")unlock();});
   byId("relock").addEventListener("click",relock);
+  window.addEventListener("message",function(event){
+    const frame=byId("frame");
+    if(event.source!==frame.contentWindow||!event.data||event.data.type!=="wbq-analysis-request"||!KEY_MATERIAL)return;
+    if(ANALYSIS_PAYLOAD){
+      frame.contentWindow.postMessage({type:"wbq-seasonality-data",payload:ANALYSIS_PAYLOAD},"*");
+      return;
+    }
+    if(!ANALYSIS_LOADING){
+      const analysisMaterial=KEY_MATERIAL;
+      ANALYSIS_LOADING=decryptFile("data/analysis.enc.json",analysisMaterial)
+        .then(function(payload){if(KEY_MATERIAL!==analysisMaterial)throw new Error("relocked");ANALYSIS_PAYLOAD=payload;return payload;})
+        .finally(function(){ANALYSIS_LOADING=null;});
+    }
+    ANALYSIS_LOADING.then(function(payload){
+      if(KEY_MATERIAL&&frame.contentWindow){
+        frame.contentWindow.postMessage({type:"wbq-seasonality-data",payload:payload},"*");
+      }
+    }).catch(function(){
+      if(frame.contentWindow){
+        frame.contentWindow.postMessage({type:"wbq-seasonality-error",message:"계절성 데이터를 불러오지 못했습니다."},"*");
+      }
+    });
+  });
 })();
 </script>
 </body>

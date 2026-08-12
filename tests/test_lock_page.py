@@ -13,7 +13,7 @@ class LockPageContractTests(unittest.TestCase):
     def test_uses_browser_side_authenticated_decryption(self) -> None:
         source = (ROOT / "index.html").read_text(encoding="utf-8")
 
-        self.assertIn('fetch("data/cockpit.enc.json"', source)
+        self.assertIn('decryptFile("data/cockpit.enc.json"', source)
         self.assertIn('name:"PBKDF2"', source)
         self.assertIn('name:"AES-GCM"', source)
         self.assertIn('sandbox="allow-scripts"', source)
@@ -25,6 +25,18 @@ class LockPageContractTests(unittest.TestCase):
         self.assertNotIn("sessionStorage", source)
         self.assertNotIn('id="remember"', source)
         self.assertNotIn("<form", source.lower())
+
+    def test_decrypts_the_seasonality_payload_on_demand_in_memory(self) -> None:
+        source = (ROOT / "index.html").read_text(encoding="utf-8")
+
+        self.assertIn('"data/analysis.enc.json"', source)
+        self.assertIn("DecompressionStream", source)
+        self.assertIn("wbq-analysis-request", source)
+        self.assertIn("wbq-seasonality-data", source)
+        self.assertIn("KEY_MATERIAL", source)
+        self.assertIn("KEY_MATERIAL!==analysisMaterial", source)
+        self.assertIn("frame.contentWindow", source)
+        self.assertNotIn("PASS =", source)
 
     def test_matches_the_worldbestquant_product_shell(self) -> None:
         source = (ROOT / "index.html").read_text(encoding="utf-8")
