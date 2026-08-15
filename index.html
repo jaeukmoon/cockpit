@@ -1,159 +1,409 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
-<title>WorldBestQuant</title>
+<meta name="description" content="WorldBestQuant is Jaeuk Moon's personal quant investing system for factor research, backtesting, live portfolio tracking, and rule-based risk management.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#081019">
+<meta property="og:type" content="website">
+<meta property="og:title" content="WorldBestQuant — Live Quant Investing">
+<meta property="og:description" content="From point-in-time factor research to a live Korean small-cap portfolio.">
+<meta property="og:url" content="https://jaeukmoon.github.io/cockpit/">
+<meta property="og:image" content="https://jaeukmoon.github.io/cockpit/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WorldBestQuant — Live Quant Investing">
+<meta name="twitter:description" content="From point-in-time factor research to a live Korean small-cap portfolio.">
+<meta name="twitter:image" content="https://jaeukmoon.github.io/cockpit/og.png">
+<link rel="canonical" href="https://jaeukmoon.github.io/cockpit/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>WorldBestQuant — Live Quant Investing</title>
 <style>
-:root{color-scheme:dark;--bg:#0e1117;--panel:#151922;--line:#292f3a;--text:#f3f4f6;
-  --muted:#9ca3af;--cyan:#06b6d4;--red:#ef4444}
+:root{
+  color-scheme:dark;
+  --bg:#071018;--bg-soft:#0a141e;--panel:#0d1924;--panel-2:#101f2b;
+  --line:#20303d;--line-bright:#2c4352;--text:#f2f7fa;--muted:#99a8b4;
+  --faint:#647581;--cyan:#44d9c5;--cyan-soft:rgba(68,217,197,.12);
+  --green:#84e5a6;--red:#ff8b8b;--amber:#f4c76b;--max:1160px;
+}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif}
-.lock{min-height:100vh;display:grid;place-items:center;padding:24px;
-  background:radial-gradient(circle at 50% 20%,rgba(6,182,212,.08),transparent 34%)}
-.shell{width:min(420px,100%)}
-.brand{margin-bottom:24px;text-align:center}
-.brand-mark{display:inline-block;width:10px;height:10px;margin-right:9px;border-radius:99px;
-  background:var(--cyan);box-shadow:0 0 18px rgba(6,182,212,.75)}
-.brand strong{font-size:22px;letter-spacing:-.45px}
-.brand p{margin:7px 0 0;color:var(--muted);font-size:12px}
-.box{padding:26px;background:var(--panel);border:1px solid var(--line);border-radius:12px;
-  box-shadow:0 20px 70px rgba(0,0,0,.28)}
-.eyebrow{color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-h1{margin:8px 0 7px;font-size:23px;letter-spacing:-.5px}
-.intro{margin:0 0 20px;color:var(--muted);font-size:13px;line-height:1.65}
-label{display:block;margin-bottom:7px;color:#c9cfd8;font-size:12px;font-weight:700}
-input{display:block;width:100%;padding:12px 13px;border:1px solid #394150;border-radius:8px;
-  background:#0f131a;color:#fff;font-size:15px;outline:none}
-input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(6,182,212,.12)}
-button{width:100%;margin-top:12px;padding:12px 14px;border:0;border-radius:8px;background:#0891b2;
-  color:#fff;font-weight:800;cursor:pointer}
-button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
-#msg{min-height:20px;margin-top:10px;color:#fca5a5;font-size:12px}
-.security{margin-top:17px;padding-top:15px;border-top:1px solid var(--line);color:#737d8b;font-size:11px;line-height:1.6}
-#frame{position:fixed;inset:0;width:100%;height:100%;border:0;background:var(--bg)}
-#relock{position:fixed;right:16px;bottom:16px;z-index:10;width:auto;margin:0;padding:8px 12px;
-  border:1px solid #3a4351;background:rgba(15,19,26,.9);font-size:12px}
-[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:
+  radial-gradient(circle at 13% 7%,rgba(68,217,197,.10),transparent 27rem),
+  radial-gradient(circle at 92% 20%,rgba(70,130,180,.09),transparent 24rem),
+  var(--bg);
+  color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased
+}
+a{color:inherit;text-decoration:none}
+button,a{touch-action:manipulation}
+.container{width:min(var(--max),calc(100% - 40px));margin:0 auto}
+.skip{position:absolute;left:-9999px;top:8px;background:#fff;color:#111;padding:8px 12px;z-index:20}
+.skip:focus{left:8px}
+.site-header{
+  position:sticky;top:0;z-index:10;border-bottom:1px solid rgba(32,48,61,.78);
+  background:rgba(7,16,24,.82);backdrop-filter:blur(16px)
+}
+.nav{height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:760;letter-spacing:-.03em}
+.logo-mark{width:10px;height:10px;border-radius:50%;background:var(--cyan);box-shadow:0 0 22px rgba(68,217,197,.72)}
+.nav-links{display:flex;align-items:center;gap:25px;color:var(--muted);font-size:13px}
+.nav-links a:hover,.nav-links a:focus-visible{color:var(--text)}
+.private-link{padding:8px 13px;border:1px solid var(--line-bright);border-radius:8px;color:#c8d4db!important}
+.private-link:hover{border-color:var(--cyan)!important;color:var(--cyan)!important}
+.hero{padding:104px 0 56px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(320px,.75fr);gap:76px;align-items:center}
+.eyebrow{display:flex;align-items:center;gap:10px;color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
+.eyebrow::before{content:"";width:32px;height:1px;background:var(--cyan)}
+h1{font-size:clamp(46px,7vw,78px);line-height:1.02;letter-spacing:-.058em;margin:22px 0 24px;max-width:840px}
+.hero-copy{max-width:700px;margin:0;color:#b1bec7;font-size:18px;line-height:1.72}
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:27px}
+.chip{padding:6px 10px;border:1px solid var(--line);border-radius:99px;background:rgba(255,255,255,.025);color:#aebdc6;font-size:12px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:8px;font-size:13px;font-weight:750}
+.btn-primary{background:var(--cyan);color:#05221e}
+.btn-primary:hover{background:#6ee6d6}
+.btn-secondary{border:1px solid var(--line-bright);color:#d4dee3}
+.btn-secondary:hover{border-color:#5a7180}
+.live-card{position:relative;padding:30px;border:1px solid var(--line-bright);border-radius:18px;background:linear-gradient(145deg,rgba(16,31,43,.96),rgba(10,20,30,.95));overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.live-card::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-72px;top:-80px;background:rgba(68,217,197,.08);filter:blur(2px)}
+.live-head{display:flex;align-items:center;justify-content:space-between;color:#9fb0ba;font-size:11px;letter-spacing:.11em;text-transform:uppercase}
+.live-dot{display:inline-flex;align-items:center;gap:7px;color:var(--green)}
+.live-dot::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(132,229,166,.7)}
+.live-value{font-size:62px;line-height:1;font-weight:790;letter-spacing:-.065em;color:var(--green);margin:30px 0 9px}
+.live-label{font-weight:700;font-size:15px}
+.live-period{margin:4px 0 0;color:var(--muted);font-size:13px}
+.live-note{border-top:1px solid var(--line);margin-top:25px;padding-top:20px;color:#7f929e;font-size:11px;line-height:1.7}
+.metric-strip{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:14px;overflow:hidden;background:rgba(13,25,36,.72)}
+.metric{padding:24px 25px;border-right:1px solid var(--line)}
+.metric:last-child{border-right:0}
+.metric strong{display:block;font-size:26px;letter-spacing:-.035em}
+.metric span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+.section{padding:102px 0;border-top:1px solid rgba(32,48,61,.72)}
+.section-heading{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:40px}
+.section-kicker{color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+h2{font-size:clamp(34px,5vw,52px);line-height:1.08;letter-spacing:-.045em;margin:10px 0 0}
+.section-intro{margin:0;color:var(--muted);font-size:15px;max-width:570px;justify-self:end}
+.chart-card{padding:25px 26px 19px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(180deg,rgba(16,31,43,.84),rgba(10,20,30,.8))}
+.chart-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px}
+.chart-top h3{font-size:15px;margin:0 0 4px}
+.chart-top p{font-size:12px;color:var(--muted);margin:0}
+.legend{display:flex;align-items:center;gap:8px;color:#b8c6ce;font-size:11px}
+.legend-line{width:22px;height:3px;border-radius:3px;background:var(--cyan)}
+.chart-wrap{position:relative;width:100%;height:330px}
+canvas{display:block;width:100%;height:330px}
+.chart-caption{display:flex;justify-content:space-between;gap:18px;border-top:1px solid var(--line);padding-top:13px;color:#758894;font-size:11px}
+.performance-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:20px;margin-top:20px}
+.monthly-card,.summary-card{border:1px solid var(--line);border-radius:15px;background:rgba(13,25,36,.76)}
+.monthly-card{padding:22px;overflow:hidden}
+.monthly-card h3,.summary-card h3{font-size:14px;margin:0 0 15px}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:separate;border-spacing:4px;font-variant-numeric:tabular-nums}
+th{color:#6f818c;font-size:10px;font-weight:650;text-transform:uppercase}
+th,td{text-align:center;min-width:47px;padding:8px 5px}
+th:first-child,td:first-child{text-align:left;min-width:48px}
+td{border-radius:6px;background:#111e28;color:#81939e;font-size:11px}
+td.positive{background:rgba(132,229,166,.11);color:var(--green)}
+td.negative{background:rgba(255,139,139,.11);color:var(--red)}
+td.empty{background:rgba(255,255,255,.018);color:#31414b}
+.summary-card{padding:22px}
+.summary-list{display:grid;gap:0}
+.summary-row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px 0;border-top:1px solid var(--line);font-size:12px}
+.summary-row:first-child{border-top:0;padding-top:0}
+.summary-row span{color:var(--muted)}
+.summary-row strong{font-size:16px;font-variant-numeric:tabular-nums}
+.method-note{margin:18px 0 0;color:#728590;font-size:11px;line-height:1.65}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.process-card{min-height:225px;padding:23px;border:1px solid var(--line);border-radius:13px;background:rgba(13,25,36,.6)}
+.process-number{color:var(--cyan);font-size:11px;font-weight:800}
+.process-card h3{font-size:16px;margin:43px 0 10px}
+.process-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.7}
+.system-flow{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:stretch}
+.system-node{position:relative;min-height:150px;padding:20px 17px;border:1px solid var(--line);border-radius:12px;background:rgba(13,25,36,.7)}
+.system-node:not(:last-child)::after{content:"→";position:absolute;right:-10px;top:50%;transform:translate(50%,-50%);z-index:2;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--bg);color:#54717f;font-size:13px}
+.system-node span{color:var(--cyan);font-size:10px;letter-spacing:.09em;text-transform:uppercase}
+.system-node h3{font-size:14px;margin:27px 0 8px}
+.system-node p{font-size:11px;color:var(--muted);margin:0;line-height:1.58}
+.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:25px}
+.status-card{padding:24px;border:1px solid var(--line);border-radius:13px;background:rgba(13,25,36,.56)}
+.status-card h3{font-size:15px;margin:0 0 8px}
+.status-card p{font-size:12px;color:var(--muted);line-height:1.7;margin:0}
+.status{display:inline-flex;align-items:center;gap:7px;margin-top:14px;color:var(--amber);font-size:11px;font-weight:700}
+.status::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.disclosure{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;padding:34px;border:1px solid var(--line-bright);border-radius:16px;background:linear-gradient(135deg,rgba(68,217,197,.07),rgba(13,25,36,.78))}
+.disclosure h2{font-size:35px}
+.disclosure ul{list-style:none;padding:0;margin:0;display:grid;gap:13px}
+.disclosure li{position:relative;padding-left:20px;color:#aebbc3;font-size:13px}
+.disclosure li::before{content:"";position:absolute;left:0;top:.68em;width:7px;height:1px;background:var(--cyan)}
+footer{padding:34px 0 46px;border-top:1px solid var(--line);color:#70828d;font-size:11px}
+.footer-row{display:flex;justify-content:space-between;gap:25px;align-items:center}
+.footer-links{display:flex;gap:18px}
+.footer-links a:hover{color:var(--cyan)}
+@media (max-width:960px){
+  .hero-grid{grid-template-columns:1fr;gap:38px}.live-card{max-width:560px}
+  .section-heading{grid-template-columns:1fr;gap:18px}.section-intro{justify-self:start}
+  .performance-grid{grid-template-columns:1fr}.process-grid{grid-template-columns:repeat(2,1fr)}
+  .system-flow{grid-template-columns:repeat(3,1fr)}.system-node:nth-child(3)::after{display:none}
+  .disclosure{grid-template-columns:1fr;gap:28px}
+}
+@media (max-width:700px){
+  .container{width:min(100% - 28px,var(--max))}.nav{height:60px}.nav-links a:not(.private-link){display:none}
+  .hero{padding:76px 0 44px}h1{font-size:45px}.hero-copy{font-size:16px}
+  .live-value{font-size:54px}.metric-strip{grid-template-columns:1fr 1fr}.metric:nth-child(2){border-right:0}
+  .metric:nth-child(-n+2){border-bottom:1px solid var(--line)}.metric{padding:19px}
+  .section{padding:76px 0}.chart-card{padding:20px 12px 14px}.chart-top{padding:0 7px}
+  .chart-wrap,canvas{height:280px}.chart-caption{flex-direction:column;padding:12px 7px 0}
+  .process-grid,.status-grid{grid-template-columns:1fr}.process-card{min-height:180px}.process-card h3{margin-top:28px}
+  .system-flow{grid-template-columns:1fr}.system-node{min-height:128px}.system-node:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-17px;transform:translate(-50%,0)}
+  .system-node:nth-child(3)::after{display:grid}.footer-row{align-items:flex-start;flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-<main class="lock" id="lock">
-  <div class="shell">
-    <div class="brand">
-      <strong><span class="brand-mark"></span>WorldBestQuant</strong>
-      <p>Personal Quant Investment Platform</p>
-    </div>
-    <section class="box" aria-labelledby="lock-title">
-      <div class="eyebrow">Encrypted dashboard</div>
-      <h1 id="lock-title">대시보드 잠금 해제</h1>
-      <p class="intro">암호화된 읽기 전용 투자 대시보드입니다. 패스프레이즈는 이 브라우저 안에서 복호화할 때만 사용됩니다.</p>
-      <label for="pass">패스프레이즈</label>
-      <input type="password" id="pass" autocomplete="current-password" autofocus>
-      <button id="go" type="button" aria-label="대시보드 잠금 해제">대시보드 열기</button>
-      <div id="msg" role="status" aria-live="polite"></div>
-      <div class="security">입력값은 서버로 전송하거나 브라우저에 저장하지 않습니다. 페이지를 새로 열면 다시 입력해야 합니다.</div>
-    </section>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container nav">
+    <a class="logo" href="#top" aria-label="WorldBestQuant home"><span class="logo-mark"></span>WorldBestQuant</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#performance">Performance</a>
+      <a href="#process">Process</a>
+      <a href="#system">System</a>
+      <a class="private-link" href="dashboard.html">Private dashboard</a>
+    </nav>
   </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Personal Quant Research</div>
+          <h1>From factor research to a live investment portfolio.</h1>
+          <p class="hero-copy">I build reproducible investment systems for Korean equities: point-in-time data, factor research, backtesting, monthly portfolio construction, and explicit risk rules. This project turns that research into a live, measurable process.</p>
+          <div class="chips" aria-label="Project themes">
+            <span class="chip">Korean equities</span>
+            <span class="chip">Small-cap factors</span>
+            <span class="chip">Monthly rebalancing</span>
+            <span class="chip">Rule-based risk</span>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#performance">Explore the live record</a>
+            <a class="btn btn-secondary" href="#system">See the system</a>
+          </div>
+        </div>
+        <aside class="live-card" aria-label="Live strategy record">
+          <div class="live-head"><span>Live strategy record</span><span class="live-dot">Recorded</span></div>
+          <div class="live-value">+21.8%</div>
+          <div class="live-label">Compounded return</div>
+          <p class="live-period">July 2025 — April 2026</p>
+          <div class="live-note">Compounded from monthly live-account returns. Brokerage fees are included. Capital amounts and holdings are intentionally excluded.</div>
+        </aside>
+      </div>
+
+      <div class="metric-strip" aria-label="Performance summary">
+        <div class="metric"><strong>10</strong><span>Months recorded</span></div>
+        <div class="metric"><strong>6 / 10</strong><span>Positive months</span></div>
+        <div class="metric"><strong>+7.75%</strong><span>Best month</span></div>
+        <div class="metric"><strong>-3.99%</strong><span>Month-end drawdown</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="performance">
+    <div class="container">
+      <div class="section-heading">
+        <div><div class="section-kicker">Live performance</div><h2>A result with its assumptions visible.</h2></div>
+        <p class="section-intro">The headline is the compounded path of ten monthly strategy returns—not an annualized projection and not a backtest. The full month-by-month record is shown beside it.</p>
+      </div>
+
+      <article class="chart-card">
+        <div class="chart-top">
+          <div><h3>Strategy NAV</h3><p>Base 100 · month-end observations</p></div>
+          <div class="legend"><span class="legend-line"></span>Live small-cap strategy</div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="navChart" role="img" aria-label="Strategy net asset value rises from 100 in June 2025 to 121.8 in April 2026, with month-end observations.">Strategy NAV: 100 to 121.8 from July 2025 to April 2026.</canvas>
+        </div>
+        <div class="chart-caption">
+          <span>Monthly returns are geometrically linked; the simple sum is not used.</span>
+          <span>A benchmark will be added only after a like-for-like return convention is validated.</span>
+        </div>
+      </article>
+
+      <div class="performance-grid">
+        <article class="monthly-card">
+          <h3>Monthly returns</h3>
+          <div class="table-scroll">
+            <table aria-label="Monthly live strategy returns">
+              <thead><tr><th>Year</th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th><th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th></tr></thead>
+              <tbody>
+                <tr><th>2025</th><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="positive">+1.68</td><td class="positive">+1.77</td><td class="positive">+6.01</td><td class="negative">-2.92</td><td class="negative">-1.10</td><td class="positive">+7.75</td></tr>
+                <tr><th>2026</th><td class="positive">+3.50</td><td class="negative">-0.20</td><td class="negative">-2.13</td><td class="positive">+6.18</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="method-note">Values are percentages. The record covers the period in which this live small-cap process was operated; later paper portfolios are tracked separately.</p>
+        </article>
+
+        <aside class="summary-card">
+          <h3>Period summary</h3>
+          <div class="summary-list">
+            <div class="summary-row"><span>Jul–Dec 2025</span><strong>+13.49%</strong></div>
+            <div class="summary-row"><span>Jan–Apr 2026</span><strong>+7.34%</strong></div>
+            <div class="summary-row"><span>Full period</span><strong style="color:var(--green)">+21.82%</strong></div>
+            <div class="summary-row"><span>Worst month</span><strong style="color:var(--red)">-2.92%</strong></div>
+          </div>
+          <p class="method-note">The -3.99% drawdown uses month-end observations. It is not an intramonth maximum drawdown.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="process">
+    <div class="container">
+      <div class="section-heading">
+        <div><div class="section-kicker">Investment process</div><h2>Rules before opinions.</h2></div>
+        <p class="section-intro">The public case study explains the reproducible process without exposing account balances, current holdings, or proprietary factor weights.</p>
+      </div>
+      <div class="process-grid">
+        <article class="process-card"><div class="process-number">01 · UNIVERSE</div><h3>Start with Korean small caps</h3><p>Define the investable universe using market size, liquidity, and data-availability rules before any company is ranked.</p></article>
+        <article class="process-card"><div class="process-number">02 · SCORE</div><h3>Combine six factor signals</h3><p>Rank companies across value, profitability, and growth dimensions. The data and knowledge date are part of the strategy contract.</p></article>
+        <article class="process-card"><div class="process-number">03 · CONSTRUCT</div><h3>Rebalance monthly</h3><p>Build a diversified portfolio from the highest-ranked candidates and apply the same selection schedule consistently.</p></article>
+        <article class="process-card"><div class="process-number">04 · CONTROL</div><h3>Track risk explicitly</h3><p>Record every monthly result, monitor exits with deterministic rules, and keep research, paper, shadow, and live claims separate.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="system">
+    <div class="container">
+      <div class="section-heading">
+        <div><div class="section-kicker">System engineering</div><h2>An investment process that can be audited.</h2></div>
+        <p class="section-intro">WorldBestQuant is not a single stock screener. It is a layered research and operations system designed to preserve what was known, what was decided, and what actually happened.</p>
+      </div>
+
+      <div class="system-flow" aria-label="WorldBestQuant system flow">
+        <article class="system-node"><span>Data</span><h3>Point-in-time store</h3><p>Prices, financial statements, and knowledge dates.</p></article>
+        <article class="system-node"><span>Research</span><h3>Factor engine</h3><p>Deterministic signals and universe rules.</p></article>
+        <article class="system-node"><span>Validation</span><h3>Backtest engine</h3><p>Costs, rebalance logic, and bias checks.</p></article>
+        <article class="system-node"><span>Registry</span><h3>Strategy cards</h3><p>Parameters, stage, evidence, and blockers.</p></article>
+        <article class="system-node"><span>Observation</span><h3>Forward tracker</h3><p>Paper and live records kept apart.</p></article>
+        <article class="system-node"><span>Operations</span><h3>Risk dashboard</h3><p>Read-only monitoring and decision history.</p></article>
+      </div>
+
+      <div class="status-grid">
+        <article class="status-card"><h3>Execution status</h3><p>Signal generation and monitoring are coded. Orders remain manually controlled while deterministic exit logic is verified through simulated and shadow operation.</p><div class="status">Manual execution · validation in progress</div></article>
+        <article class="status-card"><h3>Privacy boundary</h3><p>This public page contains only aggregate strategy results and system design. Capital amounts, account data, current holdings, and operational controls remain encrypted and separate.</p><div class="status" style="color:var(--green)">Public aggregates only</div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="disclosure">
+        <div><div class="section-kicker">What the number means</div><h2>Transparent by design.</h2></div>
+        <ul>
+          <li>+21.82% is the geometric compounding of ten monthly live-account returns from July 2025 through April 2026.</li>
+          <li>Brokerage fees are reflected. No profit amount, starting capital, account balance, or current holding is published.</li>
+          <li>The result is not annualized. Backtest performance is not mixed into the live track record.</li>
+          <li>No market-outperformance claim is made until a comparable benchmark series and return convention are verified.</li>
+          <li>This is a personal research project, not investment advice. Past performance does not guarantee future results.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 </main>
 
-<iframe id="frame" title="WorldBestQuant 읽기 전용 대시보드" sandbox="allow-scripts" hidden></iframe>
-<button id="relock" type="button" aria-label="대시보드 다시 잠그기" hidden>다시 잠그기</button>
+<footer>
+  <div class="container footer-row">
+    <span>WorldBestQuant · Built by Jaeuk Moon</span>
+    <div class="footer-links"><a href="https://jaeukmoon.github.io/">Portfolio</a><a href="dashboard.html">Private dashboard</a></div>
+  </div>
+</footer>
 
 <script>
 (function(){
-  const b64=function(value){return Uint8Array.from(atob(value),function(char){return char.charCodeAt(0);});};
-  const byId=function(id){return document.getElementById(id);};
-  let KEY_MATERIAL=null;
-  let ANALYSIS_PAYLOAD=null;
-  let ANALYSIS_LOADING=null;
-  function validateEnvelope(enc){
-    if(enc.v!==1||enc.kdf!=="PBKDF2-SHA256"||enc.iter<600000||!enc.salt||!enc.nonce||!enc.ct){
-      throw new Error("schema");
-    }
-  }
-  async function decryptFile(path,material){
-    const enc=await fetch(path,{cache:"no-store"}).then(function(response){
-      if(!response.ok)throw new Error("payload");return response.json();
-    });
-    validateEnvelope(enc);
-    const key=await crypto.subtle.deriveKey(
-      {name:"PBKDF2",salt:b64(enc.salt),iterations:enc.iter,hash:"SHA-256"},
-      material,{name:"AES-GCM",length:256},false,["decrypt"]
-    );
-    let bytes=new Uint8Array(await crypto.subtle.decrypt(
-      {name:"AES-GCM",iv:b64(enc.nonce)},key,b64(enc.ct)
-    ));
-    if(enc.gz){
-      const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
-      bytes=new Uint8Array(await new Response(stream).arrayBuffer());
-    }
-    return JSON.parse(new TextDecoder().decode(bytes));
-  }
-  async function unlock(){
-    const pass=byId("pass").value;
-    const message=byId("msg");
-    const button=byId("go");
-    if(!pass){message.textContent="패스프레이즈를 입력하세요.";return;}
-    button.disabled=true;message.textContent="복호화 중…";
-    try{
-      const material=await crypto.subtle.importKey(
-        "raw",new TextEncoder().encode(pass),"PBKDF2",false,["deriveKey"]
-      );
-      const payload=await decryptFile("data/cockpit.enc.json",material);
-      if(!payload||typeof payload.html!=="string")throw new Error("content");
-      KEY_MATERIAL=material;
-      byId("frame").srcdoc=payload.html;
-      byId("frame").hidden=false;
-      byId("relock").hidden=false;
-      byId("lock").hidden=true;
-      byId("pass").value="";
-      message.textContent="";
-    }catch(error){
-      message.textContent="잠금을 열지 못했습니다. 패스프레이즈와 payload를 확인하세요.";
-    }finally{
-      button.disabled=false;
-    }
-  }
-  function relock(){
-    KEY_MATERIAL=null;
-    ANALYSIS_PAYLOAD=null;
-    ANALYSIS_LOADING=null;
-    byId("frame").srcdoc="";
-    byId("frame").hidden=true;
-    byId("relock").hidden=true;
-    byId("lock").hidden=false;
-    byId("pass").focus();
-  }
-  byId("go").addEventListener("click",unlock);
-  byId("pass").addEventListener("keydown",function(event){if(event.key==="Enter")unlock();});
-  byId("relock").addEventListener("click",relock);
-  window.addEventListener("message",function(event){
-    const frame=byId("frame");
-    if(event.source!==frame.contentWindow||!event.data||event.data.type!=="wbq-analysis-request"||!KEY_MATERIAL)return;
-    if(ANALYSIS_PAYLOAD){
-      frame.contentWindow.postMessage({type:"wbq-seasonality-data",payload:ANALYSIS_PAYLOAD},"*");
-      return;
-    }
-    if(!ANALYSIS_LOADING){
-      const analysisMaterial=KEY_MATERIAL;
-      ANALYSIS_LOADING=decryptFile("data/analysis.enc.json",analysisMaterial)
-        .then(function(payload){if(KEY_MATERIAL!==analysisMaterial)throw new Error("relocked");ANALYSIS_PAYLOAD=payload;return payload;})
-        .finally(function(){ANALYSIS_LOADING=null;});
-    }
-    ANALYSIS_LOADING.then(function(payload){
-      if(KEY_MATERIAL&&frame.contentWindow){
-        frame.contentWindow.postMessage({type:"wbq-seasonality-data",payload:payload},"*");
-      }
-    }).catch(function(){
-      if(frame.contentWindow){
-        frame.contentWindow.postMessage({type:"wbq-seasonality-error",message:"계절성 데이터를 불러오지 못했습니다."},"*");
-      }
-    });
+  "use strict";
+  var RETURNS=[
+    {label:"Jul 25",value:1.68},{label:"Aug 25",value:1.77},{label:"Sep 25",value:6.01},
+    {label:"Oct 25",value:-2.92},{label:"Nov 25",value:-1.10},{label:"Dec 25",value:7.75},
+    {label:"Jan 26",value:3.50},{label:"Feb 26",value:-0.20},{label:"Mar 26",value:-2.13},
+    {label:"Apr 26",value:6.18}
+  ];
+  var points=[{label:"Jun 25",value:100}];
+  RETURNS.forEach(function(item){
+    points.push({label:item.label,value:points[points.length-1].value*(1+item.value/100)});
   });
+
+  function drawChart(){
+    var canvas=document.getElementById("navChart");
+    if(!canvas||!canvas.getContext)return;
+    var rect=canvas.getBoundingClientRect();
+    var cssWidth=Math.max(280,rect.width);
+    var cssHeight=window.innerWidth<=700?280:330;
+    var ratio=Math.min(window.devicePixelRatio||1,2);
+    canvas.width=Math.round(cssWidth*ratio);
+    canvas.height=Math.round(cssHeight*ratio);
+    var ctx=canvas.getContext("2d");
+    ctx.setTransform(ratio,0,0,ratio,0,0);
+    ctx.clearRect(0,0,cssWidth,cssHeight);
+
+    var pad={top:25,right:25,bottom:38,left:47};
+    var innerW=cssWidth-pad.left-pad.right;
+    var innerH=cssHeight-pad.top-pad.bottom;
+    var minY=98,maxY=124;
+    function x(index){return pad.left+(index/(points.length-1))*innerW;}
+    function y(value){return pad.top+((maxY-value)/(maxY-minY))*innerH;}
+
+    ctx.font="11px -apple-system,BlinkMacSystemFont,Segoe UI,Arial";
+    ctx.textAlign="right";
+    ctx.textBaseline="middle";
+    [100,105,110,115,120].forEach(function(tick){
+      var py=y(tick);
+      ctx.strokeStyle="rgba(112,135,149,.18)";
+      ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(pad.left,py);ctx.lineTo(cssWidth-pad.right,py);ctx.stroke();
+      ctx.fillStyle="#6f818c";ctx.fillText(String(tick),pad.left-9,py);
+    });
+
+    var gradient=ctx.createLinearGradient(0,pad.top,0,cssHeight-pad.bottom);
+    gradient.addColorStop(0,"rgba(68,217,197,.25)");
+    gradient.addColorStop(1,"rgba(68,217,197,0)");
+    ctx.beginPath();
+    points.forEach(function(point,index){
+      if(index===0)ctx.moveTo(x(index),y(point.value));else ctx.lineTo(x(index),y(point.value));
+    });
+    ctx.lineTo(x(points.length-1),cssHeight-pad.bottom);
+    ctx.lineTo(x(0),cssHeight-pad.bottom);
+    ctx.closePath();ctx.fillStyle=gradient;ctx.fill();
+
+    ctx.beginPath();
+    points.forEach(function(point,index){
+      if(index===0)ctx.moveTo(x(index),y(point.value));else ctx.lineTo(x(index),y(point.value));
+    });
+    ctx.strokeStyle="#44d9c5";ctx.lineWidth=3;ctx.lineJoin="round";ctx.lineCap="round";ctx.stroke();
+
+    points.forEach(function(point,index){
+      ctx.beginPath();ctx.arc(x(index),y(point.value),index===points.length-1?4.5:3,0,Math.PI*2);
+      ctx.fillStyle=index===points.length-1?"#84e5a6":"#071018";ctx.fill();
+      ctx.strokeStyle="#44d9c5";ctx.lineWidth=2;ctx.stroke();
+    });
+
+    ctx.textAlign="center";ctx.textBaseline="top";ctx.fillStyle="#6f818c";
+    [0,3,6,9,10].forEach(function(index){ctx.fillText(points[index].label,x(index),cssHeight-pad.bottom+13);});
+
+    var last=points[points.length-1];
+    ctx.textAlign="right";ctx.textBaseline="bottom";ctx.font="700 12px -apple-system,BlinkMacSystemFont,Segoe UI,Arial";
+    ctx.fillStyle="#84e5a6";ctx.fillText(last.value.toFixed(1),x(points.length-1)-8,y(last.value)-9);
+  }
+
+  var resizeTimer;
+  window.addEventListener("resize",function(){clearTimeout(resizeTimer);resizeTimer=setTimeout(drawChart,120);});
+  drawChart();
 })();
 </script>
 </body>

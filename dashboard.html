@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>WorldBestQuant — Private Dashboard</title>
+<style>
+:root{color-scheme:dark;--bg:#0e1117;--panel:#151922;--line:#292f3a;--text:#f3f4f6;
+  --muted:#9ca3af;--cyan:#06b6d4;--red:#ef4444}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif}
+.lock{min-height:100vh;display:grid;place-items:center;padding:24px;
+  background:radial-gradient(circle at 50% 20%,rgba(6,182,212,.08),transparent 34%)}
+.shell{width:min(420px,100%)}
+.brand{margin-bottom:24px;text-align:center}
+.brand-mark{display:inline-block;width:10px;height:10px;margin-right:9px;border-radius:99px;
+  background:var(--cyan);box-shadow:0 0 18px rgba(6,182,212,.75)}
+.brand strong{font-size:22px;letter-spacing:-.45px}
+.brand p{margin:7px 0 0;color:var(--muted);font-size:12px}
+.public-return{display:inline-block;margin-top:10px;color:var(--cyan);font-size:11px}
+.public-return:hover{text-decoration:underline}
+.box{padding:26px;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 20px 70px rgba(0,0,0,.28)}
+.eyebrow{color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+h1{margin:8px 0 7px;font-size:23px;letter-spacing:-.5px}
+.intro{margin:0 0 20px;color:var(--muted);font-size:13px;line-height:1.65}
+label{display:block;margin-bottom:7px;color:#c9cfd8;font-size:12px;font-weight:700}
+input{display:block;width:100%;padding:12px 13px;border:1px solid #394150;border-radius:8px;
+  background:#0f131a;color:#fff;font-size:15px;outline:none}
+input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(6,182,212,.12)}
+button{width:100%;margin-top:12px;padding:12px 14px;border:0;border-radius:8px;background:#0891b2;
+  color:#fff;font-weight:800;cursor:pointer}
+button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
+#msg{min-height:20px;margin-top:10px;color:#fca5a5;font-size:12px}
+.security{margin-top:17px;padding-top:15px;border-top:1px solid var(--line);color:#737d8b;font-size:11px;line-height:1.6}
+#frame{position:fixed;inset:0;width:100%;height:100%;border:0;background:var(--bg)}
+#relock{position:fixed;right:16px;bottom:16px;z-index:10;width:auto;margin:0;padding:8px 12px;
+  border:1px solid #3a4351;background:rgba(15,19,26,.9);font-size:12px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main class="lock" id="lock">
+  <div class="shell">
+    <div class="brand">
+      <strong><span class="brand-mark"></span>WorldBestQuant</strong>
+      <p>Personal Quant Investment Platform</p>
+      <a class="public-return" href="index.html">← Public case study</a>
+    </div>
+    <section class="box" aria-labelledby="lock-title">
+      <div class="eyebrow">Encrypted dashboard</div>
+      <h1 id="lock-title">대시보드 잠금 해제</h1>
+      <p class="intro">암호화된 읽기 전용 투자 대시보드입니다. 패스프레이즈는 이 브라우저 안에서 복호화할 때만 사용됩니다.</p>
+      <label for="pass">패스프레이즈</label>
+      <input type="password" id="pass" autocomplete="current-password" autofocus>
+      <button id="go" type="button" aria-label="대시보드 잠금 해제">대시보드 열기</button>
+      <div id="msg" role="status" aria-live="polite"></div>
+      <div class="security">입력값은 서버로 전송하거나 브라우저에 저장하지 않습니다. 페이지를 새로 열면 다시 입력해야 합니다.</div>
+    </section>
+  </div>
+</main>
+
+<iframe id="frame" title="WorldBestQuant 읽기 전용 대시보드" sandbox="allow-scripts" hidden></iframe>
+<button id="relock" type="button" aria-label="대시보드 다시 잠그기" hidden>다시 잠그기</button>
+
+<script>
+(function(){
+  const b64=function(value){return Uint8Array.from(atob(value),function(char){return char.charCodeAt(0);});};
+  const byId=function(id){return document.getElementById(id);};
+  let KEY_MATERIAL=null;
+  let ANALYSIS_PAYLOAD=null;
+  let ANALYSIS_LOADING=null;
+  function validateEnvelope(enc){
+    if(enc.v!==1||enc.kdf!=="PBKDF2-SHA256"||enc.iter<600000||!enc.salt||!enc.nonce||!enc.ct){
+      throw new Error("schema");
+    }
+  }
+  async function decryptFile(path,material){
+    const enc=await fetch(path,{cache:"no-store"}).then(function(response){
+      if(!response.ok)throw new Error("payload");return response.json();
+    });
+    validateEnvelope(enc);
+    const key=await crypto.subtle.deriveKey(
+      {name:"PBKDF2",salt:b64(enc.salt),iterations:enc.iter,hash:"SHA-256"},
+      material,{name:"AES-GCM",length:256},false,["decrypt"]
+    );
+    let bytes=new Uint8Array(await crypto.subtle.decrypt(
+      {name:"AES-GCM",iv:b64(enc.nonce)},key,b64(enc.ct)
+    ));
+    if(enc.gz){
+      const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
+      bytes=new Uint8Array(await new Response(stream).arrayBuffer());
+    }
+    return JSON.parse(new TextDecoder().decode(bytes));
+  }
+  async function unlock(){
+    const pass=byId("pass").value;
+    const message=byId("msg");
+    const button=byId("go");
+    if(!pass){message.textContent="패스프레이즈를 입력하세요.";return;}
+    button.disabled=true;message.textContent="복호화 중…";
+    try{
+      const material=await crypto.subtle.importKey(
+        "raw",new TextEncoder().encode(pass),"PBKDF2",false,["deriveKey"]
+      );
+      const payload=await decryptFile("data/cockpit.enc.json",material);
+      if(!payload||typeof payload.html!=="string")throw new Error("content");
+      KEY_MATERIAL=material;
+      byId("frame").srcdoc=payload.html;
+      byId("frame").hidden=false;
+      byId("relock").hidden=false;
+      byId("lock").hidden=true;
+      byId("pass").value="";
+      message.textContent="";
+    }catch(error){
+      message.textContent="잠금을 열지 못했습니다. 패스프레이즈와 payload를 확인하세요.";
+    }finally{
+      button.disabled=false;
+    }
+  }
+  function relock(){
+    KEY_MATERIAL=null;
+    ANALYSIS_PAYLOAD=null;
+    ANALYSIS_LOADING=null;
+    byId("frame").srcdoc="";
+    byId("frame").hidden=true;
+    byId("relock").hidden=true;
+    byId("lock").hidden=false;
+    byId("pass").focus();
+  }
+  byId("go").addEventListener("click",unlock);
+  byId("pass").addEventListener("keydown",function(event){if(event.key==="Enter")unlock();});
+  byId("relock").addEventListener("click",relock);
+  window.addEventListener("message",function(event){
+    const frame=byId("frame");
+    if(event.source!==frame.contentWindow||!event.data||event.data.type!=="wbq-analysis-request"||!KEY_MATERIAL)return;
+    if(ANALYSIS_PAYLOAD){
+      frame.contentWindow.postMessage({type:"wbq-seasonality-data",payload:ANALYSIS_PAYLOAD},"*");
+      return;
+    }
+    if(!ANALYSIS_LOADING){
+      const analysisMaterial=KEY_MATERIAL;
+      ANALYSIS_LOADING=decryptFile("data/analysis.enc.json",analysisMaterial)
+        .then(function(payload){if(KEY_MATERIAL!==analysisMaterial)throw new Error("relocked");ANALYSIS_PAYLOAD=payload;return payload;})
+        .finally(function(){ANALYSIS_LOADING=null;});
+    }
+    ANALYSIS_LOADING.then(function(payload){
+      if(KEY_MATERIAL&&frame.contentWindow){
+        frame.contentWindow.postMessage({type:"wbq-seasonality-data",payload:payload},"*");
+      }
+    }).catch(function(){
+      if(frame.contentWindow){
+        frame.contentWindow.postMessage({type:"wbq-seasonality-error",message:"계절성 데이터를 불러오지 못했습니다."},"*");
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

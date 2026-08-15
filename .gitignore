@@ -1,2 +1,5 @@
 *.bak
 .claude/
+/results/
+/logs/
+__pycache__/
