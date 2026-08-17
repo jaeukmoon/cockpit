@@ -1,0 +1,47 @@
+name: Update public 13F filings
+
+on:
+  schedule:
+    - cron: "23 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: public-13f-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out public site
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch SEC 13F filings
+        env:
+          SEC_USER_AGENT: WorldBestQuant 13F dashboard jaewookmo@gmail.com
+        run: python scripts/update_13f.py
+
+      - name: Verify public-site contracts
+        run: python -m unittest discover -s tests -v
+
+      - name: Commit a changed filing snapshot
+        shell: bash
+        run: |
+          if git diff --quiet -- data/guru_13f.json; then
+            echo "No new 13F filing data."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/guru_13f.json
+          git commit -m "data: refresh public 13f filings"
+          git push

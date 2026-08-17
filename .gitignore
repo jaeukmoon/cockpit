@@ -1,5 +1,6 @@
+__pycache__/
+*.py[cod]
 *.bak
 .claude/
-/results/
-/logs/
-__pycache__/
+logs/
+results/
