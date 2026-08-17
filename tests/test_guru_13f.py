@@ -23,23 +23,19 @@ def load_updater():
     return module
 
 
-class GuruPublicPageContractTests(unittest.TestCase):
-    def test_public_page_exposes_sec_13f_monitor_with_filing_lag_warning(self) -> None:
+class GuruPublicPagePrivacyTests(unittest.TestCase):
+    def test_public_portfolio_does_not_expose_private_13f_monitor(self) -> None:
         source = PUBLIC_PAGE.read_text(encoding="utf-8")
 
-        self.assertIn('href="#guru-13f"', source)
-        self.assertIn('id="guru-13f"', source)
-        self.assertIn('id="guruInvestor"', source)
-        self.assertIn('id="guruHoldings"', source)
-        self.assertIn('id="guruChanges"', source)
-        self.assertIn('id="guruFilingNote"', source)
-        self.assertIn('fetch("data/guru_13f.json"', source)
-        self.assertIn("latest_submission_form", source)
-        self.assertIn("quarter-end snapshot", source.lower())
-        self.assertIn("45 days", source)
-        self.assertIn("not a live portfolio", source.lower())
-        self.assertIn("Reported shares", source)
-        self.assertNotIn("Total reported value", source)
+        for private_marker in (
+            'href="#guru-13f"',
+            'id="guru-13f"',
+            'id="guruInvestor"',
+            'fetch("data/guru_13f.json"',
+            "GURU / 13F",
+        ):
+            with self.subTest(marker=private_marker):
+                self.assertNotIn(private_marker, source)
 
 
 class GuruCollectorContractTests(unittest.TestCase):

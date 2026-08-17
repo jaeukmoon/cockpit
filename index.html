@@ -116,43 +116,6 @@ td.empty{background:rgba(255,255,255,.018);color:#31414b}
 .summary-row span{color:var(--muted)}
 .summary-row strong{font-size:16px;font-variant-numeric:tabular-nums}
 .method-note{margin:18px 0 0;color:#728590;font-size:11px;line-height:1.65}
-.guru-shell{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(16,31,43,.84),rgba(10,20,30,.8));overflow:hidden}
-.guru-toolbar{display:flex;align-items:end;justify-content:space-between;gap:18px;padding:23px 25px;border-bottom:1px solid var(--line)}
-.guru-control{display:grid;gap:7px;min-width:min(360px,100%)}
-.guru-control label{color:#71848f;font-size:10px;font-weight:750;letter-spacing:.1em;text-transform:uppercase}
-.guru-control select{width:100%;min-height:44px;padding:0 40px 0 13px;border:1px solid var(--line-bright);border-radius:8px;background:#0b1721;color:var(--text);font-family:inherit;font-size:14px;font-weight:700}
-.guru-source{color:var(--cyan);font-size:12px;font-weight:700}
-.guru-source:hover,.guru-source:focus-visible{text-decoration:underline}
-.guru-status{padding:32px 25px;color:var(--muted);font-size:13px}
-.guru-content[hidden],.guru-pane[hidden]{display:none}
-.guru-meta{display:grid;grid-template-columns:1.35fr repeat(3,1fr);border-bottom:1px solid var(--line)}
-.guru-identity,.guru-stat{padding:22px 24px;border-right:1px solid var(--line)}
-.guru-stat:last-child{border-right:0}
-.guru-identity strong,.guru-stat strong{display:block;font-size:18px;letter-spacing:-.025em}
-.guru-identity span,.guru-stat span{display:block;margin-top:4px;color:var(--muted);font-size:11px}
-.guru-filing-note{margin:16px 24px 0;padding:11px 13px;border:1px solid rgba(244,199,107,.35);border-radius:9px;background:rgba(244,199,107,.08);color:var(--amber);font-size:11px;line-height:1.65}
-.guru-filing-note[hidden]{display:none}
-.guru-tabs{display:flex;gap:6px;padding:16px 24px 0}
-.guru-tab{padding:8px 12px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer}
-.guru-tab[aria-selected="true"]{border-color:var(--line-bright);background:var(--cyan-soft);color:var(--cyan)}
-.guru-pane{padding:16px 24px 24px}
-.guru-table{border-spacing:0}
-.guru-table th,.guru-table td{padding:12px 10px;border-bottom:1px solid var(--line);background:transparent;border-radius:0;text-align:right}
-.guru-table th{font-size:9px}
-.guru-table th:first-child,.guru-table td:first-child{width:42px;min-width:42px;text-align:left}
-.guru-table th:nth-child(2),.guru-table td:nth-child(2){text-align:left}
-.guru-table td{color:#b8c6ce;font-size:12px}
-.guru-name{display:block;color:var(--text);font-weight:700}
-.guru-class{display:block;color:#70838f;font-size:10px;margin-top:2px}
-.guru-weight{display:grid;grid-template-columns:48px minmax(80px,150px);align-items:center;justify-content:end;gap:10px;font-variant-numeric:tabular-nums}
-.guru-bar{height:5px;border-radius:99px;background:#182a36;overflow:hidden}
-.guru-bar span{display:block;height:100%;border-radius:99px;background:var(--cyan)}
-.guru-change{display:inline-flex;padding:3px 7px;border-radius:99px;font-size:9px;font-weight:800;letter-spacing:.05em}
-.guru-change.new,.guru-change.increased{background:rgba(132,229,166,.11);color:var(--green)}
-.guru-change.decreased,.guru-change.exited{background:rgba(255,139,139,.11);color:var(--red)}
-.guru-empty{padding:28px 0;color:var(--muted);font-size:12px}
-.guru-foot{display:flex;justify-content:space-between;gap:22px;padding:17px 24px;border-top:1px solid var(--line);color:#71848f;font-size:10px;line-height:1.65}
-.guru-foot strong{color:#9cadb7}
 .process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .process-card{min-height:225px;padding:23px;border:1px solid var(--line);border-radius:13px;background:rgba(13,25,36,.6)}
 .process-number{color:var(--cyan);font-size:11px;font-weight:800}
@@ -183,19 +146,16 @@ footer{padding:34px 0 46px;border-top:1px solid var(--line);color:#70828d;font-s
   .hero-grid{grid-template-columns:1fr;gap:38px}.live-card{max-width:560px}
   .section-heading{grid-template-columns:1fr;gap:18px}.section-intro{justify-self:start}
   .performance-grid{grid-template-columns:1fr}.process-grid{grid-template-columns:repeat(2,1fr)}
-  .guru-meta{grid-template-columns:1fr 1fr}.guru-identity{grid-column:1/-1;border-bottom:1px solid var(--line)}.guru-stat:nth-child(3){border-right:0}
   .system-flow{grid-template-columns:repeat(3,1fr)}.system-node:nth-child(3)::after{display:none}
   .disclosure{grid-template-columns:1fr;gap:28px}
 }
 @media (max-width:700px){
-  .container{width:min(100% - 28px,var(--max))}.nav{height:60px}.nav-links a:not(.private-link):not([href="#guru-13f"]){display:none}
+  .container{width:min(100% - 28px,var(--max))}.nav{height:60px}.nav-links a:not(.private-link){display:none}
   .hero{padding:76px 0 44px}h1{font-size:45px}.hero-copy{font-size:16px}
   .live-value{font-size:54px}.metric-strip{grid-template-columns:1fr 1fr}.metric:nth-child(2){border-right:0}
   .metric:nth-child(-n+2){border-bottom:1px solid var(--line)}.metric{padding:19px}
   .section{padding:76px 0}.chart-card{padding:20px 12px 14px}.chart-top{padding:0 7px}
   .chart-wrap,canvas{height:280px}.chart-caption{flex-direction:column;padding:12px 7px 0}
-  .guru-toolbar{align-items:stretch;flex-direction:column}.guru-source{align-self:flex-start}.guru-meta{grid-template-columns:1fr}.guru-identity,.guru-stat{grid-column:auto;border-right:0;border-bottom:1px solid var(--line)}.guru-stat:last-child{border-bottom:0}
-  .guru-pane{padding:12px}.guru-table th,.guru-table td{padding:10px 6px}.guru-table th:first-child,.guru-table td:first-child{display:none}.guru-weight{grid-template-columns:43px 58px;gap:7px}.guru-foot{flex-direction:column}
   .process-grid,.status-grid{grid-template-columns:1fr}.process-card{min-height:180px}.process-card h3{margin-top:28px}
   .system-flow{grid-template-columns:1fr}.system-node{min-height:128px}.system-node:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-17px;transform:translate(-50%,0)}
   .system-node:nth-child(3)::after{display:grid}.footer-row{align-items:flex-start;flex-direction:column}
@@ -210,7 +170,6 @@ footer{padding:34px 0 46px;border-top:1px solid var(--line);color:#70828d;font-s
     <a class="logo" href="#top" aria-label="WorldBestQuant home"><span class="logo-mark"></span>WorldBestQuant</a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#performance">Performance</a>
-      <a href="#guru-13f">GURU / 13F</a>
       <a href="#process">Process</a>
       <a href="#system">System</a>
       <a class="private-link" href="dashboard.html">Private dashboard</a>
@@ -301,51 +260,6 @@ footer{padding:34px 0 46px;border-top:1px solid var(--line);color:#70828d;font-s
           </div>
           <p class="method-note">The -3.99% drawdown uses month-end observations. It is not an intramonth maximum drawdown.</p>
         </aside>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="guru-13f">
-    <div class="container">
-      <div class="section-heading">
-        <div><div class="section-kicker">Public filing monitor</div><h2>What leading investors reported owning.</h2></div>
-        <p class="section-intro">A curated view of SEC Form 13F filings. Select an investor to inspect portfolio weights at the latest reported quarter-end and share-count changes versus the prior filing.</p>
-      </div>
-
-      <div class="guru-shell">
-        <div class="guru-toolbar">
-          <div class="guru-control">
-            <label for="guruInvestor">Investor</label>
-            <select id="guruInvestor" disabled aria-describedby="guruStatus">
-              <option>Loading SEC filings…</option>
-            </select>
-          </div>
-          <a class="guru-source" id="guruFiling" href="https://www.sec.gov/edgar/search/" target="_blank" rel="noopener noreferrer">Open SEC filing ↗</a>
-        </div>
-
-        <div class="guru-status" id="guruStatus" role="status">Loading the latest public 13F snapshots…</div>
-        <div class="guru-content" id="guruContent" hidden>
-          <div class="guru-meta">
-            <div class="guru-identity"><strong id="guruName">—</strong><span id="guruFirm">—</span></div>
-            <div class="guru-stat"><strong id="guruReportDate">—</strong><span>Quarter-end snapshot</span></div>
-            <div class="guru-stat"><strong id="guruFiledAt">—</strong><span>Filed with SEC</span></div>
-            <div class="guru-stat"><strong id="guruPriorDate">—</strong><span>Prior quarter compared</span></div>
-          </div>
-          <div class="guru-filing-note" id="guruFilingNote" role="note" hidden></div>
-
-          <div class="guru-tabs" role="tablist" aria-label="13F filing view">
-            <button class="guru-tab" id="guruHoldingsTab" type="button" role="tab" aria-controls="guruHoldings" aria-selected="true">Top holdings</button>
-            <button class="guru-tab" id="guruChangesTab" type="button" role="tab" aria-controls="guruChanges" aria-selected="false">Quarterly changes</button>
-          </div>
-          <div class="guru-pane" id="guruHoldings" role="tabpanel" aria-labelledby="guruHoldingsTab"></div>
-          <div class="guru-pane" id="guruChanges" role="tabpanel" aria-labelledby="guruChangesTab" hidden></div>
-        </div>
-
-        <div class="guru-foot">
-          <span><strong>Timing:</strong> Form 13F is a quarter-end snapshot that may be filed up to 45 days later. It is not a live portfolio.</span>
-          <span><strong>Coverage:</strong> Reportable U.S. long securities only; cash, shorts, and many non-U.S. assets are not shown. Named investors are navigation labels—the filing belongs to the listed firm and does not prove a personal trade. Weights are normalized within each filing; absolute filing values are omitted because filer unit conventions can be inconsistent.</span>
-        </div>
-        <noscript><div class="guru-status">JavaScript is required to display the filing data.</div></noscript>
       </div>
     </div>
   </section>
@@ -492,195 +406,6 @@ footer{padding:34px 0 46px;border-top:1px solid var(--line);color:#70828d;font-s
   drawChart();
 })();
 
-(function(){
-  "use strict";
-  var investorSelect=document.getElementById("guruInvestor");
-  var status=document.getElementById("guruStatus");
-  var content=document.getElementById("guruContent");
-  var holdingsPane=document.getElementById("guruHoldings");
-  var changesPane=document.getElementById("guruChanges");
-  var holdingsTab=document.getElementById("guruHoldingsTab");
-  var changesTab=document.getElementById("guruChangesTab");
-  var managers=[];
-
-  function element(tag,className,text){
-    var node=document.createElement(tag);
-    if(className)node.className=className;
-    if(text!==undefined)node.textContent=text;
-    return node;
-  }
-
-  function formatDate(value){
-    if(!value)return "—";
-    var date=new Date(value+"T00:00:00Z");
-    if(Number.isNaN(date.getTime()))return value;
-    return new Intl.DateTimeFormat("en-US",{year:"numeric",month:"short",day:"numeric",timeZone:"UTC"}).format(date);
-  }
-
-  function formatShares(value){
-    var shares=Number(value);
-    return Number.isFinite(shares)?Math.round(shares).toLocaleString("en-US"):"—";
-  }
-
-  function tableHeader(labels){
-    var head=element("thead");
-    var row=element("tr");
-    labels.forEach(function(label){row.appendChild(element("th","",label));});
-    head.appendChild(row);
-    return head;
-  }
-
-  function securityCell(item){
-    var cell=element("td");
-    cell.appendChild(element("span","guru-name",item.issuer||"Unknown issuer"));
-    var detail=[item.title_of_class,item.put_call].filter(Boolean).join(" · ");
-    if(detail)cell.appendChild(element("span","guru-class",detail));
-    return cell;
-  }
-
-  function weightCell(weight){
-    var pct=Number(weight)||0;
-    var cell=element("td");
-    var wrap=element("div","guru-weight");
-    wrap.appendChild(element("span","",pct.toFixed(2)+"%"));
-    var bar=element("span","guru-bar");
-    var fill=element("span");
-    fill.style.width=Math.max(0,Math.min(100,pct))+"%";
-    bar.appendChild(fill);
-    wrap.appendChild(bar);
-    cell.appendChild(wrap);
-    return cell;
-  }
-
-  function renderHoldings(manager){
-    holdingsPane.replaceChildren();
-    var holdings=Array.isArray(manager.top_holdings)?manager.top_holdings:[];
-    if(!holdings.length){
-      holdingsPane.appendChild(element("div","guru-empty","No holdings were parsed for this filing."));
-      return;
-    }
-    var scroll=element("div","table-scroll");
-    var table=element("table","guru-table");
-    table.setAttribute("aria-label","Top reported 13F holdings");
-    table.appendChild(tableHeader(["#","Security","Portfolio weight","Reported shares"]));
-    var body=element("tbody");
-    holdings.forEach(function(holding,index){
-      var row=element("tr");
-      row.appendChild(element("td","",String(index+1)));
-      row.appendChild(securityCell(holding));
-      row.appendChild(weightCell(holding.weight_pct));
-      row.appendChild(element("td","",formatShares(holding.shares)));
-      body.appendChild(row);
-    });
-    var other=Number(manager.other_weight_pct)||0;
-    if(other>0.005){
-      var otherRow=element("tr");
-      otherRow.appendChild(element("td","","—"));
-      otherRow.appendChild(element("td","guru-name","Other reported positions"));
-      otherRow.appendChild(weightCell(other));
-      otherRow.appendChild(element("td","","—"));
-      body.appendChild(otherRow);
-    }
-    table.appendChild(body);
-    scroll.appendChild(table);
-    holdingsPane.appendChild(scroll);
-  }
-
-  function changeLabel(change){
-    var kind=String(change.change_type||"").toUpperCase();
-    if(kind==="NEW")return "New position";
-    if(kind==="EXITED")return "Sold out";
-    var pct=Number(change.share_change_pct);
-    return Number.isFinite(pct)?(pct>0?"+":"")+pct.toFixed(1)+"%":"—";
-  }
-
-  function renderChanges(manager){
-    changesPane.replaceChildren();
-    var changes=Array.isArray(manager.changes)?manager.changes:[];
-    if(!changes.length){
-      changesPane.appendChild(element("div","guru-empty","No comparable prior-quarter filing is available."));
-      return;
-    }
-    var scroll=element("div","table-scroll");
-    var table=element("table","guru-table");
-    table.setAttribute("aria-label","Changes from the prior 13F filing");
-    table.appendChild(tableHeader(["#","Security","Action","Current shares","Current weight"]));
-    var body=element("tbody");
-    changes.forEach(function(change,index){
-      var row=element("tr");
-      var kind=String(change.change_type||"changed").toLowerCase();
-      row.appendChild(element("td","",String(index+1)));
-      row.appendChild(securityCell(change));
-      var action=element("td");
-      action.appendChild(element("span","guru-change "+kind,changeLabel(change)));
-      row.appendChild(action);
-      row.appendChild(element("td","",formatShares(change.current_shares)));
-      row.appendChild(element("td","",(Number(change.weight_pct)||0).toFixed(2)+"%"));
-      body.appendChild(row);
-    });
-    table.appendChild(body);
-    scroll.appendChild(table);
-    changesPane.appendChild(scroll);
-  }
-
-  function showPane(name){
-    var showHoldings=name==="holdings";
-    holdingsPane.hidden=!showHoldings;
-    changesPane.hidden=showHoldings;
-    holdingsTab.setAttribute("aria-selected",String(showHoldings));
-    changesTab.setAttribute("aria-selected",String(!showHoldings));
-  }
-
-  function renderManager(slug){
-    var manager=managers.find(function(item){return item.slug===slug;})||managers[0];
-    if(!manager)return;
-    document.getElementById("guruName").textContent=manager.investor||manager.filer_name||"Unknown investor";
-    document.getElementById("guruFirm").textContent=(manager.firm||manager.filer_name||"SEC filer")+" · "+String(manager.holding_count||0)+" reported positions";
-    document.getElementById("guruReportDate").textContent=formatDate(manager.report_date);
-    document.getElementById("guruFiledAt").textContent=formatDate(manager.filed_at);
-    document.getElementById("guruPriorDate").textContent=formatDate(manager.previous_report_date);
-    var filingNote=document.getElementById("guruFilingNote");
-    var hasNewerNotice=manager.latest_submission_form==="13F-NT"&&manager.latest_submission_report_date!==manager.report_date;
-    filingNote.hidden=!hasNewerNotice;
-    filingNote.textContent=hasNewerNotice
-      ?"The latest submission for "+formatDate(manager.latest_submission_report_date)+" is Form 13F-NT, meaning the holdings are reported by another manager. The table below remains the last standalone holdings report."
-      :"";
-    var filing=document.getElementById("guruFiling");
-    filing.href=manager.filing_url||"https://www.sec.gov/edgar/search/";
-    renderHoldings(manager);
-    renderChanges(manager);
-    showPane("holdings");
-  }
-
-  holdingsTab.addEventListener("click",function(){showPane("holdings");});
-  changesTab.addEventListener("click",function(){showPane("changes");});
-  investorSelect.addEventListener("change",function(){renderManager(investorSelect.value);});
-
-  fetch("data/guru_13f.json",{cache:"no-store"})
-    .then(function(response){
-      if(!response.ok)throw new Error("HTTP "+response.status);
-      return response.json();
-    })
-    .then(function(payload){
-      managers=Array.isArray(payload.managers)?payload.managers:[];
-      if(!managers.length)throw new Error("No manager data");
-      investorSelect.replaceChildren();
-      managers.forEach(function(manager){
-        var option=element("option","",(manager.investor||manager.filer_name)+" · "+(manager.firm||""));
-        option.value=manager.slug;
-        investorSelect.appendChild(option);
-      });
-      investorSelect.disabled=false;
-      status.hidden=true;
-      content.hidden=false;
-      renderManager(managers[0].slug);
-    })
-    .catch(function(error){
-      status.textContent="The SEC filing snapshot is temporarily unavailable. Please try again after the next scheduled refresh.";
-      status.title=String(error);
-      investorSelect.disabled=true;
-    });
-})();
 </script>
 </body>
 </html>
