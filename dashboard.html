@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>WorldBestQuant — Private Dashboard</title>
 <style>
 :root{color-scheme:dark;--bg:#0e1117;--panel:#151922;--line:#292f3a;--text:#f3f4f6;
@@ -66,6 +66,7 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
 <iframe id="frame" title="WorldBestQuant 읽기 전용 대시보드" sandbox="allow-scripts" hidden></iframe>
 <button id="relock" type="button" aria-label="대시보드 다시 잠그기" hidden>다시 잠그기</button>
 
+<script src="assets/monitoring.js"></script>
 <script>
 (function(){
   const b64=function(value){return Uint8Array.from(atob(value),function(char){return char.charCodeAt(0);});};
@@ -109,7 +110,8 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
       const payload=await decryptFile("data/cockpit.enc.json",material);
       if(!payload||typeof payload.html!=="string")throw new Error("content");
       KEY_MATERIAL=material;
-      byId("frame").srcdoc=payload.html;
+      byId("frame").onload=function(){if(KEY_MATERIAL===material)WBQMonitoring.start(function(){return decryptFile("data/monitor-key.enc.json",material);},byId("frame"));};
+      byId("frame").srcdoc=WBQMonitoring.decorate(payload.html);
       byId("frame").hidden=false;
       byId("relock").hidden=false;
       byId("lock").hidden=true;
@@ -122,6 +124,7 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
     }
   }
   function relock(){
+    WBQMonitoring.stop();
     KEY_MATERIAL=null;
     ANALYSIS_PAYLOAD=null;
     ANALYSIS_LOADING=null;

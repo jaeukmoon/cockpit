@@ -1,0 +1,67 @@
+name: Refresh encrypted research dashboard
+
+on:
+  schedule:
+    - cron: '20 7 * * 1-5'   # Korean close: Mon-Fri 16:20 KST
+    - cron: '20 22 * * 1-5'  # US close: Tue-Sat 07:20 KST
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'monitoring/state.enc.json'
+      - 'data/monitoring.enc.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: encrypted-research-pages
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated monitoring dependencies
+        run: pip install -r scripts/cloud_monitor/requirements.txt
+      - name: Verify monitoring contracts
+        run: python -m unittest discover -s scripts/cloud_monitor -p 'test_*.py' -v
+      - name: Collect closes and append encrypted research observations
+        env:
+          MONITORING_DATA_KEY: ${{ secrets.MONITORING_DATA_KEY }}
+        run: python scripts/cloud_monitor/refresh.py
+      - name: Persist only encrypted monitoring state
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- monitoring/state.enc.json data/monitoring.enc.json
+          git diff --cached --quiet || git commit -m 'data: update encrypted closing research'
+          git push origin HEAD:main
+      - name: Prepare static website only
+        run: |
+          mkdir _site
+          cp *.html *.png robots.txt .nojekyll _site/
+          cp -r data assets _site/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+  deploy:
+    needs: refresh
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy validated encrypted site
+        id: deployment
+        uses: actions/deploy-pages@v4
