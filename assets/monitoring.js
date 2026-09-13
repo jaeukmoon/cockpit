@@ -13,6 +13,7 @@
       if (event.source !== parent || !event.data || event.data.type !== 'wbq-cloud-monitor') return;
       const data = event.data.payload;
       if (!data) {
+        latest = null;
         status.textContent = '클라우드 갱신 확인 실패 · 표시된 마지막 자료는 최신 시세가 아닐 수 있습니다.';
         return;
       }
