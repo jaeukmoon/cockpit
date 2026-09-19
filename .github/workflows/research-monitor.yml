@@ -44,6 +44,25 @@ jobs:
           git add -- monitoring/state.enc.json data/monitoring.enc.json
           git diff --cached --quiet || git commit -m 'data: update encrypted closing research'
           git push origin HEAD:main
+  package-site:
+    needs: refresh
+    if: ${{ always() && !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Only committed snapshots are deployable; a failed collector's worktree
+      # is never adopted. Collection failure remains red in the refresh job.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify private dashboard shell
+        run: |
+          python -m unittest discover -s tests -p 'test_lock_page.py'
+          python -m unittest discover -s tests -p 'test_assets_shell.py'
+          python -m unittest discover -s tests -p 'test_pages_publication.py'
       - name: Prepare static website only
         run: |
           mkdir _site
@@ -53,7 +72,8 @@ jobs:
         with:
           path: _site
   deploy:
-    needs: refresh
+    needs: package-site
+    if: ${{ always() && !cancelled() && needs.package-site.result == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       pages: write
