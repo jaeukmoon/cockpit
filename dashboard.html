@@ -36,7 +36,11 @@ button{width:100%;margin-top:12px;padding:12px 14px;border:0;border-radius:8px;b
 button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
 #msg{min-height:20px;margin-top:10px;color:#fca5a5;font-size:12px}
 .security{margin-top:17px;padding-top:15px;border-top:1px solid var(--line);color:#737d8b;font-size:11px;line-height:1.6}
-#frame{position:fixed;inset:0;width:100%;height:100%;border:0;background:var(--bg)}
+#frame,#assets-frame{position:fixed;inset:58px 0 0;width:100%;height:calc(100% - 58px);border:0;background:var(--bg)}
+#workspace-nav{position:fixed;inset:0 0 auto;height:58px;z-index:10;display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--panel);border-bottom:1px solid var(--line)}
+#workspace-nav button{width:auto;margin:0;padding:8px 14px;background:#263140}
+#workspace-nav button[aria-pressed=true]{background:#087f91}
+#assets-status{font-size:11px;color:var(--muted);margin-left:auto;max-width:45%}
 #relock{position:fixed;right:16px;bottom:16px;z-index:10;width:auto;margin:0;padding:8px 12px;
   border:1px solid #3a4351;background:rgba(15,19,26,.9);font-size:12px}
 [hidden]{display:none!important}
@@ -63,7 +67,9 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
   </div>
 </main>
 
+<nav id="workspace-nav" aria-label="비공개 대시보드" hidden><button id="view-assets" type="button" aria-pressed="false">내 자산</button><button id="view-research" type="button" aria-pressed="false">전략·연구</button><span id="assets-status" role="status"></span></nav>
 <iframe id="frame" title="WorldBestQuant 읽기 전용 대시보드" sandbox="allow-scripts" hidden></iframe>
+<iframe id="assets-frame" title="WorldBestQuant 통합 자산 대시보드" sandbox="allow-scripts" hidden></iframe>
 <button id="relock" type="button" aria-label="대시보드 다시 잠그기" hidden>다시 잠그기</button>
 
 <script src="assets/monitoring.js"></script>
@@ -74,6 +80,39 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
   let KEY_MATERIAL=null;
   let ANALYSIS_PAYLOAD=null;
   let ANALYSIS_LOADING=null;
+  let ASSETS_TIMER=null,ASSETS_BUSY=false,ASSETS_READY=false,ACTIVE_VIEW="research";
+  function showView(view){
+    ACTIVE_VIEW=view;
+    byId("frame").hidden=view!=="research";
+    byId("assets-frame").hidden=view!=="assets";
+    byId("view-assets").setAttribute("aria-pressed",String(view==="assets"));
+    byId("view-research").setAttribute("aria-pressed",String(view==="research"));
+    WBQMonitoring.stop();
+    if(view==="research"){
+      const material=KEY_MATERIAL;
+      WBQMonitoring.start(function(){return decryptFile("data/monitor-key.enc.json",material);},byId("frame"));
+    }
+  }
+  async function refreshAssets(){
+    if(!KEY_MATERIAL||ASSETS_BUSY||document.hidden)return;
+    const assetsMaterial=KEY_MATERIAL;
+    ASSETS_BUSY=true;
+    try{
+      const payload=await decryptFile("data/assets.enc.json",assetsMaterial);
+      if(KEY_MATERIAL!==assetsMaterial)return;
+      if(payload?.data?.schema!==1||payload.data.orders_enabled!==false||typeof payload.html!=="string")throw new Error("content");
+      if(!ASSETS_READY){
+        byId("assets-frame").srcdoc=payload.html;
+        ASSETS_READY=true;
+      }else{
+        byId("assets-frame").contentWindow.postMessage({type:"wbq-assets-update",payload:payload.data},"*");
+      }
+      const age=Date.now()-Date.parse(payload.data.generated_at);
+      byId("assets-status").textContent=(!Number.isFinite(age)||age>36*3600000?"자산 저장본 갱신 지연 · ":"자산 저장본 · ")+new Date(payload.data.generated_at).toLocaleString('ko-KR');
+    }catch(_){
+      if(KEY_MATERIAL===assetsMaterial)byId("assets-status").textContent="자산 갱신 실패 · 마지막 저장본일 수 있습니다";
+    }finally{if(KEY_MATERIAL===assetsMaterial)ASSETS_BUSY=false;}
+  }
   function validateEnvelope(enc){
     if(enc.v!==1||enc.kdf!=="PBKDF2-SHA256"||enc.iter<600000||!enc.salt||!enc.nonce||!enc.ct){
       throw new Error("schema");
@@ -110,13 +149,20 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
       const payload=await decryptFile("data/cockpit.enc.json",material);
       if(!payload||typeof payload.html!=="string")throw new Error("content");
       KEY_MATERIAL=material;
-      byId("frame").onload=function(){if(KEY_MATERIAL===material)WBQMonitoring.start(function(){return decryptFile("data/monitor-key.enc.json",material);},byId("frame"));};
+      byId("frame").onload=function(){if(KEY_MATERIAL===material&&ACTIVE_VIEW==="research")WBQMonitoring.start(function(){return decryptFile("data/monitor-key.enc.json",material);},byId("frame"));};
       byId("frame").srcdoc=WBQMonitoring.decorate(payload.html);
       byId("frame").hidden=false;
       byId("relock").hidden=false;
       byId("lock").hidden=true;
+      byId("workspace-nav").hidden=false;
       byId("pass").value="";
       message.textContent="";
+      showView("assets");
+      await refreshAssets();
+      if(KEY_MATERIAL===material){
+        if(!ASSETS_READY)showView("research");
+        ASSETS_TIMER=setInterval(refreshAssets,60000);
+      }
     }catch(error){
       message.textContent="잠금을 열지 못했습니다. 패스프레이즈와 payload를 확인하세요.";
     }finally{
@@ -125,6 +171,12 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
   }
   function relock(){
     WBQMonitoring.stop();
+    clearInterval(ASSETS_TIMER);
+    ASSETS_TIMER=null;ASSETS_BUSY=false;ASSETS_READY=false;
+    byId("assets-frame").srcdoc="";
+    byId("assets-frame").hidden=true;
+    byId("workspace-nav").hidden=true;
+    byId("assets-status").textContent="";
     KEY_MATERIAL=null;
     ANALYSIS_PAYLOAD=null;
     ANALYSIS_LOADING=null;
@@ -137,6 +189,8 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
   byId("go").addEventListener("click",unlock);
   byId("pass").addEventListener("keydown",function(event){if(event.key==="Enter")unlock();});
   byId("relock").addEventListener("click",relock);
+  byId("view-assets").addEventListener("click",function(){showView("assets");refreshAssets();});
+  byId("view-research").addEventListener("click",function(){showView("research");});
   window.addEventListener("message",function(event){
     const frame=byId("frame");
     if(event.source!==frame.contentWindow||!event.data||event.data.type!=="wbq-analysis-request"||!KEY_MATERIAL)return;
