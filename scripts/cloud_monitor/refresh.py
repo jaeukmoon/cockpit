@@ -21,6 +21,7 @@ import requests
 
 import llm_engine as engine
 import research_views as views
+from research_data import build_research_data
 
 AAD = b"WBQ closing research v1"
 UTC = timezone.utc
@@ -134,7 +135,8 @@ def advance(state, now, kr_loader=engine.fetch_history, us_loader=fetch_us):
     projection = views.project_experiments({"state": "READY", "cohorts": cohort_views})
     return {"schema": 1, "orders_enabled": False, "generated_at": now.isoformat(),
             "kr_as_of": kr_day, "us_as_of": us_day,
-            "llm_html": views.llm_page(projection), "benchmarks": benchmarks,
+            "benchmarks": benchmarks,
+            "research_data": build_research_data(projection, now.isoformat()),
             "prices": [{"code": c, "close": kr[c][kr_day]["close"]} for c in codes],
             "cohort_count": len(cohort_views)}
 

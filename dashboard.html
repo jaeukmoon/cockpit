@@ -68,7 +68,7 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
 </main>
 
 <nav id="workspace-nav" aria-label="비공개 대시보드" hidden><button id="view-assets" type="button" aria-pressed="false">내 자산</button><button id="view-research" type="button" aria-pressed="false">전략·연구</button><span id="assets-status" role="status"></span></nav>
-<iframe id="frame" title="WorldBestQuant 읽기 전용 대시보드" sandbox="allow-scripts" hidden></iframe>
+<iframe id="frame" title="WorldBestQuant 읽기 전용 대시보드" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox" hidden></iframe>
 <iframe id="assets-frame" title="WorldBestQuant 통합 자산 대시보드" sandbox="allow-scripts" hidden></iframe>
 <button id="relock" type="button" aria-label="대시보드 다시 잠그기" hidden>다시 잠그기</button>
 
@@ -150,14 +150,14 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
       if(!payload||typeof payload.html!=="string")throw new Error("content");
       KEY_MATERIAL=material;
       byId("frame").onload=function(){if(KEY_MATERIAL===material&&ACTIVE_VIEW==="research")WBQMonitoring.start(function(){return decryptFile("data/monitor-key.enc.json",material);},byId("frame"));};
-      byId("frame").srcdoc=WBQMonitoring.decorate(payload.html);
+      byId("frame").srcdoc=payload.html;
       byId("frame").hidden=false;
       byId("relock").hidden=false;
       byId("lock").hidden=true;
       byId("workspace-nav").hidden=false;
       byId("pass").value="";
       message.textContent="";
-      showView("assets");
+      showView("research");
       await refreshAssets();
       if(KEY_MATERIAL===material){
         if(!ASSETS_READY)showView("research");

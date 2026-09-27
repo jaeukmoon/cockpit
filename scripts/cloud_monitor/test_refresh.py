@@ -47,8 +47,9 @@ class RefreshTests(unittest.TestCase):
         with patch('refresh.closed_session', return_value='2026-09-11'):
             result = advance(state, self.now, lambda c, d: prices[c], lambda c, d: {d: 100.})
         self.assertEqual(state['observations']['fixture'], [])
-        self.assertIn('미집계', result['llm_html'])
-        self.assertNotIn('<script>unsafe', result['llm_html'])
+        self.assertEqual(result['research_data']['monthly']['series'], [])
+        self.assertIsNone(result['research_data']['cohort'])
+        self.assertNotIn('<script>unsafe', json.dumps(result))
 
     def test_cost_and_cash_equal_control_and_idempotence(self):
         state, prices = fixture()
@@ -87,6 +88,43 @@ class RefreshTests(unittest.TestCase):
         state['orders_enabled'] = True
         with self.assertRaises(ValueError):
             self.run_fixture(state, prices)
+
+    def test_structured_research_preserves_monthly_costs_and_initial_budget(self):
+        state, prices = fixture()
+        state['cohorts'][0]['account_id'] = 'DO_NOT_EXPORT_ACCOUNT'
+        snapshot = self.run_fixture(state, prices)
+        self.assertIn('research_data', snapshot, 'Structured research is required by the redesigned UI')
+        self.assertTrue('llm_html' not in snapshot, 'Retired HTML overlay must not be emitted')
+        data = snapshot['research_data']
+        self.assertEqual(data['schema_version'], 'wbq.cloud-research.v1')
+        self.assertEqual(data['cohort_ids'], ['fixture'])
+        self.assertEqual(data['generated_at'], snapshot['generated_at'])
+        self.assertEqual(data['cohort']['initial_cash_pct'], 50)
+        self.assertEqual(data['cohort']['position_count'], 5)
+        series = {row['strategy_id']: row for row in data['monthly']['series']}
+        llm = series['fixture:llm_selected']
+        self.assertEqual(llm['stage'], 'simulation')
+        self.assertEqual(llm['total_months'], len(llm['months']))
+        self.assertAlmostEqual(llm['months'][0]['return_pct'], (.5 + .5/1.003 - 1)*100)
+        self.assertEqual(llm['months'][0]['start_date'], '2026-09-14')
+        self.assertEqual(llm['months'][0]['end_date'], '2026-09-16')
+        self.assertNotIn('DO_NOT_EXPORT_ACCOUNT', json.dumps(data))
+        self.assertNotIn('llm_html', data)
+        self.assertNotIn('prices', data)
+
+    def test_structured_waiting_does_not_invent_monthly_observations(self):
+        state, prices = fixture()
+        for history in prices.values():
+            for day in list(history):
+                if day > '2026-09-11':
+                    del history[day]
+        with patch('refresh.closed_session', return_value='2026-09-11'):
+            snapshot = advance(state, self.now, lambda c, d: prices[c], lambda c, d: {d: 100.})
+        self.assertIn('research_data', snapshot, 'Structured waiting state is required')
+        data = snapshot['research_data']
+        self.assertEqual(data['monthly']['series'], [])
+        self.assertIsNone(data['cohort'])
+        self.assertEqual(data['cohort_ids'], ['fixture'])
 
 
 if __name__ == '__main__':
