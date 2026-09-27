@@ -6,6 +6,7 @@ process owns a separate cloud ledger; it never writes a PC trading database.
 from __future__ import annotations
 
 import base64
+from copy import deepcopy
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 import json
@@ -102,6 +103,26 @@ def advance(state, now, kr_loader=engine.fetch_history, us_loader=fetch_us):
                 if any(d.date().isoformat() not in kr["KOSPI"] for d in required):
                     raise ValueError("Missing index session inside the observation window")
             bars = engine.build_observations(cohort, kr)
+            if old and old != bars[:len(old)]:
+                # Validate the provider replay first (including missing bars and
+                # corporate actions), then replay with our immutable prior marks.
+                # Never restate published returns to match a revised feed.
+                pinned = deepcopy(kr)
+                revisions = []
+                for row in old:
+                    for code, recorded_close in row['prices'].items():
+                        provider = pinned[code][row['date']]
+                        if provider['close'] != recorded_close:
+                            revisions.append({'cohort_id': cohort['id'], 'date': row['date'],
+                                              'code': code, 'recorded_close': recorded_close,
+                                              'provider_close': provider['close']})
+                            provider['close'] = recorded_close
+                bars = engine.build_observations(cohort, pinned)
+                if old == bars[:len(old)]:
+                    audit = state.setdefault('price_revisions', [])
+                    for revision in revisions:
+                        if not any(all(item.get(k) == v for k, v in revision.items()) for item in audit):
+                            audit.append({**revision, 'observed_at': now.isoformat()})
         # Completed windows are immutable. A changed provider history cannot
         # silently restate an already published return series.
         if old and old != bars[:len(old)]:
@@ -137,6 +158,7 @@ def advance(state, now, kr_loader=engine.fetch_history, us_loader=fetch_us):
             "kr_as_of": kr_day, "us_as_of": us_day,
             "benchmarks": benchmarks,
             "research_data": build_research_data(projection, now.isoformat()),
+            "price_revision_count": len(state.get('price_revisions', [])),
             "prices": [{"code": c, "close": kr[c][kr_day]["close"]} for c in codes],
             "cohort_count": len(cohort_views)}
 

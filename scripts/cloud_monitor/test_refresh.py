@@ -62,14 +62,38 @@ class RefreshTests(unittest.TestCase):
         self.assertEqual(state['observations'], observations)
         self.assertFalse(first['orders_enabled'])
 
-    def test_history_revision_blocks(self):
+    def test_provider_revision_preserves_published_prefix_and_appends(self):
         state, prices = fixture()
         self.run_fixture(state, prices)
         old = copy.deepcopy(state['observations'])
-        prices['000001']['2026-09-16']['close'] = 110
+        prices['000001']['2026-09-16']['close'] = 99.9
+        for history in prices.values():
+            history['2026-09-17'] = {'close': 101., 'volume': 100}
+        untouched = copy.deepcopy(prices)
+        with patch('refresh.closed_session', return_value='2026-09-17'):
+            result = advance(state, self.now, lambda c, d: prices[c], lambda c, d: {d: 100.})
+        self.assertEqual(state['observations']['fixture'][:len(old['fixture'])], old['fixture'])
+        self.assertEqual(state['observations']['fixture'][-1]['date'], '2026-09-17')
+        self.assertEqual(prices, untouched)
+        self.assertEqual(len(state['price_revisions']), 1)
+        revision = state['price_revisions'][0]
+        self.assertEqual((revision['date'], revision['code'], revision['recorded_close'], revision['provider_close']), ('2026-09-16', '000001', 100., 99.9))
+        self.assertEqual(result['price_revision_count'], 1)
+        with patch('refresh.closed_session', return_value='2026-09-17'):
+            advance(state, self.now, lambda c, d: prices[c], lambda c, d: {d: 100.})
+        self.assertEqual(len(state['price_revisions']), 1)
+
+    def test_non_price_history_change_and_corporate_action_still_block(self):
+        state, prices = fixture()
+        self.run_fixture(state, prices)
+        state['observations']['fixture'][0]['portfolios']['quant10']['return_pct'] = 42
         with self.assertRaisesRegex(ValueError, 'changed'):
             self.run_fixture(state, prices)
-        self.assertEqual(state['observations'], old)
+        state, prices = fixture()
+        self.run_fixture(state, prices)
+        prices['000001']['2026-09-16']['close'] = 10
+        with self.assertRaisesRegex(ValueError, 'Corporate action'):
+            self.run_fixture(state, prices)
 
     def test_missing_latest_and_interior_index_bar_blocks(self):
         for code, day in [('000020', '2026-09-16'), ('KOSPI', '2026-09-15')]:
