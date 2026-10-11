@@ -17,3 +17,18 @@ After unlocking `dashboard.html`, **My Assets** opens first; **Strategies & Rese
 - This is not broker balance synchronization. Paper accounts, unknown cash, and unrecorded trades are excluded. Historical period returns, dividends, and realized FX P&L remain unavailable until transaction history is integrated.
 - The WBQ home Windows 08:00 portfolio task generates and publishes this encrypted asset snapshot. The page checks for new snapshots every 60 seconds; this does not create live broker prices. When the collector PC or provider is unavailable, timestamps and collection status expose the gap. Existing cloud research monitoring is separate.
 - The exporter lives in WBQ at `scripts/export_assets_locked.py`; daily observed valuations are local-only in `data/portfolio_dashboard.db`. No earlier performance is fabricated.
+
+## Closing prices and site publication
+
+- `research-monitor.yml` collects completed-session research prices on its closing schedules. It has its own concurrency group and cannot hold up a site deployment. A missing or zero-volume daily bar preserves the affected research window's prior observations and marks it `PARTIAL_HELD`; independent valid quotes still update. Corporate-action anomalies and changed recorded history remain fatal. A partial refresh exits nonzero, and the dashboard displays the hold explicitly.
+- `publish_state.py` publishes only the two encrypted monitoring outputs whose bytes match the collector receipt. It incorporates unrelated newer main commits, but refuses overlapping state or collector-code changes so a stale collection cannot overwrite them.
+- `publish-pages.yml` runs on every main push and after the two cloud data workflows finish. It packages the latest committed main from an explicit public-file allowlist, without any decryption key. New publication runs supersede older ones. The deploy job has a five-minute timeout and refuses a package superseded by newer main commits.
+- Each site artifact contains `deployment-version.json` with its source commit and file hashes. After deployment, the workflow checks the manifest and every HTML, JavaScript, encrypted-data and other public file at the normal served URLs. Old or missing bytes fail verification; a successful upload alone is not publication evidence.
+- `recover-pages.yml` checks every 15 minutes (GitHub scheduling may be delayed). It cancels obsolete runs of the dedicated main-site publisher, or a latest run stalled for more than 20 minutes. Only its own stalled cancellation can receive one automatic rerun. A cached recovery record allows cancellation to finish after the current check; manually cancelled runs are not retried. Research collectors and broker services are outside its scope.
+
+These workflows publish a read-only dashboard. They do not place orders, move funds, or enable trading. Local verification uses disposable public-site, Git-remote and Actions fixtures with no broker access:
+
+```sh
+python -m unittest discover -s tests -v
+python -m unittest discover -s scripts/cloud_monitor -p 'test_*.py' -v
+```

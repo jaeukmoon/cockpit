@@ -1,0 +1,84 @@
+name: Publish verified static site
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: ['Refresh encrypted research dashboard', 'Update public 13F filings']
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: static-pages-main
+  cancel-in-progress: true
+jobs:
+  package-site:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.head_repository.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      source_sha: ${{ steps.source.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify public packaging and deployment contracts
+        run: python -m unittest discover -s tests -v
+      - name: Pin committed source and package explicit public files
+        id: source
+        shell: bash
+        run: |
+          SOURCE_SHA=$(git rev-parse HEAD)
+          echo "sha=$SOURCE_SHA" >> "$GITHUB_OUTPUT"
+          python scripts/site_deploy/static_site.py package --source-sha "$SOURCE_SHA"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - uses: actions/upload-artifact@v4
+        with:
+          name: served-verification-manifest
+          path: _site/deployment-version.json
+          retention-days: 7
+  deploy:
+    needs: package-site
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: served-verification-manifest
+          path: .verification
+      - name: Supersede obsolete package before deployment
+        id: current
+        env:
+          SOURCE_SHA: ${{ needs.package-site.outputs.source_sha }}
+        shell: bash
+        run: |
+          REMOTE_SHA=$(git ls-remote origin refs/heads/main | cut -f1)
+          test -n "$REMOTE_SHA"
+          if [ "$REMOTE_SHA" = "$SOURCE_SHA" ]; then echo 'current=true' >> "$GITHUB_OUTPUT"; else echo 'current=false' >> "$GITHUB_OUTPUT"; echo 'Package superseded by newer committed source.'; fi
+      - name: Deploy pinned static artifact
+        if: steps.current.outputs.current == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Verify actual served manifest and asset bytes
+        if: steps.current.outputs.current == 'true'
+        run: python scripts/site_deploy/static_site.py verify --manifest .verification/deployment-version.json

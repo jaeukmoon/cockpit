@@ -4,6 +4,9 @@ import math
 import re
 import xml.etree.ElementTree as ET
 KST = timezone(timedelta(hours=9))
+class ObservationUnavailable(ValueError):
+    """A research window must HOLD without fabricating a non-executable bar."""
+    code='missing_or_nontrading_bar'
 HISTORY_URL = "https://fchart.stock.naver.com/sise.nhn"
 
 def validate(cohort):
@@ -89,12 +92,15 @@ def build_observations(cohort, histories):
         return []
     if all_days.index(days[0]) < 24:
         raise ValueError("Insufficient market-filter warmup")
+    unavailable=[]
     for code in codes + ["069500"]:
         if any(d not in histories[code] or histories[code][d]["volume"] <= 0 for d in days):
-            raise ValueError("Missing/suspended daily price: " + code)
+            unavailable.append(code)
         for before, after in zip(days, days[1:]):
-            if abs(histories[code][after]["close"] / histories[code][before]["close"] - 1) > .5:
+            if before in histories[code] and after in histories[code] and abs(histories[code][after]["close"] / histories[code][before]["close"] - 1) > .5:
                 raise ValueError("Corporate action/price jump requires audit: " + code)
+    if unavailable:
+        raise ObservationUnavailable("Missing/suspended daily price: " + unavailable[0])
     chosen = [r["code"] for r in cohort["candidates"] if r["selected"]]
     groups = {"quant10": codes[:10], "quant20": codes, "quant_matched": codes[:len(chosen)],
               "llm_selected": chosen, "kodex200": ["069500"]}

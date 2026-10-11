@@ -1,0 +1,36 @@
+name: Recover stalled site deployments
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: write
+concurrency:
+  group: static-pages-recovery
+  cancel-in-progress: false
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/cache/restore@v4
+        with:
+          path: .recovery/status.json
+          key: pages-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: pages-recovery-
+      - name: Recover only declared obsolete or stalled site publication runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/site_deploy/recover.py
+      - uses: actions/cache/save@v4
+        if: ${{ always() && hashFiles('.recovery/status.json') != '' }}
+        with:
+          path: .recovery/status.json
+          key: pages-recovery-${{ github.run_id }}-${{ github.run_attempt }}

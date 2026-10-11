@@ -1,6 +1,14 @@
 __pycache__/
 *.py[cod]
 *.bak
+*.bak*
+.venv/
+.serena/
+.write-check
+.refresh-receipt.json
+_site/
+.verification/
+.recovery/
 .claude/
 logs/
 results/

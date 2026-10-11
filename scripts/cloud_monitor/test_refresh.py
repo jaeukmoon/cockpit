@@ -95,12 +95,30 @@ class RefreshTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Corporate action'):
             self.run_fixture(state, prices)
 
+    def test_held_bar_cannot_mask_another_security_price_anomaly(self):
+        state,prices=fixture();prices['000001']['2026-09-16']['volume']=0
+        prices['000002']['2026-09-16']['close']=200
+        with self.assertRaisesRegex(ValueError,'Corporate action'):
+            self.run_fixture(state,prices)
+
     def test_missing_latest_and_interior_index_bar_blocks(self):
         for code, day in [('000020', '2026-09-16'), ('KOSPI', '2026-09-15')]:
             state, prices = fixture()
             del prices[code][day]
             with self.assertRaises(ValueError):
                 self.run_fixture(state, prices)
+    def test_one_nontrading_bar_holds_history_but_updates_independent_quotes(self):
+        state,prices=fixture();self.run_fixture(state,prices)
+        old=copy.deepcopy(state['observations']);success=state['last_success_at']
+        for history in prices.values():history['2026-09-17']={'close':101.,'volume':100}
+        prices['000001']['2026-09-17']['volume']=0
+        with patch('refresh.closed_session',return_value='2026-09-17'):
+            snapshot=advance(state,self.now+timedelta(days=1),lambda c,d:prices[c],lambda c,d:{d:102.})
+        self.assertEqual(state['observations'],old);self.assertEqual(state['last_success_at'],success)
+        self.assertEqual(snapshot['data_state'],'PARTIAL_HELD');self.assertEqual(snapshot['held_cohort_count'],1)
+        self.assertEqual(snapshot['benchmarks'][0]['close'],102.);self.assertEqual(snapshot['us_as_of'],'2026-09-17')
+        self.assertEqual(snapshot['research_data']['cohort']['state'],'STALE')
+        self.assertFalse(snapshot['orders_enabled'])
 
     def test_closed_sessions_skip_weekend_and_intraday(self):
         self.assertEqual(closed_session('XKRX', datetime(2026,9,13,5,tzinfo=timezone.utc)), '2026-09-11')

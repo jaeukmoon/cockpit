@@ -10,6 +10,7 @@ from copy import deepcopy
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 import json
+import hashlib
 import math
 import os
 from pathlib import Path
@@ -102,7 +103,14 @@ def advance(state, now, kr_loader=engine.fetch_history, us_loader=fetch_us):
                 required = calendar.sessions_in_range(cohort["entry_not_before"], end)
                 if any(d.date().isoformat() not in kr["KOSPI"] for d in required):
                     raise ValueError("Missing index session inside the observation window")
-            bars = engine.build_observations(cohort, kr)
+            try:
+                bars = engine.build_observations(cohort, kr)
+            except engine.ObservationUnavailable:
+                # Hold this window only. Neither observations nor its completion
+                # state may advance; independent market closes can still update.
+                cohort_views.append({**cohort,'history':old,'state':'STALE','last_checked':now.isoformat(),
+                    'reviews':state.get('reviews',{}).get(cohort['id'],[]),'data_issue':'missing_or_nontrading_bar'})
+                continue
             if old and old != bars[:len(old)]:
                 # Validate the provider replay first (including missing bars and
                 # corporate actions), then replay with our immutable prior marks.
@@ -152,36 +160,57 @@ def advance(state, now, kr_loader=engine.fetch_history, us_loader=fetch_us):
         benchmarks.append({"symbol": symbol, "as_of": us_day, "close": bars[us_day],
                            "baseline_date": baseline[symbol]["date"],
                            "return_pct": (bars[us_day] / baseline[symbol]["close"] - 1) * 100})
-    state["last_success_at"] = now.isoformat()
+    held=[c for c in cohort_views if c.get('data_issue')]
+    state['last_attempt_at']=now.isoformat()
+    if not held:state["last_success_at"] = now.isoformat()
     projection = views.project_experiments({"state": "READY", "cohorts": cohort_views})
-    return {"schema": 1, "orders_enabled": False, "generated_at": now.isoformat(),
+    snapshot={"schema": 1, "orders_enabled": False, "generated_at": now.isoformat(),
             "kr_as_of": kr_day, "us_as_of": us_day,
             "benchmarks": benchmarks,
             "research_data": build_research_data(projection, now.isoformat()),
             "price_revision_count": len(state.get('price_revisions', [])),
-            "prices": [{"code": c, "close": kr[c][kr_day]["close"]} for c in codes],
+            "data_state":'PARTIAL_HELD' if held else 'READY',
+            "held_cohort_count":len(held),
+            "prices": [{"code": c, "close": kr[c][kr_day]["close"],
+                        'quote_state':'OBSERVED_CLOSE' if kr[c][kr_day]['volume']>0 else 'NO_TRADES'} for c in codes],
             "cohort_count": len(cohort_views)}
+    return snapshot
 
 
 def main():
+    root = Path(__file__).resolve().parents[2]
+    receipt=root/'.refresh-receipt.json'
+    receipt.write_text(json.dumps({'status':'IN_PROGRESS'}),encoding='utf-8')
     key = base64.b64decode(os.environ["MONITORING_DATA_KEY"], validate=True)
     if len(key) != 32:
         raise ValueError("Monitoring key must be 256 bits")
-    root = Path(__file__).resolve().parents[2]
     state_path = root / "monitoring/state.enc.json"
     state = decode(json.loads(state_path.read_text()), key)
     snapshot = advance(state, datetime.now(UTC))
-    # No files are touched unless every required source and invariant passes.
-    for path, value in ((state_path, state), (root / "data/monitoring.enc.json", snapshot)):
+    owned={'monitoring/state.enc.json':state,'data/monitoring.enc.json':snapshot}
+    source_hashes={'scripts/cloud_monitor/'+name:hashlib.sha256((root/'scripts/cloud_monitor'/name).read_bytes()).hexdigest()
+                   for name in ('refresh.py','llm_engine.py','research_views.py','research_data.py','cloud_monthly.py')}
+    before={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in owned}
+    # Partial results are explicit HOLD, with the prior window untouched. A fatal
+    # invariant error produces no valid receipt and cannot be published.
+    for name,value in owned.items():
+        path=root/name
         path.write_text(json.dumps(encode(value, key)), encoding="utf-8")
-    print(json.dumps({"status": "success", "kr_as_of": snapshot["kr_as_of"],
-                      "us_as_of": snapshot["us_as_of"], "orders_enabled": False}))
+    after={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in owned}
+    receipt.write_text(json.dumps({'status':snapshot['data_state'],'before':before,'after':after,'source_hashes':source_hashes}),encoding='utf-8')
+    print(json.dumps({"status":snapshot['data_state'],"held_cohort_count":snapshot['held_cohort_count'],
+        "kr_as_of":snapshot['kr_as_of'],"us_as_of":snapshot['us_as_of'],"orders_enabled":False}))
+    return 2 if snapshot['data_state']=='PARTIAL_HELD' else 0
 
 
 if __name__ == "__main__":
     try:
-        main()
+        raise SystemExit(main())
     except Exception as error:
         # Do not send upstream bodies, cohort contents or secrets into public logs.
-        print("Closing research refresh failed: " + type(error).__name__, file=sys.stderr)
+        import traceback
+        frames=traceback.extract_tb(error.__traceback__)
+        location=frames[-1] if frames else None
+        print(json.dumps({'status':'FAILED_CLOSED','error':type(error).__name__,
+            'stage':location.name if location else 'startup','line':location.lineno if location else None}),file=sys.stderr)
         raise SystemExit(1)
