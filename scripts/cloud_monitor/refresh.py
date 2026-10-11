@@ -187,6 +187,8 @@ def main():
     state_path = root / "monitoring/state.enc.json"
     state = decode(json.loads(state_path.read_text()), key)
     snapshot = advance(state, datetime.now(UTC))
+    if snapshot['data_state'] not in ('READY', 'PARTIAL_HELD'):
+        raise ValueError("Validated research outcome required")
     owned={'monitoring/state.enc.json':state,'data/monitoring.enc.json':snapshot}
     source_hashes={'scripts/cloud_monitor/'+name:hashlib.sha256((root/'scripts/cloud_monitor'/name).read_bytes()).hexdigest()
                    for name in ('refresh.py','llm_engine.py','research_views.py','research_data.py','cloud_monthly.py')}
@@ -200,12 +202,15 @@ def main():
     receipt.write_text(json.dumps({'status':snapshot['data_state'],'before':before,'after':after,'source_hashes':source_hashes}),encoding='utf-8')
     print(json.dumps({"status":snapshot['data_state'],"held_cohort_count":snapshot['held_cohort_count'],
         "kr_as_of":snapshot['kr_as_of'],"us_as_of":snapshot['us_as_of'],"orders_enabled":False}))
-    return 2 if snapshot['data_state']=='PARTIAL_HELD' else 0
+    # A validated HOLD is a completed refresh: its affected window stays frozen
+    # and the receipt permits only independent, validated outputs to publish.
+    # Fatal collection errors still reach the CLI failure handler below.
+    return 0
 
 
-if __name__ == "__main__":
+def cli():
     try:
-        raise SystemExit(main())
+        return main()
     except Exception as error:
         # Do not send upstream bodies, cohort contents or secrets into public logs.
         import traceback
@@ -213,4 +218,8 @@ if __name__ == "__main__":
         location=frames[-1] if frames else None
         print(json.dumps({'status':'FAILED_CLOSED','error':type(error).__name__,
             'stage':location.name if location else 'startup','line':location.lineno if location else None}),file=sys.stderr)
-        raise SystemExit(1)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(cli())

@@ -1,10 +1,16 @@
 """Disposable synthetic fixtures; no broker or production data access."""
 import copy
+import base64
+from contextlib import redirect_stderr, redirect_stdout
 from datetime import datetime, timedelta, timezone
+import io
 import json
+from pathlib import Path
+import tempfile
 import unittest
 from unittest.mock import patch
 
+import refresh
 from refresh import advance, closed_session, decode, encode
 
 
@@ -167,6 +173,139 @@ class RefreshTests(unittest.TestCase):
         self.assertEqual(data['monthly']['series'], [])
         self.assertIsNone(data['cohort'])
         self.assertEqual(data['cohort_ids'], ['fixture'])
+
+
+class RefreshExitTests(unittest.TestCase):
+    """Exercise the CLI contract using only encrypted disposable fixtures."""
+    def setUp(self):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        self.root = Path(temp.name)
+        self.state, self.prices = fixture()
+        self.day = '2026-09-16'
+        self.now = datetime(2026, 9, 16, 8, tzinfo=timezone.utc)
+        self.key = b'x' * 32
+        for name in ('refresh.py', 'llm_engine.py', 'research_views.py',
+                     'research_data.py', 'cloud_monthly.py'):
+            source = self.root / 'scripts/cloud_monitor' / name
+            source.parent.mkdir(parents=True, exist_ok=True)
+            source.write_text('synthetic source identity', encoding='utf-8')
+
+    def collect(self, state, now):
+        with patch('refresh.closed_session', return_value=self.day):
+            return advance(state, self.now, lambda c, d: self.prices[c],
+                           lambda c, d: {d: 100. if d == '2026-09-16' else 102.})
+
+    def write_inputs(self):
+        owned = {'monitoring/state.enc.json': self.state,
+                 'data/monitoring.enc.json': {'last_good': 'synthetic snapshot'}}
+        for name, value in owned.items():
+            path = self.root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(encode(value, self.key)), encoding='utf-8')
+        self.before = {name: (self.root / name).read_bytes() for name in owned}
+
+    def run_cli(self, collector=None, key=None):
+        out, err = io.StringIO(), io.StringIO()
+        with patch('refresh.__file__', str(self.root / 'scripts/cloud_monitor/refresh.py')), \
+             patch.dict('os.environ', {'MONITORING_DATA_KEY': key or base64.b64encode(self.key).decode()}), \
+             patch('refresh.advance', side_effect=collector or self.collect), \
+             redirect_stdout(out), redirect_stderr(err):
+            result = refresh.cli()
+        return result, out.getvalue(), err.getvalue()
+
+    def read_output(self, name):
+        return decode(json.loads((self.root / name).read_text(encoding='utf-8')), self.key)
+
+    def assert_failed_closed(self, result):
+        code, out, err = result
+        self.assertEqual(code, 1)
+        self.assertEqual(out, '')
+        self.assertEqual(json.loads(err)['status'], 'FAILED_CLOSED')
+        self.assertEqual(json.loads((self.root / '.refresh-receipt.json').read_text())['status'], 'IN_PROGRESS')
+        self.assertEqual({name: (self.root / name).read_bytes() for name in self.before}, self.before)
+
+    def test_ready_is_success_with_valid_receipt(self):
+        self.write_inputs()
+        code, out, err = self.run_cli()
+        self.assertEqual((code, err), (0, ''))
+        self.assertEqual(json.loads(out)['status'], 'READY')
+        receipt = json.loads((self.root / '.refresh-receipt.json').read_text())
+        self.assertEqual(receipt['status'], 'READY')
+        self.assertEqual(set(receipt['after']), set(self.before))
+
+    def test_held_refresh_succeeds_without_advancing_held_window(self):
+        # A second cohort uses independent candidates and can finish normally.
+        other = copy.deepcopy(self.state['cohorts'][0])
+        other.update(id='independent', end_date='2026-09-17')
+        for candidate in other['candidates']:
+            old_code = candidate['code']
+            candidate['code'] = f"{int(old_code) + 100:06}"
+            self.prices[candidate['code']] = copy.deepcopy(self.prices[old_code])
+        self.state['cohorts'].append(other)
+        self.collect(self.state, self.now)
+        old = copy.deepcopy(self.state['observations']['fixture'])
+        success = self.state['last_success_at']
+        self.day = '2026-09-17'
+        self.now += timedelta(days=1)
+        for history in self.prices.values():
+            history[self.day] = {'close': 101., 'volume': 100}
+        self.prices['000001'][self.day]['volume'] = 0
+        self.write_inputs()
+        code, out, err = self.run_cli()
+        self.assertEqual((code, err), (0, ''))
+        self.assertEqual(json.loads(out)['status'], 'PARTIAL_HELD')
+        receipt = json.loads((self.root / '.refresh-receipt.json').read_text())
+        self.assertEqual(receipt['status'], 'PARTIAL_HELD')
+        state = self.read_output('monitoring/state.enc.json')
+        snapshot = self.read_output('data/monitoring.enc.json')
+        self.assertEqual(state['observations']['fixture'], old)
+        self.assertEqual(state['last_success_at'], success)
+        self.assertNotIn('fixture', state['completed'])
+        self.assertIn('independent', state['completed'])
+        self.assertEqual(state['observations']['independent'][-1]['date'], self.day)
+        self.assertEqual(snapshot['held_cohort_count'], 1)
+        self.assertEqual(snapshot['benchmarks'][0]['close'], 102.)
+        self.assertFalse(snapshot['orders_enabled'])
+
+    def test_missing_latest_or_index_close_is_fatal_and_preserves_last_good(self):
+        for code, day in [('000020', '2026-09-16'), ('KOSPI', '2026-09-15')]:
+            with self.subTest(code=code):
+                self.state, self.prices = fixture()
+                del self.prices[code][day]
+                self.write_inputs()
+                self.assert_failed_closed(self.run_cli())
+
+    def test_hold_cannot_downgrade_a_corporate_action_failure(self):
+        self.prices['000001'][self.day]['volume'] = 0
+        self.prices['000002'][self.day]['close'] = 200.
+        self.write_inputs()
+        self.assert_failed_closed(self.run_cli())
+
+    def test_non_price_history_change_is_fatal(self):
+        self.collect(self.state, self.now)
+        self.state['observations']['fixture'][0]['portfolios']['quant10']['return_pct'] = 42
+        self.write_inputs()
+        self.assert_failed_closed(self.run_cli())
+
+    def test_invalid_key_and_contract_are_fatal(self):
+        self.write_inputs()
+        self.assert_failed_closed(self.run_cli(key=base64.b64encode(b'x' * 31).decode()))
+        self.state['orders_enabled'] = True
+        self.write_inputs()
+        self.assert_failed_closed(self.run_cli())
+
+    def test_provider_failure_stays_fatal_without_logging_private_body(self):
+        def failed(state, now):
+            raise refresh.requests.ConnectionError('PRIVATE_PROVIDER_BODY')
+        self.write_inputs()
+        result = self.run_cli(collector=failed)
+        self.assert_failed_closed(result)
+        self.assertNotIn('PRIVATE_PROVIDER_BODY', result[2])
+
+    def test_unknown_outcome_cannot_write_a_success_receipt(self):
+        self.write_inputs()
+        self.assert_failed_closed(self.run_cli(collector=lambda s, n: {'data_state': 'UNKNOWN'}))
 
 
 if __name__ == '__main__':

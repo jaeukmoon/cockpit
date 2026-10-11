@@ -6,6 +6,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('publisher',ROOT/'scripts/cloud_monitor/publish_state.py')
@@ -53,5 +54,26 @@ class RefreshPublicationTests(unittest.TestCase):
     def test_changed_output_after_receipt_fails_closed(self):
         (self.root/'data/monitoring.enc.json').write_bytes(b'changed after validation')
         with self.assertRaisesRegex(ValueError,'output changed'):publisher.publish(self.root)
+    def test_failed_or_unvalidated_refresh_never_attempts_publication(self):
+        for status in ('IN_PROGRESS','FAILED_CLOSED','UNKNOWN'):
+            with self.subTest(status=status):
+                self.receipt['status']=status
+                (self.root/publisher.RECEIPT).write_text(json.dumps(self.receipt))
+                with patch.object(publisher,'git') as git:
+                    with self.assertRaisesRegex(ValueError,'Validated scoped refresh receipt'):
+                        publisher.publish(self.root)
+                    git.assert_not_called()
+    def test_publication_failure_is_not_downgraded_to_partial_success(self):
+        old_tip=self.git(self.remote,'rev-parse','main')
+        original_git=publisher.git
+        def fail_push(root,*args,**kwargs):
+            if args[0]=='push':raise RuntimeError('Synthetic push failure')
+            return original_git(root,*args,**kwargs)
+        with patch.object(publisher,'git',side_effect=fail_push):
+            with self.assertRaisesRegex(RuntimeError,'Synthetic push failure'):
+                publisher.publish(self.root)
+        self.assertEqual(self.git(self.remote,'rev-parse','main'),old_tip)
+        for name in publisher.OWNED:
+            self.assertEqual(self.git(self.remote,'show','main:'+name),'old encrypted fixture')
 
 if __name__=='__main__':unittest.main()
