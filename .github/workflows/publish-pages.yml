@@ -28,6 +28,11 @@ jobs:
           python-version: '3.12'
       - name: Verify public packaging and deployment contracts
         run: python -m unittest discover -s tests -v
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify delayed and held dashboard status
+        run: node --test tests/test_monitoring_status.mjs
       - name: Pin committed source and package explicit public files
         id: source
         shell: bash

@@ -75,5 +75,30 @@ class RefreshPublicationTests(unittest.TestCase):
         self.assertEqual(self.git(self.remote,'rev-parse','main'),old_tip)
         for name in publisher.OWNED:
             self.assertEqual(self.git(self.remote,'show','main:'+name),'old encrypted fixture')
+    def delayed_receipt(self):
+        self.receipt['status']='DELAYED'
+        name='monitoring/state.enc.json'
+        (self.root/name).write_bytes(self.original[name])
+        self.receipt['after'][name]=self.receipt['before'][name]
+        (self.root/publisher.RECEIPT).write_text(json.dumps(self.receipt))
+    def test_delayed_status_publishes_only_snapshot_and_retains_ledger(self):
+        old_tip=self.git(self.remote,'rev-parse','main')
+        self.delayed_receipt()
+        result=publisher.publish(self.root)
+        self.assertEqual(result['data_state'],'DELAYED')
+        self.assertEqual(self.git(self.remote,'show','main:monitoring/state.enc.json'),'old encrypted fixture')
+        self.assertEqual(self.git(self.remote,'diff','--name-only',old_tip,result['commit']),'data/monitoring.enc.json')
+    def test_delayed_receipt_cannot_adopt_partial_ledger_changes(self):
+        self.receipt['status']='DELAYED'
+        (self.root/publisher.RECEIPT).write_text(json.dumps(self.receipt))
+        with patch.object(publisher,'git') as git:
+            with self.assertRaisesRegex(ValueError,'preserve the last-good ledger'):
+                publisher.publish(self.root)
+            git.assert_not_called()
+    def test_delayed_receipt_still_rejects_remote_ledger_overlap(self):
+        self.delayed_receipt()
+        self.change_remote('monitoring/state.enc.json',b'foreign encrypted state')
+        with self.assertRaisesRegex(ValueError,'Remote monitoring state changed'):
+            publisher.publish(self.root)
 
 if __name__=='__main__':unittest.main()

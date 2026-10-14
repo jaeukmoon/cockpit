@@ -29,8 +29,13 @@
           if(current!==generation)return;
           let notice=document.getElementById('research-refresh-status');
           if(!notice){notice=document.createElement('p');notice.id='research-refresh-status';notice.setAttribute('role','status');frame.before(notice);}
+          if (data.data_state === 'DELAYED') {
+            notice.hidden = false;
+            notice.textContent = `미국 시세 갱신 지연: ${data.expected_us_as_of} 종가를 아직 확인하지 못했습니다. 기존 ${data.us_as_of} 기준 데이터를 유지합니다. 마지막 데이터 생성: ${data.generated_at}`;
+          } else {
           notice.hidden=data.data_state!=='PARTIAL_HELD';
           notice.textContent=notice.hidden?'':'일부 연구 관측 갱신 보류 · 검증되지 않은 과거 일봉이 있어 마지막 검증 수익률을 유지합니다. 다른 정상 시세는 갱신합니다.';
+          }
           if (current === generation) frame.contentWindow.postMessage({type: 'wbq-cloud-monitor', payload: data}, '*');
         } catch (_) {
           if (current === generation) frame.contentWindow.postMessage({type: 'wbq-cloud-monitor', payload: null}, '*');

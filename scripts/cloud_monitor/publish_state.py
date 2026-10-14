@@ -17,8 +17,10 @@ def git(root,*args,env=None):
 
 def publish(root):
     root=Path(root);receipt=json.loads((root/RECEIPT).read_text(encoding='utf-8'))
-    if receipt.get('status') not in ('READY','PARTIAL_HELD') or set(receipt.get('before',{}))!=set(OWNED) or set(receipt.get('after',{}))!=set(OWNED):
+    if receipt.get('status') not in ('READY','PARTIAL_HELD','DELAYED') or set(receipt.get('before',{}))!=set(OWNED) or set(receipt.get('after',{}))!=set(OWNED):
         raise ValueError('Validated scoped refresh receipt required')
+    if receipt['status']=='DELAYED' and receipt['before']['monitoring/state.enc.json']!=receipt['after']['monitoring/state.enc.json']:
+        raise ValueError('Delayed refresh must preserve the last-good ledger')
     contents={name:(root/name).read_bytes() for name in OWNED}
     for name,raw in contents.items():
         if hashlib.sha256(raw).hexdigest()!=receipt['after'][name]:raise ValueError('Collector output changed after validation')

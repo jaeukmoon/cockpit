@@ -8,7 +8,7 @@ from __future__ import annotations
 import base64
 from copy import deepcopy
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 import json
 import hashlib
 import math
@@ -16,6 +16,8 @@ import os
 from pathlib import Path
 import secrets
 import sys
+import time
+from zoneinfo import ZoneInfo
 
 import exchange_calendars as calendars
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
@@ -27,6 +29,26 @@ from research_data import build_research_data
 
 AAD = b"WBQ closing research v1"
 UTC = timezone.utc
+US_SYMBOLS = ('VOO', 'SPMO')
+US_RETRY_DELAYS = (5, 15)  # Three attempts within the existing job timeout.
+
+
+class USDataUnavailable(Exception):
+    """Only classified transient US availability failures permit delayed output."""
+    def __init__(self, symbol, expected, received, reason, attempts, observations=None):
+        self.diagnostic = dict(provider='yahoo', symbol=symbol,
+            expected_session=expected, received_latest_session=received,
+            reason=reason, attempts=attempts)
+        self.observations = observations or {}  # Private validation input, never logged.
+        super().__init__('US closing data temporarily unavailable')
+
+
+class USProviderError(ValueError):
+    """Invalid data or non-transient HTTP errors remain fatal, with safe context."""
+    def __init__(self, symbol, expected, reason):
+        self.diagnostic = dict(provider='yahoo', symbol=symbol,
+            expected_session=expected, reason=reason)
+        super().__init__('US provider response failed validation')
 
 
 def encode(value, key):
@@ -54,32 +76,91 @@ def closed_session(market, now):
     return completed[-1].date().isoformat()
 
 
-def fetch_us(symbol, through):
-    if symbol not in {"VOO", "SPMO"}:
-        raise ValueError("Only declared public ETF benchmarks are permitted")
-    response = requests.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}",
-                            params={"range": "1mo", "interval": "1d"},
-                            headers={"User-Agent": "Mozilla/5.0 WBQ-research"}, timeout=30)
-    response.raise_for_status()
-    raw = response.json()["chart"]["result"][0]
-    if raw["meta"]["symbol"] != symbol:
-        raise ValueError("Unexpected ETF identity")
-    from zoneinfo import ZoneInfo
+def parse_us(payload, symbol, through):
+    if not isinstance(payload, dict) or not isinstance(payload.get('chart'), dict):
+        raise ValueError('Invalid chart envelope')
+    chart = payload['chart']
+    if chart.get('error') or not isinstance(chart['result'], list) or len(chart['result']) != 1:
+        raise ValueError('Invalid chart result')
+    raw = chart['result'][0]
+    if raw['meta']['symbol'] != symbol or raw['meta']['exchangeTimezoneName'] != 'America/New_York':
+        raise ValueError('Unexpected ETF identity/timezone')
+    stamps, closes = raw['timestamp'], raw['indicators']['quote'][0]['close']
+    if not isinstance(stamps, list) or not isinstance(closes, list) or len(stamps) != len(closes):
+        raise ValueError('Mismatched daily arrays')
     rows = {}
-    for stamp, close in zip(raw["timestamp"], raw["indicators"]["quote"][0]["close"]):
-        day = datetime.fromtimestamp(stamp, ZoneInfo("America/New_York")).date().isoformat()
-        if day <= through and close is not None:
-            if not math.isfinite(close) or close <= 0 or day in rows:
-                raise ValueError("Invalid ETF closing price")
-            rows[day] = float(close)
+    seen = set()
+    calendar = calendars.get_calendar('XNYS')
+    for stamp, close in zip(stamps, closes):
+        if type(stamp) not in (int, float) or not math.isfinite(stamp) or stamp <= 0:
+            raise ValueError('Invalid daily timestamp')
+        day = datetime.fromtimestamp(stamp, ZoneInfo('America/New_York')).date().isoformat()
+        if day in seen:
+            raise ValueError('Duplicate daily date')
+        seen.add(day)
+        if close is not None and (type(close) not in (int, float) or not math.isfinite(close) or close <= 0):
+            raise ValueError('Invalid ETF closing price')
+        if day <= through:
+            if not calendar.is_session(day):
+                raise ValueError('Daily bar is not an exchange session')
+            if close is not None:
+                rows[day] = float(close)
     if through not in rows:
-        raise ValueError("Latest completed US session is missing")
+        raise USDataUnavailable(symbol, through, max(rows, default=None), 'missing_session', 1, rows)
     return rows
+
+
+def fetch_us(symbol, through):
+    if symbol not in US_SYMBOLS:
+        raise ValueError('Only declared public ETF benchmarks are permitted')
+    target = date.fromisoformat(through)
+    if target.isoformat() != through or not calendars.get_calendar('XNYS').is_session(through):
+        raise ValueError('Expected US date must be an exchange session')
+    # Fixed explicit bounds include the entire expected local day, without a
+    # moving range/cache alias or treating a future/intraday candle as its close.
+    zone = ZoneInfo('America/New_York')
+    start = datetime.combine(target - timedelta(days=40), datetime.min.time(), zone)
+    end = datetime.combine(target + timedelta(days=1), datetime.min.time(), zone)
+    observed = {}
+    for attempt in range(1, len(US_RETRY_DELAYS) + 2):
+        try:
+            response = requests.get(f'https://query1.finance.yahoo.com/v8/finance/chart/{symbol}',
+                params={'period1': int(start.timestamp()), 'period2': int(end.timestamp()), 'interval': '1d'},
+                headers={'User-Agent': 'Mozilla/5.0 WBQ-research', 'Cache-Control': 'no-cache'}, timeout=30)
+            if response.status_code in (408, 429, 500, 502, 503, 504):
+                raise USDataUnavailable(symbol, through, None, f'http_{response.status_code}', attempt)
+            try:
+                response.raise_for_status()
+            except requests.HTTPError:
+                raise USProviderError(symbol, through, f'http_{response.status_code}') from None
+            try:
+                rows = parse_us(response.json(), symbol, through)
+            except (ValueError, KeyError, TypeError, IndexError, OverflowError, OSError):
+                raise USProviderError(symbol, through, 'invalid_response') from None
+            print(json.dumps(dict(status='RECOVERED' if attempt > 1 else 'US_SESSION_VALIDATED',
+                provider='yahoo', symbol=symbol, expected_session=through,
+                received_latest_session=max(rows), attempts=attempt, rows=len(rows))))
+            return rows
+        except (requests.Timeout, requests.ConnectionError) as error:
+            issue = USDataUnavailable(symbol, through, None, type(error).__name__, attempt)
+        except USDataUnavailable as error:
+            issue = error
+            issue.diagnostic['attempts'] = attempt
+        observed.update(issue.observations)
+        issue.observations = dict(observed)
+        if issue.diagnostic['received_latest_session'] is None:
+            issue.diagnostic['received_latest_session'] = max(observed, default=None)
+        if attempt > len(US_RETRY_DELAYS):
+            raise issue
+        print(json.dumps(dict(status='RETRYING', **issue.diagnostic)))
+        time.sleep(US_RETRY_DELAYS[attempt - 1])
 
 
 def advance(state, now, kr_loader=engine.fetch_history, us_loader=fetch_us):
     if state.get("orders_enabled") is not False or state.get("schema") != 1:
         raise ValueError("Read-only research contract required")
+    original = state
+    state = deepcopy(state)  # Discard every partial attempt on any failure.
     kr_day, us_day = closed_session("XKRX", now), closed_session("XNYS", now)
     codes = sorted({c["code"] for cohort in state["cohorts"] for c in cohort["candidates"]} | {"069500", "KOSPI"})
     with ThreadPoolExecutor(max_workers=4) as pool:
@@ -141,19 +222,39 @@ def advance(state, now, kr_loader=engine.fetch_history, us_loader=fetch_us):
             completed.append(cohort["id"])
         cohort_views.append({**cohort, "history": bars, "state": status,
                              "last_checked": now.isoformat(), "reviews": state.get("reviews", {}).get(cohort["id"], [])})
+    us_prices, unavailable = {}, []
+    # Check both ETFs: one delayed feed must not hide another feed's invalid
+    # prices or revision of a previously recorded observation.
+    for symbol in US_SYMBOLS:
+        try:
+            bars = us_loader(symbol, us_day)
+            if not isinstance(bars, dict):
+                raise ValueError('Invalid US daily observations')
+            for day, value in bars.items():
+                if not isinstance(day, str) or date.fromisoformat(day).isoformat() != day or type(value) not in (int, float) or not math.isfinite(value) or value <= 0:
+                    raise ValueError('Invalid US daily observation')
+            for day, value in state.get('us_observations', {}).get(symbol, {}).items():
+                if day in bars and not math.isclose(value, bars[day], rel_tol=1e-8):
+                    raise ValueError('ETF history revision requires review')
+            if us_day not in bars:
+                raise USDataUnavailable(symbol, us_day, max((d for d in bars if d <= us_day), default=None), 'missing_session', 1)
+            us_prices[symbol] = bars
+        except USDataUnavailable as issue:
+            for day, value in state.get('us_observations', {}).get(symbol, {}).items():
+                if day in issue.observations and not math.isclose(value, issue.observations[day], rel_tol=1e-8):
+                    raise ValueError('ETF history revision requires review')
+            unavailable.append(issue)
+    if unavailable:
+        unavailable[0].diagnostic['issues'] = [dict(issue.diagnostic) for issue in unavailable]
+        raise unavailable[0]
     benchmarks = []
     baseline = state.setdefault("us_baselines", {})
     recorded = state.setdefault("us_observations", {})
-    for symbol in ("VOO", "SPMO"):
-        bars = us_loader(symbol, us_day)
-        if us_day not in bars:
-            raise ValueError("Missing US closing price")
+    for symbol in US_SYMBOLS:
+        bars = us_prices[symbol]
         if symbol not in baseline:
             baseline[symbol] = {"date": us_day, "close": bars[us_day]}
         old = recorded.setdefault(symbol, {})
-        for day, value in old.items():
-            if day in bars and not math.isclose(value, bars[day], rel_tol=1e-8):
-                raise ValueError("ETF history revision requires review")
         for day, value in bars.items():
             if day >= baseline[symbol]["date"]:
                 old[day] = value
@@ -174,7 +275,46 @@ def advance(state, now, kr_loader=engine.fetch_history, us_loader=fetch_us):
             "prices": [{"code": c, "close": kr[c][kr_day]["close"],
                         'quote_state':'OBSERVED_CLOSE' if kr[c][kr_day]['volume']>0 else 'NO_TRADES'} for c in codes],
             "cohort_count": len(cohort_views)}
+    original.clear()
+    original.update(state)
     return snapshot
+
+
+def validate_snapshot(snapshot, state, now):
+    """Validate required output fields before any writes or a success receipt."""
+    if state.get('schema') != 1 or state.get('orders_enabled') is not False or not isinstance(snapshot, dict) or snapshot.get('schema') != 1 or snapshot.get('orders_enabled') is not False or snapshot.get('data_state') not in ('READY', 'PARTIAL_HELD', 'DELAYED'):
+        raise ValueError('Validated research snapshot required')
+    generated = datetime.fromisoformat(snapshot['generated_at'])
+    if generated.tzinfo is None or generated > now:
+        raise ValueError('Invalid research generation time')
+    for name in ('kr_as_of', 'us_as_of'):
+        if date.fromisoformat(snapshot[name]).isoformat() != snapshot[name]:
+            raise ValueError('Invalid research session')
+    for name in ('held_cohort_count', 'cohort_count'):
+        if type(snapshot[name]) is not int or snapshot[name] < 0:
+            raise ValueError('Invalid research count')
+    benchmarks = snapshot['benchmarks']
+    if not isinstance(benchmarks, list) or len(benchmarks) != 2 or {row['symbol'] for row in benchmarks} != set(US_SYMBOLS) or not isinstance(snapshot['prices'], list) or not isinstance(snapshot['research_data'], dict) or snapshot['research_data'].get('schema_version') != 'wbq.cloud-research.v1' or snapshot['research_data'].get('generated_at') != snapshot['generated_at']:
+        raise ValueError('Invalid research projection')
+    for row in benchmarks:
+        recorded = state['us_observations'][row['symbol']][snapshot['us_as_of']]
+        if row['as_of'] != snapshot['us_as_of'] or type(row['close']) not in (int, float) or not math.isfinite(row['close']) or row['close'] <= 0 or row['close'] != recorded:
+            raise ValueError('Research benchmark differs from the immutable ledger')
+        baseline = state['us_baselines'][row['symbol']]
+        if type(baseline['close']) not in (int, float) or not math.isfinite(baseline['close']) or baseline['close'] <= 0 or row['baseline_date'] != baseline['date'] or type(row['return_pct']) not in (int, float) or not math.isfinite(row['return_pct']) or not math.isclose(row['return_pct'], (row['close']/baseline['close']-1)*100, abs_tol=1e-8):
+            raise ValueError('Research benchmark differs from its immutable baseline')
+
+
+def delayed_snapshot(previous, state, issue, now):
+    """Preserve validated last-good content, including every observation date."""
+    validate_snapshot(previous, state, now)
+    if previous['us_as_of'] > issue.diagnostic['expected_session']:
+        raise ValueError('Last-good session is ahead of the expected session')
+    result = deepcopy(previous)
+    result.update(data_state='DELAYED', last_attempt_at=now.isoformat(),
+        expected_us_as_of=issue.diagnostic['expected_session'], refresh_delay=issue.diagnostic,
+        last_good_data_state=previous.get('last_good_data_state', previous['data_state']))
+    return result
 
 
 def main():
@@ -186,25 +326,36 @@ def main():
         raise ValueError("Monitoring key must be 256 bits")
     state_path = root / "monitoring/state.enc.json"
     state = decode(json.loads(state_path.read_text()), key)
-    snapshot = advance(state, datetime.now(UTC))
-    if snapshot['data_state'] not in ('READY', 'PARTIAL_HELD'):
+    original_state = deepcopy(state)
+    now = datetime.now(UTC)
+    try:
+        snapshot = advance(state, now)
+    except USDataUnavailable as issue:
+        previous = decode(json.loads((root / 'data/monitoring.enc.json').read_text()), key)
+        snapshot = delayed_snapshot(previous, original_state, issue, now)
+    if snapshot['data_state'] not in ('READY', 'PARTIAL_HELD', 'DELAYED'):
         raise ValueError("Validated research outcome required")
+    validate_snapshot(snapshot, original_state if snapshot['data_state'] == 'DELAYED' else state, now)
     owned={'monitoring/state.enc.json':state,'data/monitoring.enc.json':snapshot}
     source_hashes={'scripts/cloud_monitor/'+name:hashlib.sha256((root/'scripts/cloud_monitor'/name).read_bytes()).hexdigest()
                    for name in ('refresh.py','llm_engine.py','research_views.py','research_data.py','cloud_monthly.py')}
     before={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in owned}
-    # Partial results are explicit HOLD, with the prior window untouched. A fatal
-    # invariant error produces no valid receipt and cannot be published.
-    for name,value in owned.items():
-        path=root/name
-        path.write_text(json.dumps(encode(value, key)), encoding="utf-8")
+    # Validate and serialize every output before touching either file. DELAYED
+    # leaves the ledger byte-identical; fatal errors never produce a valid receipt.
+    encoded = {name: json.dumps(encode(value, key)) for name,value in owned.items()
+        if not (snapshot['data_state'] == 'DELAYED' and name == 'monitoring/state.enc.json')}
+    for name,content in encoded.items():
+        (root/name).write_text(content, encoding='utf-8')
     after={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in owned}
     receipt.write_text(json.dumps({'status':snapshot['data_state'],'before':before,'after':after,'source_hashes':source_hashes}),encoding='utf-8')
-    print(json.dumps({"status":snapshot['data_state'],"held_cohort_count":snapshot['held_cohort_count'],
-        "kr_as_of":snapshot['kr_as_of'],"us_as_of":snapshot['us_as_of'],"orders_enabled":False}))
-    # A validated HOLD is a completed refresh: its affected window stays frozen
-    # and the receipt permits only independent, validated outputs to publish.
-    # Fatal collection errors still reach the CLI failure handler below.
+    result = dict(status=snapshot['data_state'], held_cohort_count=snapshot['held_cohort_count'],
+        kr_as_of=snapshot['kr_as_of'], us_as_of=snapshot['us_as_of'], orders_enabled=False)
+    if snapshot['data_state'] == 'DELAYED':
+        result.update(generated_at=snapshot['generated_at'], diagnostic=snapshot['refresh_delay'])
+    print(json.dumps(result))
+    # READY/PARTIAL_HELD completed collection; DELAYED explicitly reports an
+    # exhausted transient attempt with verified last-good data. Fatal errors
+    # still reach the CLI failure handler and cannot publish a valid receipt.
     return 0
 
 
@@ -216,8 +367,11 @@ def cli():
         import traceback
         frames=traceback.extract_tb(error.__traceback__)
         location=frames[-1] if frames else None
-        print(json.dumps({'status':'FAILED_CLOSED','error':type(error).__name__,
-            'stage':location.name if location else 'startup','line':location.lineno if location else None}),file=sys.stderr)
+        result = dict(status='FAILED_CLOSED', error=type(error).__name__,
+            stage=location.name if location else 'startup', line=location.lineno if location else None)
+        if isinstance(error, USProviderError):
+            result['diagnostic'] = error.diagnostic
+        print(json.dumps(result), file=sys.stderr)
         return 1
 
 
