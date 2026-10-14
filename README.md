@@ -18,6 +18,26 @@ After unlocking `dashboard.html`, **My Assets** opens first; **Strategies & Rese
 - The WBQ home Windows 08:00 portfolio task generates and publishes this encrypted asset snapshot. The page checks for new snapshots every 60 seconds; this does not create live broker prices. When the collector PC or provider is unavailable, timestamps and collection status expose the gap. Existing cloud research monitoring is separate.
 - The exporter lives in WBQ at `scripts/export_assets_locked.py`; daily observed valuations are local-only in `data/portfolio_dashboard.db`. No earlier performance is fabricated.
 
+## Trading decisions and execution journal
+
+The **Trading decisions / Journal** tab uses separate `data/activity.enc.json`
+ciphertext, decrypted only after the existing passphrase unlock. Its script-only
+sandbox has no network or order access. Relocking clears its plaintext and stops
+refreshes. Failed refreshes retain the previous snapshot with a visible warning.
+
+The Home Windows exporter `scripts/export_trading_activity_locked.py` in WBQ reads
+local SQLite ledgers in read-only transactions without broker credentials. Coin
+entry conditions are recomputed from hash-validated saved market bars and registered
+strategy source; they cannot reconstruct historical cash, liquidity, or add-on orders.
+Missing sources, failed executions, stale worker heartbeats, and empty ledgers are
+distinct states. Korean and US broker PAPER fills are labeled separately from coin
+LIVE fills. Unknown costs or unprovable acquisition history never become net profit.
+
+The Home Windows publication task refreshes the encrypted snapshot every fifteen
+minutes while the user is logged in. The browser checks for published snapshots
+every minute. A twenty-minute-old publication or overdue decision shows a warning;
+PC downtime and deployment delay are not treated as live healthy status.
+
 ## Closing prices and site publication
 
 - `research-monitor.yml` collects completed-session research prices on its closing schedules. It has its own concurrency group and cannot hold up a site deployment. An unavailable interior candidate bar or a zero-volume daily bar preserves the affected research window's prior observations and marks it `PARTIAL_HELD`; independent valid quotes still update. A validated partial refresh completes successfully, and the dashboard displays the hold explicitly. Missing latest closes, missing index sessions, corporate-action anomalies and changed recorded history remain fatal; failures preserve the published snapshot and fail the workflow.

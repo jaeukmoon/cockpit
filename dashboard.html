@@ -36,7 +36,7 @@ button{width:100%;margin-top:12px;padding:12px 14px;border:0;border-radius:8px;b
 button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
 #msg{min-height:20px;margin-top:10px;color:#fca5a5;font-size:12px}
 .security{margin-top:17px;padding-top:15px;border-top:1px solid var(--line);color:#737d8b;font-size:11px;line-height:1.6}
-#frame,#assets-frame{position:fixed;inset:58px 0 0;width:100%;height:calc(100% - 58px);border:0;background:var(--bg)}
+#frame,#assets-frame,#activity-frame{position:fixed;inset:58px 0 0;width:100%;height:calc(100% - 58px);border:0;background:var(--bg)}
 #workspace-nav{position:fixed;inset:0 0 auto;height:58px;z-index:10;display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--panel);border-bottom:1px solid var(--line)}
 #workspace-nav button{width:auto;margin:0;padding:8px 14px;background:#263140}
 #workspace-nav button[aria-pressed=true]{background:#087f91}
@@ -44,6 +44,7 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
 #relock{position:fixed;right:16px;bottom:16px;z-index:10;width:auto;margin:0;padding:8px 12px;
   border:1px solid #3a4351;background:rgba(15,19,26,.9);font-size:12px}
 [hidden]{display:none!important}
+@media(max-width:560px){#workspace-nav{padding:8px;gap:5px}#workspace-nav button{padding:8px 9px;font-size:12px}#assets-status{display:none}}
 </style>
 </head>
 <body>
@@ -67,9 +68,10 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
   </div>
 </main>
 
-<nav id="workspace-nav" aria-label="비공개 대시보드" hidden><button id="view-assets" type="button" aria-pressed="false">내 자산</button><button id="view-research" type="button" aria-pressed="false">전략·연구</button><span id="assets-status" role="status"></span></nav>
+<nav id="workspace-nav" aria-label="비공개 대시보드" hidden><button id="view-assets" type="button" aria-pressed="false">내 자산</button><button id="view-research" type="button" aria-pressed="false">전략·연구</button><button id="view-activity" type="button" aria-pressed="false">매매 판단·거래일지</button><span id="assets-status" role="status"></span></nav>
 <iframe id="frame" title="WorldBestQuant 읽기 전용 대시보드" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox" hidden></iframe>
 <iframe id="assets-frame" title="WorldBestQuant 통합 자산 대시보드" sandbox="allow-scripts" hidden></iframe>
+<iframe id="activity-frame" title="WorldBestQuant 매매 판단과 거래일지" sandbox="allow-scripts" hidden></iframe>
 <button id="relock" type="button" aria-label="대시보드 다시 잠그기" hidden>다시 잠그기</button>
 
 <script src="assets/monitoring.js"></script>
@@ -81,12 +83,15 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
   let ANALYSIS_PAYLOAD=null;
   let ANALYSIS_LOADING=null;
   let ASSETS_TIMER=null,ASSETS_BUSY=false,ASSETS_READY=false,ACTIVE_VIEW="research";
+  let ACTIVITY_TIMER=null,ACTIVITY_BUSY=false,ACTIVITY_READY=false;
   function showView(view){
     ACTIVE_VIEW=view;
     byId("frame").hidden=view!=="research";
     byId("assets-frame").hidden=view!=="assets";
+    byId("activity-frame").hidden=view!=="activity";
     byId("view-assets").setAttribute("aria-pressed",String(view==="assets"));
     byId("view-research").setAttribute("aria-pressed",String(view==="research"));
+    byId("view-activity").setAttribute("aria-pressed",String(view==="activity"));
     WBQMonitoring.stop();
     if(view==="research"){
       const material=KEY_MATERIAL;
@@ -117,6 +122,22 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
     if(enc.v!==1||enc.kdf!=="PBKDF2-SHA256"||enc.iter<600000||!enc.salt||!enc.nonce||!enc.ct){
       throw new Error("schema");
     }
+  }
+  async function refreshActivity(){
+    if(!KEY_MATERIAL||ACTIVITY_BUSY||document.hidden||ACTIVE_VIEW!=="activity")return;
+    const material=KEY_MATERIAL;ACTIVITY_BUSY=true;
+    try{
+      const payload=await decryptFile("data/activity.enc.json",material);
+      if(KEY_MATERIAL!==material)return;
+      if(payload?.data?.schema!==1||payload.data.orders_enabled!==false||!Array.isArray(payload.data.markets)||typeof payload.html!=="string")throw new Error("content");
+      if(!ACTIVITY_READY){byId("activity-frame").srcdoc=payload.html;ACTIVITY_READY=true;}
+      else byId("activity-frame").contentWindow.postMessage({type:"wbq-activity-update",payload:payload.data},"*");
+    }catch(_){
+      if(KEY_MATERIAL===material){
+        if(!ACTIVITY_READY)byId("activity-frame").srcdoc='<html lang="ko"><body style="background:#0e1117;color:#eee;font-family:system-ui;padding:24px"><h2>거래 기록을 불러오지 못했습니다.</h2><p>갱신 실패를 거래 0건으로 해석하지 마세요. 잠시 후 다시 확인해주세요.</p></body></html>';
+        else byId("activity-frame").contentWindow.postMessage({type:"wbq-activity-error"},"*");
+      }
+    }finally{if(KEY_MATERIAL===material)ACTIVITY_BUSY=false;}
   }
   async function decryptFile(path,material){
     const enc=await fetch(path,{cache:"no-store"}).then(function(response){
@@ -162,6 +183,7 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
       if(KEY_MATERIAL===material){
         if(!ASSETS_READY)showView("research");
         ASSETS_TIMER=setInterval(refreshAssets,60000);
+        ACTIVITY_TIMER=setInterval(refreshActivity,60000);
       }
     }catch(error){
       message.textContent="잠금을 열지 못했습니다. 패스프레이즈와 payload를 확인하세요.";
@@ -172,6 +194,10 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
   function relock(){
     WBQMonitoring.stop();
     clearInterval(ASSETS_TIMER);
+    clearInterval(ACTIVITY_TIMER);
+    ACTIVITY_TIMER=null;ACTIVITY_BUSY=false;ACTIVITY_READY=false;
+    byId("activity-frame").srcdoc="";
+    byId("activity-frame").hidden=true;
     ASSETS_TIMER=null;ASSETS_BUSY=false;ASSETS_READY=false;
     byId("assets-frame").srcdoc="";
     byId("assets-frame").hidden=true;
@@ -191,6 +217,7 @@ button:hover{background:#0e7490}button:disabled{opacity:.55;cursor:wait}
   byId("relock").addEventListener("click",relock);
   byId("view-assets").addEventListener("click",function(){showView("assets");refreshAssets();});
   byId("view-research").addEventListener("click",function(){showView("research");});
+  byId("view-activity").addEventListener("click",function(){showView("activity");refreshActivity();});
   window.addEventListener("message",function(event){
     const frame=byId("frame");
     if(event.source!==frame.contentWindow||!event.data||event.data.type!=="wbq-analysis-request"||!KEY_MATERIAL)return;

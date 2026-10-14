@@ -9,7 +9,7 @@ import urllib.request
 from urllib.parse import urljoin
 
 PUBLIC_TOP=('index.html','dashboard.html','analysis.html','og.png','robots.txt','.nojekyll')
-PUBLIC_DATA=('analysis.enc.json','assets.enc.json','cockpit.enc.json','portfolio.enc.json','monitor-key.enc.json','monitoring.enc.json','guru_13f.json')
+PUBLIC_DATA=('analysis.enc.json','assets.enc.json','activity.enc.json','cockpit.enc.json','portfolio.enc.json','monitor-key.enc.json','monitoring.enc.json','guru_13f.json')
 PUBLIC_ASSETS=('monitoring.js',)
 MANIFEST='deployment-version.json'
 FILES=(*PUBLIC_TOP,*('data/'+n for n in PUBLIC_DATA),*('assets/'+n for n in PUBLIC_ASSETS))
