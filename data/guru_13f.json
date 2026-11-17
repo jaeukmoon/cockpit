@@ -1,6 +1,6 @@
 {
   "schema_version": "wbq.guru-13f.v1",
-  "generated_at": "2026-11-14T07:40:08Z",
+  "generated_at": "2026-11-17T09:19:38Z",
   "source": {
     "name": "SEC EDGAR Form 13F",
     "api_url": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces",
@@ -16,15 +16,15 @@
       "firm": "Berkshire Hathaway",
       "cik": "0001067983",
       "filer_name": "BERKSHIRE HATHAWAY INC",
-      "report_date": "2026-06-30",
-      "filed_at": "2026-08-14",
-      "accession_number": "0001193125-26-352200",
-      "filing_url": "https://www.sec.gov/Archives/edgar/data/1067983/000119312526352200/xslForm13F_X02/primary_doc.xml",
-      "previous_report_date": "2026-03-31",
+      "report_date": "2026-09-30",
+      "filed_at": "2026-11-16",
+      "accession_number": "0001193125-26-463399",
+      "filing_url": "https://www.sec.gov/Archives/edgar/data/1067983/000119312526463399/xslForm13F_X02/primary_doc.xml",
+      "previous_report_date": "2026-06-30",
       "latest_submission_form": "13F-HR",
-      "latest_submission_report_date": "2026-06-30",
-      "latest_submission_filed_at": "2026-08-14",
-      "holding_count": 29,
+      "latest_submission_report_date": "2026-09-30",
+      "latest_submission_filed_at": "2026-11-16",
+      "holding_count": 30,
       "top_holdings": [
         {
           "issuer": "APPLE INC",
@@ -33,7 +33,7 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 227917808,
-          "weight_pct": 22.0383
+          "weight_pct": 24.9514
         },
         {
           "issuer": "AMERICAN EXPRESS CO",
@@ -42,7 +42,7 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 151610700,
-          "weight_pct": 17.1367
+          "weight_pct": 15.1563
         },
         {
           "issuer": "COCA COLA CO",
@@ -51,7 +51,7 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 400000000,
-          "weight_pct": 10.863
+          "weight_pct": 11.319
         },
         {
           "issuer": "ALPHABET INC",
@@ -60,7 +60,7 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 78791167,
-          "weight_pct": 9.4093
+          "weight_pct": 8.9122
         },
         {
           "issuer": "BANK OF AMER CORP",
@@ -68,8 +68,8 @@
           "cusip": "060505104",
           "put_call": null,
           "share_type": "SH",
-          "shares": 483394015,
-          "weight_pct": 9.2042
+          "shares": 455860908,
+          "weight_pct": 8.1567
         },
         {
           "issuer": "CHEVRON CORPORATION",
@@ -78,7 +78,7 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 84375856,
-          "weight_pct": 4.6737
+          "weight_pct": 5.6642
         },
         {
           "issuer": "OCCIDENTAL PETE CORP",
@@ -87,16 +87,7 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 264941431,
-          "weight_pct": 4.3001
-        },
-        {
-          "issuer": "CHUBB LIMITED",
-          "title_of_class": "COM",
-          "cusip": "H1467J104",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 34249183,
-          "weight_pct": 3.8997
+          "weight_pct": 4.8181
         },
         {
           "issuer": "MOODYS CORP",
@@ -105,7 +96,16 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 24669778,
-          "weight_pct": 3.7338
+          "weight_pct": 3.6829
+        },
+        {
+          "issuer": "CHUBB LIMITED",
+          "title_of_class": "COM",
+          "cusip": "H1467J104",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 34249183,
+          "weight_pct": 3.662
         },
         {
           "issuer": "ALPHABET INC",
@@ -114,7 +114,7 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 27188433,
-          "weight_pct": 3.2102
+          "weight_pct": 3.0455
         },
         {
           "issuer": "KRAFT HEINZ CO",
@@ -123,16 +123,7 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 325634818,
-          "weight_pct": 2.5702
-        },
-        {
-          "issuer": "DAVITA INC",
-          "title_of_class": "COM",
-          "cusip": "23918K108",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 28880209,
-          "weight_pct": 2.1471
+          "weight_pct": 2.4321
         },
         {
           "issuer": "DELTA AIR LINES INC",
@@ -140,8 +131,17 @@
           "cusip": "247361702",
           "put_call": null,
           "share_type": "SH",
-          "shares": 57320000,
-          "weight_pct": 1.794
+          "shares": 64450000,
+          "weight_pct": 1.7683
+        },
+        {
+          "issuer": "DAVITA INC",
+          "title_of_class": "COM",
+          "cusip": "23918K108",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 28697229,
+          "weight_pct": 1.6502
         },
         {
           "issuer": "SIRIUSXM HOLDINGS INC",
@@ -150,34 +150,7 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 124807117,
-          "weight_pct": 1.232
-        },
-        {
-          "issuer": "VERISIGN INC",
-          "title_of_class": "COM",
-          "cusip": "92343E102",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 8989880,
-          "weight_pct": 0.7557
-        },
-        {
-          "issuer": "KROGER CO",
-          "title_of_class": "COM",
-          "cusip": "501044101",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 39000000,
-          "weight_pct": 0.7237
-        },
-        {
-          "issuer": "ALLY FINL INC",
-          "title_of_class": "COM",
-          "cusip": "02005N100",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 27000000,
-          "weight_pct": 0.4146
+          "weight_pct": 1.0618
         },
         {
           "issuer": "LENNAR CORP",
@@ -185,8 +158,26 @@
           "cusip": "526057104",
           "put_call": null,
           "share_type": "SH",
-          "shares": 13111741,
-          "weight_pct": 0.3965
+          "shares": 26034436,
+          "weight_pct": 0.6983
+        },
+        {
+          "issuer": "KROGER CO",
+          "title_of_class": "COM",
+          "cusip": "501044101",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 35000000,
+          "weight_pct": 0.6745
+        },
+        {
+          "issuer": "VERISIGN INC",
+          "title_of_class": "COM",
+          "cusip": "92343E102",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 5922136,
+          "weight_pct": 0.549
         },
         {
           "issuer": "LIBERTY LIVE HOLDINGS INC",
@@ -195,7 +186,16 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 10587143,
-          "weight_pct": 0.3737
+          "weight_pct": 0.3385
+        },
+        {
+          "issuer": "ALLY FINL INC",
+          "title_of_class": "COM",
+          "cusip": "02005N100",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 27000000,
+          "weight_pct": 0.3339
         },
         {
           "issuer": "NEW YORK TIMES CO MTN BE",
@@ -204,88 +204,23 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 15700000,
-          "weight_pct": 0.3671
+          "weight_pct": 0.3288
         }
       ],
-      "other_weight_pct": 0.7564,
+      "other_weight_pct": 0.7963,
       "changes": [
-        {
-          "issuer": "BANK AMERICA CORP",
-          "title_of_class": "COM",
-          "cusip": "060505104",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "EXITED",
-          "share_change_pct": -100.0,
-          "previous_shares": 513624165,
-          "current_shares": 0,
-          "previous_weight_pct": 9.5171,
-          "weight_pct": 0.0
-        },
-        {
-          "issuer": "ALPHABET INC",
-          "title_of_class": "CAP STK CL A",
-          "cusip": "02079K305",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 45.2377,
-          "previous_shares": 54249798,
-          "current_shares": 78791167,
-          "previous_weight_pct": 5.9294,
-          "weight_pct": 9.4093
-        },
         {
           "issuer": "BANK OF AMER CORP",
           "title_of_class": "COM",
           "cusip": "060505104",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 483394015,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 9.2042
-        },
-        {
-          "issuer": "CHUBB LTD SWITZ",
-          "title_of_class": "COM",
-          "cusip": "H1467J104",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "EXITED",
-          "share_change_pct": -100.0,
-          "previous_shares": 34249183,
-          "current_shares": 0,
-          "previous_weight_pct": 4.2429,
-          "weight_pct": 0.0
-        },
-        {
-          "issuer": "CHUBB LIMITED",
-          "title_of_class": "COM",
-          "cusip": "H1467J104",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 34249183,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 3.8997
-        },
-        {
-          "issuer": "ALPHABET INC",
-          "title_of_class": "CAP STK CL C",
-          "cusip": "02079K107",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 658.3487,
-          "previous_shares": 3585215,
-          "current_shares": 27188433,
-          "previous_weight_pct": 0.3909,
-          "weight_pct": 3.2102
+          "change_type": "DECREASED",
+          "share_change_pct": -5.6958,
+          "previous_shares": 483394015,
+          "current_shares": 455860908,
+          "previous_weight_pct": 9.2042,
+          "weight_pct": 8.1567
         },
         {
           "issuer": "DAVITA INC",
@@ -294,11 +229,11 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -4.0543,
-          "previous_shares": 30100585,
-          "current_shares": 28880209,
-          "previous_weight_pct": 1.7584,
-          "weight_pct": 2.1471
+          "share_change_pct": -0.6336,
+          "previous_shares": 28880209,
+          "current_shares": 28697229,
+          "previous_weight_pct": 2.1471,
+          "weight_pct": 1.6502
         },
         {
           "issuer": "DELTA AIR LINES INC",
@@ -307,11 +242,24 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "INCREASED",
-          "share_change_pct": 43.9859,
-          "previous_shares": 39809456,
-          "current_shares": 57320000,
-          "previous_weight_pct": 1.0059,
-          "weight_pct": 1.794
+          "share_change_pct": 12.4389,
+          "previous_shares": 57320000,
+          "current_shares": 64450000,
+          "previous_weight_pct": 1.794,
+          "weight_pct": 1.7683
+        },
+        {
+          "issuer": "VERISIGN INC",
+          "title_of_class": "COM",
+          "cusip": "92343E102",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -34.1244,
+          "previous_shares": 8989880,
+          "current_shares": 5922136,
+          "previous_weight_pct": 0.7557,
+          "weight_pct": 0.549
         },
         {
           "issuer": "KROGER CO",
@@ -320,50 +268,11 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -22.0,
-          "previous_shares": 50000000,
-          "current_shares": 39000000,
-          "previous_weight_pct": 1.3752,
-          "weight_pct": 0.7237
-        },
-        {
-          "issuer": "CAPITAL ONE FINL CORP",
-          "title_of_class": "COM",
-          "cusip": "14040H105",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -58.042,
-          "previous_shares": 7150000,
-          "current_shares": 3000000,
-          "previous_weight_pct": 0.4958,
-          "weight_pct": 0.2011
-        },
-        {
-          "issuer": "NEW YORK TIMES CO MTN BE",
-          "title_of_class": "CL A",
-          "cusip": "650111107",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 3.6541,
-          "previous_shares": 15146535,
-          "current_shares": 15700000,
-          "previous_weight_pct": 0.482,
-          "weight_pct": 0.3671
-        },
-        {
-          "issuer": "ALLY FINL INC",
-          "title_of_class": "COM",
-          "cusip": "02005N100",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -6.8966,
-          "previous_shares": 29000000,
-          "current_shares": 27000000,
-          "previous_weight_pct": 0.4324,
-          "weight_pct": 0.4146
+          "share_change_pct": -10.2564,
+          "previous_shares": 39000000,
+          "current_shares": 35000000,
+          "previous_weight_pct": 0.7237,
+          "weight_pct": 0.6745
         },
         {
           "issuer": "LENNAR CORP",
@@ -372,11 +281,37 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "INCREASED",
-          "share_change_pct": 29.8238,
-          "previous_shares": 10099642,
-          "current_shares": 13111741,
-          "previous_weight_pct": 0.3334,
-          "weight_pct": 0.3965
+          "share_change_pct": 98.5582,
+          "previous_shares": 13111741,
+          "current_shares": 26034436,
+          "previous_weight_pct": 0.3965,
+          "weight_pct": 0.6983
+        },
+        {
+          "issuer": "BENDING SPOONS SPA",
+          "title_of_class": "COM SHS",
+          "cusip": "T19377109",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "NEW",
+          "share_change_pct": null,
+          "previous_shares": 0,
+          "current_shares": 20689655,
+          "previous_weight_pct": 0.0,
+          "weight_pct": 0.2266
+        },
+        {
+          "issuer": "CAPITAL ONE FINL CORP",
+          "title_of_class": "COM",
+          "cusip": "14040H105",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -61.6667,
+          "previous_shares": 3000000,
+          "current_shares": 1150000,
+          "previous_weight_pct": 0.2011,
+          "weight_pct": 0.073
         },
         {
           "issuer": "NUCOR CORP",
@@ -385,11 +320,11 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -52.4516,
-          "previous_shares": 3907075,
-          "current_shares": 1857752,
-          "previous_weight_pct": 0.2511,
-          "weight_pct": 0.1383
+          "share_change_pct": -14.9092,
+          "previous_shares": 1857752,
+          "current_shares": 1580776,
+          "previous_weight_pct": 0.1383,
+          "weight_pct": 0.1215
         },
         {
           "issuer": "MACYS INC",
@@ -398,24 +333,11 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "INCREASED",
-          "share_change_pct": 141.8225,
-          "previous_shares": 3038355,
-          "current_shares": 7347426,
-          "previous_weight_pct": 0.0209,
-          "weight_pct": 0.0578
-        },
-        {
-          "issuer": "CONSTELLATION BRANDS INC",
-          "title_of_class": "CL A",
-          "cusip": "21036P108",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "EXITED",
-          "share_change_pct": -100.0,
-          "previous_shares": 632890,
-          "current_shares": 0,
-          "previous_weight_pct": 0.0361,
-          "weight_pct": 0.0
+          "share_change_pct": 2.6046,
+          "previous_shares": 7347426,
+          "current_shares": 7538800,
+          "previous_weight_pct": 0.0578,
+          "weight_pct": 0.0564
         },
         {
           "issuer": "LENNAR CORP",
@@ -424,24 +346,11 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "INCREASED",
-          "share_change_pct": 25.4157,
-          "previous_shares": 237703,
-          "current_shares": 298117,
-          "previous_weight_pct": 0.0076,
-          "weight_pct": 0.0088
-        },
-        {
-          "issuer": "D R HORTON INC",
-          "title_of_class": "COM",
-          "cusip": "23331A109",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 3564,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 0.0002
+          "share_change_pct": 85.4976,
+          "previous_shares": 298117,
+          "current_shares": 553000,
+          "previous_weight_pct": 0.0088,
+          "weight_pct": 0.0145
         }
       ]
     },
@@ -836,8 +745,8 @@
       "filing_url": "https://www.sec.gov/Archives/edgar/data/1336528/000117266126002336/xslForm13F_X02/primary_doc.xml",
       "previous_report_date": "2025-12-31",
       "latest_submission_form": "13F-NT",
-      "latest_submission_report_date": "2026-06-30",
-      "latest_submission_filed_at": "2026-08-14",
+      "latest_submission_report_date": "2026-09-30",
+      "latest_submission_filed_at": "2026-11-16",
       "holding_count": 11,
       "top_holdings": [
         {
@@ -1476,510 +1385,33 @@
       "firm": "Third Point",
       "cik": "0001040273",
       "filer_name": "Third Point LLC",
-      "report_date": "2026-06-30",
-      "filed_at": "2026-08-14",
-      "accession_number": "0001040273-26-000003",
-      "filing_url": "https://www.sec.gov/Archives/edgar/data/1040273/000104027326000003/xslForm13F_X02/primary_doc.xml",
-      "previous_report_date": "2026-03-31",
+      "report_date": "2026-09-30",
+      "filed_at": "2026-11-16",
+      "accession_number": "0001040273-26-000004",
+      "filing_url": "https://www.sec.gov/Archives/edgar/data/1040273/000104027326000004/xslForm13F_X02/primary_doc.xml",
+      "previous_report_date": "2026-06-30",
       "latest_submission_form": "13F-HR",
-      "latest_submission_report_date": "2026-06-30",
-      "latest_submission_filed_at": "2026-08-14",
-      "holding_count": 43,
+      "latest_submission_report_date": "2026-09-30",
+      "latest_submission_filed_at": "2026-11-16",
+      "holding_count": 39,
       "top_holdings": [
-        {
-          "issuer": "WARNER BROS DISCOVERY INC",
-          "title_of_class": "COM SER A",
-          "cusip": "934423104",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 20000000,
-          "weight_pct": 11.3942
-        },
-        {
-          "issuer": "AMAZON COM INC",
-          "title_of_class": "COM",
-          "cusip": "023135106",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 1750000,
-          "weight_pct": 8.9131
-        },
-        {
-          "issuer": "ALPHABET INC",
-          "title_of_class": "CAP STK CL A",
-          "cusip": "02079K305",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 1025000,
-          "weight_pct": 7.8277
-        },
-        {
-          "issuer": "CRH PLC",
-          "title_of_class": "ORD",
-          "cusip": "G25508105",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 2195000,
-          "weight_pct": 5.0189
-        },
-        {
-          "issuer": "TELEPHONE & DATA SYS INC",
-          "title_of_class": "COM NEW",
-          "cusip": "879433829",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 6275000,
-          "weight_pct": 4.9628
-        },
-        {
-          "issuer": "TAIWAN SEMICONDUCTOR MANUFAC",
-          "title_of_class": "SPONSORED ADS",
-          "cusip": "874039100",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 460000,
-          "weight_pct": 4.6945
-        },
-        {
-          "issuer": "LIVE NATION ENTERTAINMENT IN",
-          "title_of_class": "COM",
-          "cusip": "538034109",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 1135000,
-          "weight_pct": 4.4412
-        },
-        {
-          "issuer": "KEYSIGHT TECHNOLOGIES INC",
-          "title_of_class": "COM",
-          "cusip": "49338L103",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 585000,
-          "weight_pct": 4.3763
-        },
-        {
-          "issuer": "SOMNIGROUP INTERNATIONAL INC",
-          "title_of_class": "COM",
-          "cusip": "88023U101",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 2570769,
-          "weight_pct": 4.307
-        },
-        {
-          "issuer": "BLOCK INC",
-          "title_of_class": "CL A",
-          "cusip": "852234103",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 2558943,
-          "weight_pct": 4.1559
-        },
-        {
-          "issuer": "NORFOLK SOUTHN CORP",
-          "title_of_class": "COM",
-          "cusip": "655844108",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 600000,
-          "weight_pct": 4.0336
-        },
-        {
-          "issuer": "FLEX LTD",
-          "title_of_class": "ORD",
-          "cusip": "Y2573F102",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 1030000,
-          "weight_pct": 3.5673
-        },
-        {
-          "issuer": "CAPITAL ONE FINL CORP",
-          "title_of_class": "COM",
-          "cusip": "14040H105",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 825000,
-          "weight_pct": 3.5369
-        },
-        {
-          "issuer": "HUT 8 CORP",
-          "title_of_class": "COM",
-          "cusip": "44812J104",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 1315000,
-          "weight_pct": 3.2441
-        },
-        {
-          "issuer": "CARPENTER TECHNOLOGY CORP",
-          "title_of_class": "COM",
-          "cusip": "144285103",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 215000,
-          "weight_pct": 2.834
-        },
-        {
-          "issuer": "API GROUP CORP",
-          "title_of_class": "COM STK",
-          "cusip": "00187Y100",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 2865000,
-          "weight_pct": 2.5928
-        },
-        {
-          "issuer": "MASTEC INC",
-          "title_of_class": "COM",
-          "cusip": "576323109",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 290000,
-          "weight_pct": 2.5784
-        },
-        {
-          "issuer": "TRANSDIGM GROUP INC",
-          "title_of_class": "COM",
-          "cusip": "893641100",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 79000,
-          "weight_pct": 2.2487
-        },
-        {
-          "issuer": "DANAHER CORP DEL",
-          "title_of_class": "COM",
-          "cusip": "235851102",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 540000,
-          "weight_pct": 2.198
-        },
-        {
-          "issuer": "UNION PAC CORP",
-          "title_of_class": "COM",
-          "cusip": "907818108",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 350000,
-          "weight_pct": 2.0344
-        }
-      ],
-      "other_weight_pct": 11.0402,
-      "changes": [
-        {
-          "issuer": "AMAZON COM INC",
-          "title_of_class": "COM",
-          "cusip": "023135106",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -9.7938,
-          "previous_shares": 1940000,
-          "current_shares": 1750000,
-          "previous_weight_pct": 19.3991,
-          "weight_pct": 8.9131
-        },
-        {
-          "issuer": "TELEPHONE & DATA SYS INC",
-          "title_of_class": "COM NEW",
-          "cusip": "879433829",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -4.9242,
-          "previous_shares": 6600000,
-          "current_shares": 6275000,
-          "previous_weight_pct": 13.3407,
-          "weight_pct": 4.9628
-        },
-        {
-          "issuer": "WARNER BROS DISCOVERY INC",
-          "title_of_class": "COM SER A",
-          "cusip": "934423104",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 20000000,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 11.3942
-        },
-        {
-          "issuer": "CRH PLC",
-          "title_of_class": "ORD",
-          "cusip": "G25508105",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 15.5263,
-          "previous_shares": 1900000,
-          "current_shares": 2195000,
-          "previous_weight_pct": 9.5894,
-          "weight_pct": 5.0189
-        },
-        {
-          "issuer": "SOMNIGROUP INTERNATIONAL INC",
-          "title_of_class": "COM",
-          "cusip": "88023U101",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 13.2114,
-          "previous_shares": 2270769,
-          "current_shares": 2570769,
-          "previous_weight_pct": 8.0591,
-          "weight_pct": 4.307
-        },
-        {
-          "issuer": "ALPHABET INC",
-          "title_of_class": "CAP STK CL A",
-          "cusip": "02079K305",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 485.7143,
-          "previous_shares": 175000,
-          "current_shares": 1025000,
-          "previous_weight_pct": 2.4161,
-          "weight_pct": 7.8277
-        },
-        {
-          "issuer": "CARPENTER TECHNOLOGY CORP",
-          "title_of_class": "COM",
-          "cusip": "144285103",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -30.6452,
-          "previous_shares": 310000,
-          "current_shares": 215000,
-          "previous_weight_pct": 5.8665,
-          "weight_pct": 2.834
-        },
-        {
-          "issuer": "MASTEC INC",
-          "title_of_class": "COM",
-          "cusip": "576323109",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -9.375,
-          "previous_shares": 320000,
-          "current_shares": 290000,
-          "previous_weight_pct": 4.9432,
-          "weight_pct": 2.5784
-        },
-        {
-          "issuer": "DANAHER CORP DEL",
-          "title_of_class": "COM",
-          "cusip": "235851102",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 2.8571,
-          "previous_shares": 525000,
-          "current_shares": 540000,
-          "previous_weight_pct": 4.7792,
-          "weight_pct": 2.198
-        },
-        {
-          "issuer": "TAIWAN SEMICONDUCTOR MANUFAC",
-          "title_of_class": "SPONSORED ADS",
-          "cusip": "874039100",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 67.2727,
-          "previous_shares": 275000,
-          "current_shares": 460000,
-          "previous_weight_pct": 4.4621,
-          "weight_pct": 4.6945
-        },
-        {
-          "issuer": "LIVE NATION ENTERTAINMENT IN",
-          "title_of_class": "COM",
-          "cusip": "538034109",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 144.086,
-          "previous_shares": 465000,
-          "current_shares": 1135000,
-          "previous_weight_pct": 3.4049,
-          "weight_pct": 4.4412
-        },
-        {
-          "issuer": "KEYSIGHT TECHNOLOGIES INC",
-          "title_of_class": "COM",
-          "cusip": "49338L103",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 585000,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 4.3763
-        },
-        {
-          "issuer": "BLOCK INC",
-          "title_of_class": "CL A",
-          "cusip": "852234103",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 2558943,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 4.1559
-        },
-        {
-          "issuer": "NORFOLK SOUTHN CORP",
-          "title_of_class": "COM",
-          "cusip": "655844108",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 500.0,
-          "previous_shares": 100000,
-          "current_shares": 600000,
-          "previous_weight_pct": 1.378,
-          "weight_pct": 4.0336
-        },
-        {
-          "issuer": "API GROUP CORP",
-          "title_of_class": "COM STK",
-          "cusip": "00187Y100",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 41.133,
-          "previous_shares": 2030000,
-          "current_shares": 2865000,
-          "previous_weight_pct": 3.9493,
-          "weight_pct": 2.5928
-        },
-        {
-          "issuer": "FLEX LTD",
-          "title_of_class": "ORD",
-          "cusip": "Y2573F102",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 1030000,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 3.5673
-        },
-        {
-          "issuer": "CAPITAL ONE FINL CORP",
-          "title_of_class": "COM",
-          "cusip": "14040H105",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 489.2857,
-          "previous_shares": 140000,
-          "current_shares": 825000,
-          "previous_weight_pct": 1.2262,
-          "weight_pct": 3.5369
-        },
-        {
-          "issuer": "HUT 8 CORP",
-          "title_of_class": "COM",
-          "cusip": "44812J104",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 51.2254,
-          "previous_shares": 869563,
-          "current_shares": 1315000,
-          "previous_weight_pct": 1.9585,
-          "weight_pct": 3.2441
-        },
         {
           "issuer": "META PLATFORMS INC",
           "title_of_class": "CL A",
           "cusip": "30303M102",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "EXITED",
-          "share_change_pct": -100.0,
-          "previous_shares": 90000,
-          "current_shares": 0,
-          "previous_weight_pct": 2.4722,
-          "weight_pct": 0.0
+          "shares": 655000,
+          "weight_pct": 10.3504
         },
         {
-          "issuer": "TRANSDIGM GROUP INC",
+          "issuer": "UNUM GROUP",
           "title_of_class": "COM",
-          "cusip": "893641100",
+          "cusip": "91529Y106",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 216.0,
-          "previous_shares": 25000,
-          "current_shares": 79000,
-          "previous_weight_pct": 1.3911,
-          "weight_pct": 2.2487
-        },
-        {
-          "issuer": "UNION PAC CORP",
-          "title_of_class": "COM",
-          "cusip": "907818108",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 250.0,
-          "previous_shares": 100000,
-          "current_shares": 350000,
-          "previous_weight_pct": 1.1649,
-          "weight_pct": 2.0344
-        },
-        {
-          "issuer": "TTM TECHNOLOGIES INC",
-          "title_of_class": "COM",
-          "cusip": "87305R109",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 505000,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 2.0182
-        },
-        {
-          "issuer": "SPDR GOLD TR",
-          "title_of_class": "GOLD SHS",
-          "cusip": "78463V107",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "EXITED",
-          "share_change_pct": -100.0,
-          "previous_shares": 95000,
-          "current_shares": 0,
-          "previous_weight_pct": 1.9626,
-          "weight_pct": 0.0
-        },
-        {
-          "issuer": "PERFORMANCE FOOD GROUP CO",
-          "title_of_class": "COM",
-          "cusip": "71377A103",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 675000,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 1.6125
+          "shares": 5000000,
+          "weight_pct": 9.5585
         },
         {
           "issuer": "NVIDIA CORPORATION",
@@ -1987,51 +1419,116 @@
           "cusip": "67066G104",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "EXITED",
-          "share_change_pct": -100.0,
-          "previous_shares": 190000,
-          "current_shares": 0,
-          "previous_weight_pct": 1.5909,
-          "weight_pct": 0.0
+          "shares": 1500000,
+          "weight_pct": 7.4648
         },
         {
-          "issuer": "ALPHABET INC",
-          "title_of_class": "DEP SHS RP1/20 A",
-          "cusip": "02079K404",
+          "issuer": "CRH PLC",
+          "title_of_class": "ORD",
+          "cusip": "G25508105",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 1300000,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 1.4137
+          "shares": 2840000,
+          "weight_pct": 5.1241
         },
         {
-          "issuer": "ASML HLDG NV",
-          "title_of_class": "N Y REGISTRY SHS",
-          "cusip": "N07059210",
+          "issuer": "BLOCK INC",
+          "title_of_class": "CL A",
+          "cusip": "852234103",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 150.0,
-          "previous_shares": 12000,
-          "current_shares": 30000,
-          "previous_weight_pct": 0.761,
-          "weight_pct": 1.2738
+          "shares": 3180000,
+          "weight_pct": 5.0952
         },
         {
-          "issuer": "SYSCO CORP",
+          "issuer": "MICROSOFT CORP",
           "title_of_class": "COM",
-          "cusip": "871829107",
+          "cusip": "594918104",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 580000,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 1.0291
+          "shares": 450000,
+          "weight_pct": 5.0294
+        },
+        {
+          "issuer": "FLEX LTD",
+          "title_of_class": "ORD",
+          "cusip": "Y2573F102",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 2000000,
+          "weight_pct": 4.7935
+        },
+        {
+          "issuer": "CAPITAL ONE FINL CORP",
+          "title_of_class": "COM",
+          "cusip": "14040H105",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 1110000,
+          "weight_pct": 4.6699
+        },
+        {
+          "issuer": "KEYSIGHT TECHNOLOGIES INC",
+          "title_of_class": "COM",
+          "cusip": "49338L103",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 570000,
+          "weight_pct": 4.5216
+        },
+        {
+          "issuer": "LIVE NATION ENTERTAINMENT IN",
+          "title_of_class": "COM",
+          "cusip": "538034109",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 1195000,
+          "weight_pct": 4.4086
+        },
+        {
+          "issuer": "API GROUP CORP",
+          "title_of_class": "COM STK",
+          "cusip": "00187Y100",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 4935000,
+          "weight_pct": 4.1509
+        },
+        {
+          "issuer": "TAIWAN SEMICONDUCTOR MANUFAC",
+          "title_of_class": "SPONSORED ADS",
+          "cusip": "874039100",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 400000,
+          "weight_pct": 3.9763
+        },
+        {
+          "issuer": "SPACE EXPLORATION TECHN CORP",
+          "title_of_class": "CLASS A COM STK",
+          "cusip": "84615Q103",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 980415,
+          "weight_pct": 3.223
+        },
+        {
+          "issuer": "TELEPHONE & DATA SYS INC",
+          "title_of_class": "COM NEW",
+          "cusip": "879433829",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 4300000,
+          "weight_pct": 3.1783
+        },
+        {
+          "issuer": "LIBERTY MEDIA CORP DEL",
+          "title_of_class": "COM SER C",
+          "cusip": "531229755",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 1460000,
+          "weight_pct": 2.9397
         },
         {
           "issuer": "ARES MANAGEMENT CORPORATION",
@@ -2039,24 +1536,436 @@
           "cusip": "03990B101",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 375000,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 0.892
+          "shares": 1160000,
+          "weight_pct": 2.9365
         },
         {
-          "issuer": "KLA CORP",
-          "title_of_class": "COM NEW",
-          "cusip": "482480100",
+          "issuer": "CASEYS GEN STORES INC",
+          "title_of_class": "COM",
+          "cusip": "147528103",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 185000,
+          "weight_pct": 2.4529
+        },
+        {
+          "issuer": "SOMNIGROUP INTERNATIONAL INC",
+          "title_of_class": "COM",
+          "cusip": "88023U101",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 1800000,
+          "weight_pct": 2.4362
+        },
+        {
+          "issuer": "BANK OF AMER CORP",
+          "title_of_class": "COM",
+          "cusip": "060505104",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 2000000,
+          "weight_pct": 2.3721
+        },
+        {
+          "issuer": "MASTEC INC",
+          "title_of_class": "COM",
+          "cusip": "576323109",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 505000,
+          "weight_pct": 2.3507
+        }
+      ],
+      "other_weight_pct": 8.9674,
+      "changes": [
+        {
+          "issuer": "WARNER BROS DISCOVERY INC",
+          "title_of_class": "COM SER A",
+          "cusip": "934423104",
           "put_call": null,
           "share_type": "SH",
           "change_type": "EXITED",
           "share_change_pct": -100.0,
-          "previous_shares": 11000,
+          "previous_shares": 20000000,
           "current_shares": 0,
-          "previous_weight_pct": 0.7776,
+          "previous_weight_pct": 11.3942,
+          "weight_pct": 0.0
+        },
+        {
+          "issuer": "META PLATFORMS INC",
+          "title_of_class": "CL A",
+          "cusip": "30303M102",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "NEW",
+          "share_change_pct": null,
+          "previous_shares": 0,
+          "current_shares": 655000,
+          "previous_weight_pct": 0.0,
+          "weight_pct": 10.3504
+        },
+        {
+          "issuer": "UNUM GROUP",
+          "title_of_class": "COM",
+          "cusip": "91529Y106",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "NEW",
+          "share_change_pct": null,
+          "previous_shares": 0,
+          "current_shares": 5000000,
+          "previous_weight_pct": 0.0,
+          "weight_pct": 9.5585
+        },
+        {
+          "issuer": "AMAZON COM INC",
+          "title_of_class": "COM",
+          "cusip": "023135106",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "EXITED",
+          "share_change_pct": -100.0,
+          "previous_shares": 1750000,
+          "current_shares": 0,
+          "previous_weight_pct": 8.9131,
+          "weight_pct": 0.0
+        },
+        {
+          "issuer": "ALPHABET INC",
+          "title_of_class": "CAP STK CL A",
+          "cusip": "02079K305",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -82.9268,
+          "previous_shares": 1025000,
+          "current_shares": 175000,
+          "previous_weight_pct": 7.8277,
+          "weight_pct": 1.3121
+        },
+        {
+          "issuer": "NVIDIA CORPORATION",
+          "title_of_class": "COM",
+          "cusip": "67066G104",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "NEW",
+          "share_change_pct": null,
+          "previous_shares": 0,
+          "current_shares": 1500000,
+          "previous_weight_pct": 0.0,
+          "weight_pct": 7.4648
+        },
+        {
+          "issuer": "CRH PLC",
+          "title_of_class": "ORD",
+          "cusip": "G25508105",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 29.385,
+          "previous_shares": 2195000,
+          "current_shares": 2840000,
+          "previous_weight_pct": 5.0189,
+          "weight_pct": 5.1241
+        },
+        {
+          "issuer": "BLOCK INC",
+          "title_of_class": "CL A",
+          "cusip": "852234103",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 24.2701,
+          "previous_shares": 2558943,
+          "current_shares": 3180000,
+          "previous_weight_pct": 4.1559,
+          "weight_pct": 5.0952
+        },
+        {
+          "issuer": "MICROSOFT CORP",
+          "title_of_class": "COM",
+          "cusip": "594918104",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "NEW",
+          "share_change_pct": null,
+          "previous_shares": 0,
+          "current_shares": 450000,
+          "previous_weight_pct": 0.0,
+          "weight_pct": 5.0294
+        },
+        {
+          "issuer": "TELEPHONE & DATA SYS INC",
+          "title_of_class": "COM NEW",
+          "cusip": "879433829",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -31.4741,
+          "previous_shares": 6275000,
+          "current_shares": 4300000,
+          "previous_weight_pct": 4.9628,
+          "weight_pct": 3.1783
+        },
+        {
+          "issuer": "FLEX LTD",
+          "title_of_class": "ORD",
+          "cusip": "Y2573F102",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 94.1748,
+          "previous_shares": 1030000,
+          "current_shares": 2000000,
+          "previous_weight_pct": 3.5673,
+          "weight_pct": 4.7935
+        },
+        {
+          "issuer": "TAIWAN SEMICONDUCTOR MANUFAC",
+          "title_of_class": "SPONSORED ADS",
+          "cusip": "874039100",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -13.0435,
+          "previous_shares": 460000,
+          "current_shares": 400000,
+          "previous_weight_pct": 4.6945,
+          "weight_pct": 3.9763
+        },
+        {
+          "issuer": "CAPITAL ONE FINL CORP",
+          "title_of_class": "COM",
+          "cusip": "14040H105",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 34.5455,
+          "previous_shares": 825000,
+          "current_shares": 1110000,
+          "previous_weight_pct": 3.5369,
+          "weight_pct": 4.6699
+        },
+        {
+          "issuer": "KEYSIGHT TECHNOLOGIES INC",
+          "title_of_class": "COM",
+          "cusip": "49338L103",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -2.5641,
+          "previous_shares": 585000,
+          "current_shares": 570000,
+          "previous_weight_pct": 4.3763,
+          "weight_pct": 4.5216
+        },
+        {
+          "issuer": "LIVE NATION ENTERTAINMENT IN",
+          "title_of_class": "COM",
+          "cusip": "538034109",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 5.2863,
+          "previous_shares": 1135000,
+          "current_shares": 1195000,
+          "previous_weight_pct": 4.4412,
+          "weight_pct": 4.4086
+        },
+        {
+          "issuer": "SOMNIGROUP INTERNATIONAL INC",
+          "title_of_class": "COM",
+          "cusip": "88023U101",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -29.982,
+          "previous_shares": 2570769,
+          "current_shares": 1800000,
+          "previous_weight_pct": 4.307,
+          "weight_pct": 2.4362
+        },
+        {
+          "issuer": "API GROUP CORP",
+          "title_of_class": "COM STK",
+          "cusip": "00187Y100",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 72.2513,
+          "previous_shares": 2865000,
+          "current_shares": 4935000,
+          "previous_weight_pct": 2.5928,
+          "weight_pct": 4.1509
+        },
+        {
+          "issuer": "NORFOLK SOUTHN CORP",
+          "title_of_class": "COM",
+          "cusip": "655844108",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "EXITED",
+          "share_change_pct": -100.0,
+          "previous_shares": 600000,
+          "current_shares": 0,
+          "previous_weight_pct": 4.0336,
+          "weight_pct": 0.0
+        },
+        {
+          "issuer": "HUT 8 CORP",
+          "title_of_class": "COM",
+          "cusip": "44812J104",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -6.8821,
+          "previous_shares": 1315000,
+          "current_shares": 1224500,
+          "previous_weight_pct": 3.2441,
+          "weight_pct": 2.2974
+        },
+        {
+          "issuer": "SPACE EXPLORATION TECHN CORP",
+          "title_of_class": "CLASS A COM STK",
+          "cusip": "84615Q103",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 443.4221,
+          "previous_shares": 180415,
+          "current_shares": 980415,
+          "previous_weight_pct": 0.6587,
+          "weight_pct": 3.223
+        },
+        {
+          "issuer": "LIBERTY MEDIA CORP DEL",
+          "title_of_class": "COM SER C",
+          "cusip": "531229755",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "NEW",
+          "share_change_pct": null,
+          "previous_shares": 0,
+          "current_shares": 1460000,
+          "previous_weight_pct": 0.0,
+          "weight_pct": 2.9397
+        },
+        {
+          "issuer": "ARES MANAGEMENT CORPORATION",
+          "title_of_class": "CL A COM STK",
+          "cusip": "03990B101",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 209.3333,
+          "previous_shares": 375000,
+          "current_shares": 1160000,
+          "previous_weight_pct": 0.892,
+          "weight_pct": 2.9365
+        },
+        {
+          "issuer": "CARPENTER TECHNOLOGY CORP",
+          "title_of_class": "COM",
+          "cusip": "144285103",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "EXITED",
+          "share_change_pct": -100.0,
+          "previous_shares": 215000,
+          "current_shares": 0,
+          "previous_weight_pct": 2.834,
+          "weight_pct": 0.0
+        },
+        {
+          "issuer": "MASTEC INC",
+          "title_of_class": "COM",
+          "cusip": "576323109",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 74.1379,
+          "previous_shares": 290000,
+          "current_shares": 505000,
+          "previous_weight_pct": 2.5784,
+          "weight_pct": 2.3507
+        },
+        {
+          "issuer": "CASEYS GEN STORES INC",
+          "title_of_class": "COM",
+          "cusip": "147528103",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "NEW",
+          "share_change_pct": null,
+          "previous_shares": 0,
+          "current_shares": 185000,
+          "previous_weight_pct": 0.0,
+          "weight_pct": 2.4529
+        },
+        {
+          "issuer": "BANK OF AMER CORP",
+          "title_of_class": "COM",
+          "cusip": "060505104",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "NEW",
+          "share_change_pct": null,
+          "previous_shares": 0,
+          "current_shares": 2000000,
+          "previous_weight_pct": 0.0,
+          "weight_pct": 2.3721
+        },
+        {
+          "issuer": "TRANSDIGM GROUP INC",
+          "title_of_class": "COM",
+          "cusip": "893641100",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "EXITED",
+          "share_change_pct": -100.0,
+          "previous_shares": 79000,
+          "current_shares": 0,
+          "previous_weight_pct": 2.2487,
+          "weight_pct": 0.0
+        },
+        {
+          "issuer": "DANAHER CORP DEL",
+          "title_of_class": "COM",
+          "cusip": "235851102",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "EXITED",
+          "share_change_pct": -100.0,
+          "previous_shares": 540000,
+          "current_shares": 0,
+          "previous_weight_pct": 2.198,
+          "weight_pct": 0.0
+        },
+        {
+          "issuer": "UNION PAC CORP",
+          "title_of_class": "COM",
+          "cusip": "907818108",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "EXITED",
+          "share_change_pct": -100.0,
+          "previous_shares": 350000,
+          "current_shares": 0,
+          "previous_weight_pct": 2.0344,
+          "weight_pct": 0.0
+        },
+        {
+          "issuer": "TTM TECHNOLOGIES INC",
+          "title_of_class": "COM",
+          "cusip": "87305R109",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "EXITED",
+          "share_change_pct": -100.0,
+          "previous_shares": 505000,
+          "current_shares": 0,
+          "previous_weight_pct": 2.0182,
           "weight_pct": 0.0
         }
       ]
@@ -2067,15 +1976,15 @@
       "firm": "Bridgewater Associates",
       "cik": "0001350694",
       "filer_name": "Bridgewater Associates, LP",
-      "report_date": "2026-06-30",
-      "filed_at": "2026-08-14",
-      "accession_number": "0001350694-26-000003",
-      "filing_url": "https://www.sec.gov/Archives/edgar/data/1350694/000135069426000003/xslForm13F_X02/primary_doc.xml",
-      "previous_report_date": "2026-03-31",
+      "report_date": "2026-09-30",
+      "filed_at": "2026-11-16",
+      "accession_number": "0001350694-26-000004",
+      "filing_url": "https://www.sec.gov/Archives/edgar/data/1350694/000135069426000004/xslForm13F_X02/primary_doc.xml",
+      "previous_report_date": "2026-06-30",
       "latest_submission_form": "13F-HR",
-      "latest_submission_report_date": "2026-06-30",
-      "latest_submission_filed_at": "2026-08-14",
-      "holding_count": 997,
+      "latest_submission_report_date": "2026-09-30",
+      "latest_submission_filed_at": "2026-11-16",
+      "holding_count": 974,
       "top_holdings": [
         {
           "issuer": "STATE STR SPDR S&P 500 ETF T",
@@ -2083,8 +1992,8 @@
           "cusip": "78462F103",
           "put_call": null,
           "share_type": "SH",
-          "shares": 5320308,
-          "weight_pct": 16.299
+          "shares": 3403317,
+          "weight_pct": 11.2916
         },
         {
           "issuer": "ISHARES TR",
@@ -2092,8 +2001,8 @@
           "cusip": "464287200",
           "put_call": null,
           "share_type": "SH",
-          "shares": 3002286,
-          "weight_pct": 9.2237
+          "shares": 1508053,
+          "weight_pct": 5.0246
         },
         {
           "issuer": "NVIDIA CORPORATION",
@@ -2101,8 +2010,8 @@
           "cusip": "67066G104",
           "put_call": null,
           "share_type": "SH",
-          "shares": 3866195,
-          "weight_pct": 3.1735
+          "shares": 2688221,
+          "weight_pct": 2.6709
         },
         {
           "issuer": "BROADCOM INC",
@@ -2110,26 +2019,8 @@
           "cusip": "11135F101",
           "put_call": null,
           "share_type": "SH",
-          "shares": 1317923,
-          "weight_pct": 2.0424
-        },
-        {
-          "issuer": "AMAZON COM INC",
-          "title_of_class": "COM",
-          "cusip": "023135106",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 2025481,
-          "weight_pct": 1.9804
-        },
-        {
-          "issuer": "ALPHABET INC",
-          "title_of_class": "CAP STK CL A",
-          "cusip": "02079K305",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 1322176,
-          "weight_pct": 1.9384
+          "shares": 1314746,
+          "weight_pct": 2.0087
         },
         {
           "issuer": "LAM RESEARCH CORP",
@@ -2137,17 +2028,8 @@
           "cusip": "512807306",
           "put_call": null,
           "share_type": "SH",
-          "shares": 938224,
-          "weight_pct": 1.6679
-        },
-        {
-          "issuer": "VANGUARD INDEX FDS",
-          "title_of_class": "S&P 500 ETF SHS",
-          "cusip": "922908363",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 458381,
-          "weight_pct": 1.2915
+          "shares": 1059885,
+          "weight_pct": 1.5148
         },
         {
           "issuer": "ADVANCED MICRO DEVICES INC",
@@ -2155,35 +2037,8 @@
           "cusip": "007903107",
           "put_call": null,
           "share_type": "SH",
-          "shares": 538632,
-          "weight_pct": 1.2836
-        },
-        {
-          "issuer": "ISHARES INC",
-          "title_of_class": "MSCI STH KOR ETF",
-          "cusip": "464286772",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 1384772,
-          "weight_pct": 1.147
-        },
-        {
-          "issuer": "MICROSOFT CORP",
-          "title_of_class": "COM",
-          "cusip": "594918104",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 711896,
-          "weight_pct": 1.0894
-        },
-        {
-          "issuer": "NEWMONT CORP",
-          "title_of_class": "COM",
-          "cusip": "651639106",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 2695170,
-          "weight_pct": 1.0327
+          "shares": 491337,
+          "weight_pct": 1.3077
         },
         {
           "issuer": "APPLIED MATLS INC",
@@ -2191,35 +2046,62 @@
           "cusip": "038222105",
           "put_call": null,
           "share_type": "SH",
-          "shares": 291426,
-          "weight_pct": 0.8644
+          "shares": 563379,
+          "weight_pct": 1.2534
         },
         {
-          "issuer": "ORACLE CORP",
+          "issuer": "MICRON TECHNOLOGY INC",
           "title_of_class": "COM",
-          "cusip": "68389X105",
+          "cusip": "595112103",
           "put_call": null,
           "share_type": "SH",
-          "shares": 1432967,
-          "weight_pct": 0.8615
+          "shares": 237119,
+          "weight_pct": 1.0988
         },
         {
-          "issuer": "SEAGATE TECHNOLOGY HLDNGS PL",
-          "title_of_class": "ORD SHS",
-          "cusip": "G7997R103",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 199822,
-          "weight_pct": 0.7911
-        },
-        {
-          "issuer": "JOHNSON & JOHNSON",
+          "issuer": "NEWMONT CORP",
           "title_of_class": "COM",
-          "cusip": "478160104",
+          "cusip": "651639106",
           "put_call": null,
           "share_type": "SH",
-          "shares": 669135,
-          "weight_pct": 0.6972
+          "shares": 2103682,
+          "weight_pct": 1.0556
+        },
+        {
+          "issuer": "AMAZON COM INC",
+          "title_of_class": "COM",
+          "cusip": "023135106",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 970756,
+          "weight_pct": 1.0522
+        },
+        {
+          "issuer": "ISHARES INC",
+          "title_of_class": "MSCI STH KOR ETF",
+          "cusip": "464286772",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 1256034,
+          "weight_pct": 0.9988
+        },
+        {
+          "issuer": "APPLOVIN CORP",
+          "title_of_class": "COM CL A",
+          "cusip": "03831W108",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 683040,
+          "weight_pct": 0.863
+        },
+        {
+          "issuer": "SHELL PLC",
+          "title_of_class": "SPON ADS",
+          "cusip": "780259305",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 2061329,
+          "weight_pct": 0.8524
         },
         {
           "issuer": "VANGUARD INTL EQUITY INDEX F",
@@ -2227,272 +2109,8 @@
           "cusip": "922042858",
           "put_call": null,
           "share_type": "SH",
-          "shares": 2746819,
-          "weight_pct": 0.6726
-        },
-        {
-          "issuer": "GE VERNOVA INC",
-          "title_of_class": "COM",
-          "cusip": "36828A101",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 122768,
-          "weight_pct": 0.5917
-        },
-        {
-          "issuer": "UNION PAC CORP",
-          "title_of_class": "COM",
-          "cusip": "907818108",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 514266,
-          "weight_pct": 0.5738
-        },
-        {
-          "issuer": "MICRON TECHNOLOGY INC",
-          "title_of_class": "COM",
-          "cusip": "595112103",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 116666,
-          "weight_pct": 0.5525
-        }
-      ],
-      "other_weight_pct": 52.2257,
-      "changes": [
-        {
-          "issuer": "STATE STR SPDR S&P 500 ETF T",
-          "title_of_class": "TR UNIT",
-          "cusip": "78462F103",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 21.8895,
-          "previous_shares": 4364862,
-          "current_shares": 5320308,
-          "previous_weight_pct": 12.6699,
-          "weight_pct": 16.299
-        },
-        {
-          "issuer": "ISHARES TR",
-          "title_of_class": "CORE S&P500 ETF",
-          "cusip": "464287200",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 12.0639,
-          "previous_shares": 2679084,
-          "current_shares": 3002286,
-          "previous_weight_pct": 7.8109,
-          "weight_pct": 9.2237
-        },
-        {
-          "issuer": "AMAZON COM INC",
-          "title_of_class": "COM",
-          "cusip": "023135106",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -53.8479,
-          "previous_shares": 4388711,
-          "current_shares": 2025481,
-          "previous_weight_pct": 4.0797,
-          "weight_pct": 1.9804
-        },
-        {
-          "issuer": "NVIDIA CORPORATION",
-          "title_of_class": "COM",
-          "cusip": "67066G104",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -17.6179,
-          "previous_shares": 4693003,
-          "current_shares": 3866195,
-          "previous_weight_pct": 3.6531,
-          "weight_pct": 3.1735
-        },
-        {
-          "issuer": "ALPHABET INC",
-          "title_of_class": "CAP STK CL A",
-          "cusip": "02079K305",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -33.8142,
-          "previous_shares": 1997674,
-          "current_shares": 1322176,
-          "previous_weight_pct": 2.564,
-          "weight_pct": 1.9384
-        },
-        {
-          "issuer": "BROADCOM INC",
-          "title_of_class": "COM",
-          "cusip": "11135F101",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -28.1935,
-          "previous_shares": 1835380,
-          "current_shares": 1317923,
-          "previous_weight_pct": 2.5355,
-          "weight_pct": 2.0424
-        },
-        {
-          "issuer": "MICRON TECHNOLOGY INC",
-          "title_of_class": "COM",
-          "cusip": "595112103",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -92.0942,
-          "previous_shares": 1475704,
-          "current_shares": 116666,
-          "previous_weight_pct": 2.2252,
-          "weight_pct": 0.5525
-        },
-        {
-          "issuer": "MICROSOFT CORP",
-          "title_of_class": "COM",
-          "cusip": "594918104",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -34.3862,
-          "previous_shares": 1084979,
-          "current_shares": 711896,
-          "previous_weight_pct": 1.7926,
-          "weight_pct": 1.0894
-        },
-        {
-          "issuer": "GE VERNOVA INC",
-          "title_of_class": "COM",
-          "cusip": "36828A101",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -71.7708,
-          "previous_shares": 434897,
-          "current_shares": 122768,
-          "previous_weight_pct": 1.6944,
-          "weight_pct": 0.5917
-        },
-        {
-          "issuer": "LAM RESEARCH CORP",
-          "title_of_class": "COM NEW",
-          "cusip": "512807306",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -40.2873,
-          "previous_shares": 1571229,
-          "current_shares": 938224,
-          "previous_weight_pct": 1.4984,
-          "weight_pct": 1.6679
-        },
-        {
-          "issuer": "TAIWAN SEMICONDUCTOR MANUFAC",
-          "title_of_class": "SPONSORED ADS",
-          "cusip": "874039100",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -96.7946,
-          "previous_shares": 1077079,
-          "current_shares": 34525,
-          "previous_weight_pct": 1.6247,
-          "weight_pct": 0.0676
-        },
-        {
-          "issuer": "VANGUARD INDEX FDS",
-          "title_of_class": "S&P 500 ETF SHS",
-          "cusip": "922908363",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 188.966,
-          "previous_shares": 158628,
-          "current_shares": 458381,
-          "previous_weight_pct": 0.4231,
-          "weight_pct": 1.2915
-        },
-        {
-          "issuer": "ADVANCED MICRO DEVICES INC",
-          "title_of_class": "COM",
-          "cusip": "007903107",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -58.335,
-          "previous_shares": 1292767,
-          "current_shares": 538632,
-          "previous_weight_pct": 1.1738,
-          "weight_pct": 1.2836
-        },
-        {
-          "issuer": "ISHARES INC",
-          "title_of_class": "MSCI STH KOR ETF",
-          "cusip": "464286772",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -21.5988,
-          "previous_shares": 1766264,
-          "current_shares": 1384772,
-          "previous_weight_pct": 0.9698,
-          "weight_pct": 1.147
-        },
-        {
-          "issuer": "NEWMONT CORP",
-          "title_of_class": "COM",
-          "cusip": "651639106",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 16.3396,
-          "previous_shares": 2316641,
-          "current_shares": 2695170,
-          "previous_weight_pct": 1.1193,
-          "weight_pct": 1.0327
-        },
-        {
-          "issuer": "ORACLE CORP",
-          "title_of_class": "COM",
-          "cusip": "68389X105",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -9.9934,
-          "previous_shares": 1592069,
-          "current_shares": 1432967,
-          "previous_weight_pct": 1.0454,
-          "weight_pct": 0.8615
-        },
-        {
-          "issuer": "APPLIED MATLS INC",
-          "title_of_class": "COM",
-          "cusip": "038222105",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -47.952,
-          "previous_shares": 559918,
-          "current_shares": 291426,
-          "previous_weight_pct": 0.8542,
-          "weight_pct": 0.8644
-        },
-        {
-          "issuer": "MARVELL TECHNOLOGY INC",
-          "title_of_class": "COM",
-          "cusip": "573874104",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -90.7039,
-          "previous_shares": 1948947,
-          "current_shares": 181176,
-          "previous_weight_pct": 0.8616,
-          "weight_pct": 0.2214
+          "shares": 3176858,
+          "weight_pct": 0.8197
         },
         {
           "issuer": "SEAGATE TECHNOLOGY HLDNGS PL",
@@ -2500,25 +2118,26 @@
           "cusip": "G7997R103",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -39.2854,
-          "previous_shares": 329117,
-          "current_shares": 199822,
-          "previous_weight_pct": 0.5755,
-          "weight_pct": 0.7911
+          "shares": 197892,
+          "weight_pct": 0.7941
         },
         {
-          "issuer": "JOHNSON & JOHNSON",
+          "issuer": "ORACLE CORP",
           "title_of_class": "COM",
-          "cusip": "478160104",
+          "cusip": "68389X105",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -3.9819,
-          "previous_shares": 696884,
-          "current_shares": 669135,
-          "previous_weight_pct": 0.7603,
-          "weight_pct": 0.6972
+          "shares": 1181393,
+          "weight_pct": 0.7057
+        },
+        {
+          "issuer": "QUALCOMM INC",
+          "title_of_class": "COM",
+          "cusip": "747525103",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 878115,
+          "weight_pct": 0.7031
         },
         {
           "issuer": "META PLATFORMS INC",
@@ -2526,38 +2145,250 @@
           "cusip": "30303M102",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -62.257,
-          "previous_shares": 291665,
-          "current_shares": 110083,
-          "previous_weight_pct": 0.7448,
-          "weight_pct": 0.2544
+          "shares": 220004,
+          "weight_pct": 0.6941
         },
         {
-          "issuer": "ARISTA NETWORKS INC",
-          "title_of_class": "COM SHS",
-          "cusip": "040413205",
+          "issuer": "PETROLEO BRASILEIRO S A",
+          "title_of_class": "SPONSORED ADR",
+          "cusip": "71654V408",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 7605722,
+          "weight_pct": 0.6906
+        },
+        {
+          "issuer": "ALPHABET INC",
+          "title_of_class": "CAP STK CL A",
+          "cusip": "02079K305",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 460233,
+          "weight_pct": 0.6889
+        }
+      ],
+      "other_weight_pct": 63.9113,
+      "changes": [
+        {
+          "issuer": "STATE STR SPDR S&P 500 ETF T",
+          "title_of_class": "TR UNIT",
+          "cusip": "78462F103",
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -80.8829,
-          "previous_shares": 1330091,
-          "current_shares": 254275,
-          "previous_weight_pct": 0.7289,
-          "weight_pct": 0.1772
+          "share_change_pct": -36.0316,
+          "previous_shares": 5320308,
+          "current_shares": 3403317,
+          "previous_weight_pct": 16.299,
+          "weight_pct": 11.2916
         },
         {
-          "issuer": "KLA CORP",
+          "issuer": "ISHARES TR",
+          "title_of_class": "CORE S&P500 ETF",
+          "cusip": "464287200",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -49.7698,
+          "previous_shares": 3002286,
+          "current_shares": 1508053,
+          "previous_weight_pct": 9.2237,
+          "weight_pct": 5.0246
+        },
+        {
+          "issuer": "NVIDIA CORPORATION",
+          "title_of_class": "COM",
+          "cusip": "67066G104",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -30.4686,
+          "previous_shares": 3866195,
+          "current_shares": 2688221,
+          "previous_weight_pct": 3.1735,
+          "weight_pct": 2.6709
+        },
+        {
+          "issuer": "BROADCOM INC",
+          "title_of_class": "COM",
+          "cusip": "11135F101",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -0.2411,
+          "previous_shares": 1317923,
+          "current_shares": 1314746,
+          "previous_weight_pct": 2.0424,
+          "weight_pct": 2.0087
+        },
+        {
+          "issuer": "AMAZON COM INC",
+          "title_of_class": "COM",
+          "cusip": "023135106",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -52.0728,
+          "previous_shares": 2025481,
+          "current_shares": 970756,
+          "previous_weight_pct": 1.9804,
+          "weight_pct": 1.0522
+        },
+        {
+          "issuer": "ALPHABET INC",
+          "title_of_class": "CAP STK CL A",
+          "cusip": "02079K305",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -65.1912,
+          "previous_shares": 1322176,
+          "current_shares": 460233,
+          "previous_weight_pct": 1.9384,
+          "weight_pct": 0.6889
+        },
+        {
+          "issuer": "LAM RESEARCH CORP",
           "title_of_class": "COM NEW",
-          "cusip": "482480100",
+          "cusip": "512807306",
           "put_call": null,
           "share_type": "SH",
           "change_type": "INCREASED",
-          "share_change_pct": 201.8845,
-          "previous_shares": 108674,
-          "current_shares": 328070,
-          "previous_weight_pct": 0.7142,
-          "weight_pct": 0.4061
+          "share_change_pct": 12.9672,
+          "previous_shares": 938224,
+          "current_shares": 1059885,
+          "previous_weight_pct": 1.6679,
+          "weight_pct": 1.5148
+        },
+        {
+          "issuer": "ADVANCED MICRO DEVICES INC",
+          "title_of_class": "COM",
+          "cusip": "007903107",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -8.7806,
+          "previous_shares": 538632,
+          "current_shares": 491337,
+          "previous_weight_pct": 1.2836,
+          "weight_pct": 1.3077
+        },
+        {
+          "issuer": "VANGUARD INDEX FDS",
+          "title_of_class": "S&P 500 ETF SHS",
+          "cusip": "922908363",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -83.2807,
+          "previous_shares": 458381,
+          "current_shares": 76638,
+          "previous_weight_pct": 1.2915,
+          "weight_pct": 0.2337
+        },
+        {
+          "issuer": "APPLIED MATLS INC",
+          "title_of_class": "COM",
+          "cusip": "038222105",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 93.318,
+          "previous_shares": 291426,
+          "current_shares": 563379,
+          "previous_weight_pct": 0.8644,
+          "weight_pct": 1.2534
+        },
+        {
+          "issuer": "ISHARES INC",
+          "title_of_class": "MSCI STH KOR ETF",
+          "cusip": "464286772",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -9.2967,
+          "previous_shares": 1384772,
+          "current_shares": 1256034,
+          "previous_weight_pct": 1.147,
+          "weight_pct": 0.9988
+        },
+        {
+          "issuer": "MICRON TECHNOLOGY INC",
+          "title_of_class": "COM",
+          "cusip": "595112103",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 103.246,
+          "previous_shares": 116666,
+          "current_shares": 237119,
+          "previous_weight_pct": 0.5525,
+          "weight_pct": 1.0988
+        },
+        {
+          "issuer": "MICROSOFT CORP",
+          "title_of_class": "COM",
+          "cusip": "594918104",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -68.9195,
+          "previous_shares": 711896,
+          "current_shares": 221261,
+          "previous_weight_pct": 1.0894,
+          "weight_pct": 0.4937
+        },
+        {
+          "issuer": "NEWMONT CORP",
+          "title_of_class": "COM",
+          "cusip": "651639106",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -21.9462,
+          "previous_shares": 2695170,
+          "current_shares": 2103682,
+          "previous_weight_pct": 1.0327,
+          "weight_pct": 1.0556
+        },
+        {
+          "issuer": "APPLOVIN CORP",
+          "title_of_class": "COM CL A",
+          "cusip": "03831W108",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 365.9145,
+          "previous_shares": 146602,
+          "current_shares": 683040,
+          "previous_weight_pct": 0.3099,
+          "weight_pct": 0.863
+        },
+        {
+          "issuer": "ORACLE CORP",
+          "title_of_class": "COM",
+          "cusip": "68389X105",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -17.5562,
+          "previous_shares": 1432967,
+          "current_shares": 1181393,
+          "previous_weight_pct": 0.8615,
+          "weight_pct": 0.7057
+        },
+        {
+          "issuer": "SHELL PLC",
+          "title_of_class": "SPON ADS",
+          "cusip": "780259305",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 35.0661,
+          "previous_shares": 1526163,
+          "current_shares": 2061329,
+          "previous_weight_pct": 0.4855,
+          "weight_pct": 0.8524
         },
         {
           "issuer": "VANGUARD INTL EQUITY INDEX F",
@@ -2566,37 +2397,115 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "INCREASED",
-          "share_change_pct": 0.9214,
-          "previous_shares": 2721740,
-          "current_shares": 2746819,
-          "previous_weight_pct": 0.6566,
-          "weight_pct": 0.6726
+          "share_change_pct": 15.6559,
+          "previous_shares": 2746819,
+          "current_shares": 3176858,
+          "previous_weight_pct": 0.6726,
+          "weight_pct": 0.8197
         },
         {
-          "issuer": "CELESTICA INC",
-          "title_of_class": "COM",
-          "cusip": "15101Q207",
+          "issuer": "SEAGATE TECHNOLOGY HLDNGS PL",
+          "title_of_class": "ORD SHS",
+          "cusip": "G7997R103",
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -37.086,
-          "previous_shares": 525621,
-          "current_shares": 330689,
-          "previous_weight_pct": 0.6608,
-          "weight_pct": 0.4949
+          "share_change_pct": -0.9659,
+          "previous_shares": 199822,
+          "current_shares": 197892,
+          "previous_weight_pct": 0.7911,
+          "weight_pct": 0.7941
         },
         {
-          "issuer": "APPLE INC",
+          "issuer": "QUALCOMM INC",
           "title_of_class": "COM",
-          "cusip": "037833100",
+          "cusip": "747525103",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 440.4915,
+          "previous_shares": 162466,
+          "current_shares": 878115,
+          "previous_weight_pct": 0.1232,
+          "weight_pct": 0.7031
+        },
+        {
+          "issuer": "JOHNSON & JOHNSON",
+          "title_of_class": "COM",
+          "cusip": "478160104",
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -35.3359,
-          "previous_shares": 563492,
-          "current_shares": 364377,
-          "previous_weight_pct": 0.6383,
-          "weight_pct": 0.4325
+          "share_change_pct": -18.1733,
+          "previous_shares": 669135,
+          "current_shares": 547531,
+          "previous_weight_pct": 0.6972,
+          "weight_pct": 0.6306
+        },
+        {
+          "issuer": "META PLATFORMS INC",
+          "title_of_class": "CL A",
+          "cusip": "30303M102",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 99.8528,
+          "previous_shares": 110083,
+          "current_shares": 220004,
+          "previous_weight_pct": 0.2544,
+          "weight_pct": 0.6941
+        },
+        {
+          "issuer": "PETROLEO BRASILEIRO S A",
+          "title_of_class": "SPONSORED ADR",
+          "cusip": "71654V408",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 16.5708,
+          "previous_shares": 6524553,
+          "current_shares": 7605722,
+          "previous_weight_pct": 0.4325,
+          "weight_pct": 0.6906
+        },
+        {
+          "issuer": "ALTRIA GROUP INC",
+          "title_of_class": "COM",
+          "cusip": "02209S103",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 21.6233,
+          "previous_shares": 1727216,
+          "current_shares": 2100697,
+          "previous_weight_pct": 0.5098,
+          "weight_pct": 0.6154
+        },
+        {
+          "issuer": "GE VERNOVA INC",
+          "title_of_class": "COM",
+          "cusip": "36828A101",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -5.3442,
+          "previous_shares": 122768,
+          "current_shares": 116207,
+          "previous_weight_pct": 0.5917,
+          "weight_pct": 0.4805
+        },
+        {
+          "issuer": "ISHARES INC",
+          "title_of_class": "CORE MSCI EMKT",
+          "cusip": "46434G103",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 24.1955,
+          "previous_shares": 1328276,
+          "current_shares": 1649659,
+          "previous_weight_pct": 0.4514,
+          "weight_pct": 0.5825
         },
         {
           "issuer": "UNION PAC CORP",
@@ -2604,12 +2513,38 @@
           "cusip": "907818108",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -3.4877,
-          "previous_shares": 532850,
-          "current_shares": 514266,
-          "previous_weight_pct": 0.577,
-          "weight_pct": 0.5738
+          "change_type": "EXITED",
+          "share_change_pct": -100.0,
+          "previous_shares": 514266,
+          "current_shares": 0,
+          "previous_weight_pct": 0.5738,
+          "weight_pct": 0.0
+        },
+        {
+          "issuer": "EOG RES INC",
+          "title_of_class": "COM",
+          "cusip": "26875P101",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 75.8042,
+          "previous_shares": 539429,
+          "current_shares": 948339,
+          "previous_weight_pct": 0.2871,
+          "weight_pct": 0.5684
+        },
+        {
+          "issuer": "VISA INC",
+          "title_of_class": "COM CL A",
+          "cusip": "92826C839",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 338.7714,
+          "previous_shares": 81537,
+          "current_shares": 357761,
+          "previous_weight_pct": 0.1148,
+          "weight_pct": 0.5593
         },
         {
           "issuer": "ISHARES TR",
@@ -2618,37 +2553,11 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "INCREASED",
-          "share_change_pct": 1.9706,
-          "previous_shares": 1360000,
-          "current_shares": 1386800,
-          "previous_weight_pct": 0.5764,
-          "weight_pct": 0.5377
-        },
-        {
-          "issuer": "BARRICK MNG CORP",
-          "title_of_class": "COM SHS",
-          "cusip": "06849F108",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 7.3262,
-          "previous_shares": 3079243,
-          "current_shares": 3304836,
-          "previous_weight_pct": 0.5606,
-          "weight_pct": 0.498
-        },
-        {
-          "issuer": "ASML HLDG NV",
-          "title_of_class": "N Y REGISTRY SHS",
-          "cusip": "N07059210",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -33.1045,
-          "previous_shares": 92196,
-          "current_shares": 61675,
-          "previous_weight_pct": 0.5435,
-          "weight_pct": 0.5034
+          "share_change_pct": 1.9253,
+          "previous_shares": 1386800,
+          "current_shares": 1413500,
+          "previous_weight_pct": 0.5377,
+          "weight_pct": 0.5511
         }
       ]
     },
@@ -3249,24 +3158,24 @@
       "firm": "Tiger Global Management",
       "cik": "0001167483",
       "filer_name": "TIGER GLOBAL MANAGEMENT LLC",
-      "report_date": "2026-06-30",
-      "filed_at": "2026-08-14",
-      "accession_number": "0000919574-26-005427",
-      "filing_url": "https://www.sec.gov/Archives/edgar/data/1167483/000091957426005427/xslForm13F_X02/primary_doc.xml",
-      "previous_report_date": "2026-03-31",
+      "report_date": "2026-09-30",
+      "filed_at": "2026-11-16",
+      "accession_number": "0000919574-26-008062",
+      "filing_url": "https://www.sec.gov/Archives/edgar/data/1167483/000091957426008062/xslForm13F_X02/primary_doc.xml",
+      "previous_report_date": "2026-06-30",
       "latest_submission_form": "13F-HR",
-      "latest_submission_report_date": "2026-06-30",
-      "latest_submission_filed_at": "2026-08-14",
-      "holding_count": 46,
+      "latest_submission_report_date": "2026-09-30",
+      "latest_submission_filed_at": "2026-11-16",
+      "holding_count": 45,
       "top_holdings": [
         {
-          "issuer": "TAIWAN SEMICONDUCTOR MANUFAC",
-          "title_of_class": "SPONSORED ADS",
-          "cusip": "874039100",
+          "issuer": "NVIDIA CORPORATION",
+          "title_of_class": "COM",
+          "cusip": "67066G104",
           "put_call": null,
           "share_type": "SH",
-          "shares": 4881008,
-          "weight_pct": 9.7201
+          "shares": 12000000,
+          "weight_pct": 13.5852
         },
         {
           "issuer": "AMAZON COM INC",
@@ -3274,26 +3183,8 @@
           "cusip": "023135106",
           "put_call": null,
           "share_type": "SH",
-          "shares": 9683558,
-          "weight_pct": 9.624
-        },
-        {
-          "issuer": "NVIDIA CORPORATION",
-          "title_of_class": "COM",
-          "cusip": "67066G104",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 11198773,
-          "weight_pct": 9.3437
-        },
-        {
-          "issuer": "ALPHABET INC",
-          "title_of_class": "CAP STK CL A",
-          "cusip": "02079K305",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 5805687,
-          "weight_pct": 8.6516
+          "shares": 9279060,
+          "weight_pct": 11.4602
         },
         {
           "issuer": "META PLATFORMS INC",
@@ -3301,44 +3192,17 @@
           "cusip": "30303M102",
           "put_call": null,
           "share_type": "SH",
-          "shares": 2823180,
-          "weight_pct": 6.6312
+          "shares": 2248337,
+          "weight_pct": 8.0823
         },
         {
-          "issuer": "LAM RESEARCH CORP",
-          "title_of_class": "COM NEW",
-          "cusip": "512807306",
+          "issuer": "TAIWAN SEMICONDUCTOR MANUFAC",
+          "title_of_class": "SPONSORED ADS",
+          "cusip": "874039100",
           "put_call": null,
           "share_type": "SH",
-          "shares": 3163495,
-          "weight_pct": 5.7162
-        },
-        {
-          "issuer": "SEA LTD",
-          "title_of_class": "SPONSORD ADS",
-          "cusip": "81141R100",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 12559152,
-          "weight_pct": 5.0186
-        },
-        {
-          "issuer": "APPLIED MATLS INC",
-          "title_of_class": "COM",
-          "cusip": "038222105",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 1632210,
-          "weight_pct": 4.9208
-        },
-        {
-          "issuer": "GE VERNOVA INC",
-          "title_of_class": "COM",
-          "cusip": "36828A101",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 797511,
-          "weight_pct": 3.907
+          "shares": 3133924,
+          "weight_pct": 7.087
         },
         {
           "issuer": "MICROSOFT CORP",
@@ -3347,7 +3211,16 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 2266913,
-          "weight_pct": 3.5261
+          "weight_pct": 5.7636
+        },
+        {
+          "issuer": "ALPHABET INC",
+          "title_of_class": "CAP STK CL A",
+          "cusip": "02079K305",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 3349218,
+          "weight_pct": 5.7126
         },
         {
           "issuer": "CORPAY INC",
@@ -3356,7 +3229,7 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 2149877,
-          "weight_pct": 2.9877
+          "weight_pct": 4.1414
         },
         {
           "issuer": "CEREBRAS SYSTEMS INC",
@@ -3364,8 +3237,35 @@
           "cusip": "15675D103",
           "put_call": null,
           "share_type": "SH",
-          "shares": 2999000,
-          "weight_pct": 2.7637
+          "shares": 4446347,
+          "weight_pct": 3.9156
+        },
+        {
+          "issuer": "LAM RESEARCH CORP",
+          "title_of_class": "COM NEW",
+          "cusip": "512807306",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 2193339,
+          "weight_pct": 3.5718
+        },
+        {
+          "issuer": "SEA LTD",
+          "title_of_class": "SPONSORD ADS",
+          "cusip": "81141R100",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 7107616,
+          "weight_pct": 3.4303
+        },
+        {
+          "issuer": "INTEL CORP",
+          "title_of_class": "COM",
+          "cusip": "458140100",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 5544368,
+          "weight_pct": 3.3044
         },
         {
           "issuer": "BROADCOM INC",
@@ -3374,7 +3274,25 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 1754062,
-          "weight_pct": 2.7629
+          "weight_pct": 3.0536
+        },
+        {
+          "issuer": "APPLIED MATLS INC",
+          "title_of_class": "COM",
+          "cusip": "038222105",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 1201364,
+          "weight_pct": 3.0454
+        },
+        {
+          "issuer": "GE VERNOVA INC",
+          "title_of_class": "COM",
+          "cusip": "36828A101",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 579294,
+          "weight_pct": 2.7294
         },
         {
           "issuer": "COUPANG INC",
@@ -3382,44 +3300,17 @@
           "cusip": "22266T109",
           "put_call": null,
           "share_type": "SH",
-          "shares": 36467972,
-          "weight_pct": 2.6414
+          "shares": 35141659,
+          "weight_pct": 2.4162
         },
         {
-          "issuer": "INTEL CORP",
+          "issuer": "MERCADOLIBRE INC",
           "title_of_class": "COM",
-          "cusip": "458140100",
+          "cusip": "58733R102",
           "put_call": null,
           "share_type": "SH",
-          "shares": 4252690,
-          "weight_pct": 2.4761
-        },
-        {
-          "issuer": "SPOTIFY TECHNOLOGY S A",
-          "title_of_class": "SHS",
-          "cusip": "L8681T102",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 1171427,
-          "weight_pct": 2.2427
-        },
-        {
-          "issuer": "TAKE-TWO INTERACTIVE SOFTWAR",
-          "title_of_class": "COM",
-          "cusip": "874054109",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 1809348,
-          "weight_pct": 1.886
-        },
-        {
-          "issuer": "REDDIT INC",
-          "title_of_class": "CL A",
-          "cusip": "75734B100",
-          "put_call": null,
-          "share_type": "SH",
-          "shares": 2528819,
-          "weight_pct": 1.8304
+          "shares": 244626,
+          "weight_pct": 2.0961
         },
         {
           "issuer": "ADVANCED MICRO DEVICES INC",
@@ -3428,45 +3319,50 @@
           "put_call": null,
           "share_type": "SH",
           "shares": 674727,
-          "weight_pct": 1.6344
+          "weight_pct": 2.0461
         },
         {
-          "issuer": "BLOCK INC",
+          "issuer": "REDDIT INC",
           "title_of_class": "CL A",
-          "cusip": "852234103",
+          "cusip": "75734B100",
           "put_call": null,
           "share_type": "SH",
-          "shares": 4576007,
-          "weight_pct": 1.4502
+          "shares": 2270548,
+          "weight_pct": 1.6032
+        },
+        {
+          "issuer": "VISA INC",
+          "title_of_class": "COM CL A",
+          "cusip": "92826C839",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 798697,
+          "weight_pct": 1.4227
+        },
+        {
+          "issuer": "TAKE-TWO INTERACTIVE SOFTWAR",
+          "title_of_class": "COM",
+          "cusip": "874054109",
+          "put_call": null,
+          "share_type": "SH",
+          "shares": 1361413,
+          "weight_pct": 1.4003
         }
       ],
-      "other_weight_pct": 10.2652,
+      "other_weight_pct": 10.1326,
       "changes": [
         {
-          "issuer": "ALPHABET INC",
-          "title_of_class": "CAP STK CL A",
-          "cusip": "02079K305",
+          "issuer": "NVIDIA CORPORATION",
+          "title_of_class": "COM",
+          "cusip": "67066G104",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -45.3911,
-          "previous_shares": 10631402,
-          "current_shares": 5805687,
-          "previous_weight_pct": 13.382,
-          "weight_pct": 8.6516
-        },
-        {
-          "issuer": "TAIWAN SEMICONDUCTOR MANUFAC",
-          "title_of_class": "SPONSORED ADS",
-          "cusip": "874039100",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -12.2921,
-          "previous_shares": 5565074,
-          "current_shares": 4881008,
-          "previous_weight_pct": 8.2324,
-          "weight_pct": 9.7201
+          "change_type": "INCREASED",
+          "share_change_pct": 7.1546,
+          "previous_shares": 11198773,
+          "current_shares": 12000000,
+          "previous_weight_pct": 9.3437,
+          "weight_pct": 13.5852
         },
         {
           "issuer": "AMAZON COM INC",
@@ -3475,24 +3371,37 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -3.1644,
-          "previous_shares": 10000000,
-          "current_shares": 9683558,
-          "previous_weight_pct": 9.1165,
-          "weight_pct": 9.624
+          "share_change_pct": -4.1772,
+          "previous_shares": 9683558,
+          "current_shares": 9279060,
+          "previous_weight_pct": 9.624,
+          "weight_pct": 11.4602
         },
         {
-          "issuer": "NVIDIA CORPORATION",
-          "title_of_class": "COM",
-          "cusip": "67066G104",
+          "issuer": "TAIWAN SEMICONDUCTOR MANUFAC",
+          "title_of_class": "SPONSORED ADS",
+          "cusip": "874039100",
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -6.7682,
-          "previous_shares": 12011752,
-          "current_shares": 11198773,
-          "previous_weight_pct": 9.1697,
-          "weight_pct": 9.3437
+          "share_change_pct": -35.7935,
+          "previous_shares": 4881008,
+          "current_shares": 3133924,
+          "previous_weight_pct": 9.7201,
+          "weight_pct": 7.087
+        },
+        {
+          "issuer": "ALPHABET INC",
+          "title_of_class": "CAP STK CL A",
+          "cusip": "02079K305",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -42.3114,
+          "previous_shares": 5805687,
+          "current_shares": 3349218,
+          "previous_weight_pct": 8.6516,
+          "weight_pct": 5.7126
         },
         {
           "issuer": "META PLATFORMS INC",
@@ -3501,11 +3410,11 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -8.5421,
-          "previous_shares": 3086864,
-          "current_shares": 2823180,
-          "previous_weight_pct": 7.7306,
-          "weight_pct": 6.6312
+          "share_change_pct": -20.3615,
+          "previous_shares": 2823180,
+          "current_shares": 2248337,
+          "previous_weight_pct": 6.6312,
+          "weight_pct": 8.0823
         },
         {
           "issuer": "LAM RESEARCH CORP",
@@ -3514,11 +3423,11 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -18.8939,
-          "previous_shares": 3900439,
-          "current_shares": 3163495,
-          "previous_weight_pct": 3.6479,
-          "weight_pct": 5.7162
+          "share_change_pct": -30.6672,
+          "previous_shares": 3163495,
+          "current_shares": 2193339,
+          "previous_weight_pct": 5.7162,
+          "weight_pct": 3.5718
         },
         {
           "issuer": "SEA LTD",
@@ -3527,11 +3436,11 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -18.5308,
-          "previous_shares": 15415835,
-          "current_shares": 12559152,
-          "previous_weight_pct": 5.5879,
-          "weight_pct": 5.0186
+          "share_change_pct": -43.4069,
+          "previous_shares": 12559152,
+          "current_shares": 7107616,
+          "previous_weight_pct": 5.0186,
+          "weight_pct": 3.4303
         },
         {
           "issuer": "APPLIED MATLS INC",
@@ -3540,37 +3449,24 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -1.4901,
-          "previous_shares": 1656900,
-          "current_shares": 1632210,
-          "previous_weight_pct": 2.4789,
-          "weight_pct": 4.9208
+          "share_change_pct": -26.3965,
+          "previous_shares": 1632210,
+          "current_shares": 1201364,
+          "previous_weight_pct": 4.9208,
+          "weight_pct": 3.0454
         },
         {
-          "issuer": "BROADCOM INC",
-          "title_of_class": "COM",
-          "cusip": "11135F101",
+          "issuer": "CEREBRAS SYSTEMS INC",
+          "title_of_class": "COM CL A",
+          "cusip": "15675D103",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -51.0697,
-          "previous_shares": 3584814,
-          "current_shares": 1754062,
-          "previous_weight_pct": 4.8567,
-          "weight_pct": 2.7629
-        },
-        {
-          "issuer": "MICROSOFT CORP",
-          "title_of_class": "COM",
-          "cusip": "594918104",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -9.3235,
-          "previous_shares": 2500000,
-          "current_shares": 2266913,
-          "previous_weight_pct": 4.0508,
-          "weight_pct": 3.5261
+          "change_type": "INCREASED",
+          "share_change_pct": 48.261,
+          "previous_shares": 2999000,
+          "current_shares": 4446347,
+          "previous_weight_pct": 2.7637,
+          "weight_pct": 3.9156
         },
         {
           "issuer": "GE VERNOVA INC",
@@ -3579,63 +3475,11 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -18.0354,
-          "previous_shares": 972994,
-          "current_shares": 797511,
-          "previous_weight_pct": 3.7177,
-          "weight_pct": 3.907
-        },
-        {
-          "issuer": "SPOTIFY TECHNOLOGY S A",
-          "title_of_class": "SHS",
-          "cusip": "L8681T102",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -25.8947,
-          "previous_shares": 1580761,
-          "current_shares": 1171427,
-          "previous_weight_pct": 3.3553,
-          "weight_pct": 2.2427
-        },
-        {
-          "issuer": "CORPAY INC",
-          "title_of_class": "COM SHS",
-          "cusip": "219948106",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 22.6996,
-          "previous_shares": 1752146,
-          "current_shares": 2149877,
-          "previous_weight_pct": 2.2318,
-          "weight_pct": 2.9877
-        },
-        {
-          "issuer": "COUPANG INC",
-          "title_of_class": "CL A",
-          "cusip": "22266T109",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 5.4128,
-          "previous_shares": 34595407,
-          "current_shares": 36467972,
-          "previous_weight_pct": 2.859,
-          "weight_pct": 2.6414
-        },
-        {
-          "issuer": "CEREBRAS SYSTEMS INC",
-          "title_of_class": "COM CL A",
-          "cusip": "15675D103",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 2999000,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 2.7637
+          "share_change_pct": -27.3623,
+          "previous_shares": 797511,
+          "current_shares": 579294,
+          "previous_weight_pct": 3.907,
+          "weight_pct": 2.7294
         },
         {
           "issuer": "INTEL CORP",
@@ -3644,128 +3488,37 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "INCREASED",
-          "share_change_pct": 159.5161,
-          "previous_shares": 1638700,
-          "current_shares": 4252690,
-          "previous_weight_pct": 0.3165,
-          "weight_pct": 2.4761
+          "share_change_pct": 30.3732,
+          "previous_shares": 4252690,
+          "current_shares": 5544368,
+          "previous_weight_pct": 2.4761,
+          "weight_pct": 3.3044
         },
         {
-          "issuer": "TAKE-TWO INTERACTIVE SOFTWAR",
-          "title_of_class": "COM",
-          "cusip": "874054109",
+          "issuer": "COUPANG INC",
+          "title_of_class": "CL A",
+          "cusip": "22266T109",
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -9.5326,
-          "previous_shares": 2000000,
-          "current_shares": 1809348,
-          "previous_weight_pct": 1.729,
-          "weight_pct": 1.886
+          "share_change_pct": -3.6369,
+          "previous_shares": 36467972,
+          "current_shares": 35141659,
+          "previous_weight_pct": 2.6414,
+          "weight_pct": 2.4162
         },
         {
-          "issuer": "REDDIT INC",
-          "title_of_class": "CL A",
-          "cusip": "75734B100",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 1.1528,
-          "previous_shares": 2500000,
-          "current_shares": 2528819,
-          "previous_weight_pct": 1.4735,
-          "weight_pct": 1.8304
-        },
-        {
-          "issuer": "APPLOVIN CORP",
-          "title_of_class": "COM CL A",
-          "cusip": "03831W108",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "EXITED",
-          "share_change_pct": -100.0,
-          "previous_shares": 1000000,
-          "current_shares": 0,
-          "previous_weight_pct": 1.7421,
-          "weight_pct": 0.0
-        },
-        {
-          "issuer": "ADVANCED MICRO DEVICES INC",
-          "title_of_class": "COM",
-          "cusip": "007903107",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 674727,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 1.6344
-        },
-        {
-          "issuer": "APOLLO GLOBAL MGMT INC",
-          "title_of_class": "COM",
-          "cusip": "03769M106",
+          "issuer": "SPOTIFY TECHNOLOGY S A",
+          "title_of_class": "SHS",
+          "cusip": "L8681T102",
           "put_call": null,
           "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -17.3145,
-          "previous_shares": 3293334,
-          "current_shares": 2723110,
-          "previous_weight_pct": 1.6062,
-          "weight_pct": 1.3434
-        },
-        {
-          "issuer": "BLOCK INC",
-          "title_of_class": "CL A",
-          "cusip": "852234103",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "INCREASED",
-          "share_change_pct": 14.4002,
-          "previous_shares": 4000000,
-          "current_shares": 4576007,
-          "previous_weight_pct": 1.0537,
-          "weight_pct": 1.4502
-        },
-        {
-          "issuer": "ZILLOW GROUP INC",
-          "title_of_class": "CL C CAP STK",
-          "cusip": "98954M200",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "EXITED",
-          "share_change_pct": -100.0,
-          "previous_shares": 7368957,
-          "current_shares": 0,
-          "previous_weight_pct": 1.3347,
-          "weight_pct": 0.0
-        },
-        {
-          "issuer": "SEAGATE TECHNOLOGY HLDNGS PL",
-          "title_of_class": "ORD SHS",
-          "cusip": "G7997R103",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 285100,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 1.1472
-        },
-        {
-          "issuer": "VISA INC",
-          "title_of_class": "COM CL A",
-          "cusip": "92826C839",
-          "put_call": null,
-          "share_type": "SH",
-          "change_type": "NEW",
-          "share_change_pct": null,
-          "previous_shares": 0,
-          "current_shares": 798697,
-          "previous_weight_pct": 0.0,
-          "weight_pct": 1.1427
+          "share_change_pct": -99.7814,
+          "previous_shares": 1171427,
+          "current_shares": 2561,
+          "previous_weight_pct": 2.2427,
+          "weight_pct": 0.0062
         },
         {
           "issuer": "MERCADOLIBRE INC",
@@ -3774,24 +3527,102 @@
           "put_call": null,
           "share_type": "SH",
           "change_type": "INCREASED",
-          "share_change_pct": 13.4216,
-          "previous_shares": 135006,
-          "current_shares": 153126,
-          "previous_weight_pct": 1.0218,
-          "weight_pct": 1.0838
+          "share_change_pct": 59.7547,
+          "previous_shares": 153126,
+          "current_shares": 244626,
+          "previous_weight_pct": 1.0838,
+          "weight_pct": 2.0961
         },
         {
-          "issuer": "NETFLIX INC.",
+          "issuer": "TAKE-TWO INTERACTIVE SOFTWAR",
           "title_of_class": "COM",
-          "cusip": "64110L106",
+          "cusip": "874054109",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "EXITED",
-          "share_change_pct": -100.0,
-          "previous_shares": 2439000,
-          "current_shares": 0,
-          "previous_weight_pct": 1.0265,
-          "weight_pct": 0.0
+          "change_type": "DECREASED",
+          "share_change_pct": -24.7567,
+          "previous_shares": 1809348,
+          "current_shares": 1361413,
+          "previous_weight_pct": 1.886,
+          "weight_pct": 1.4003
+        },
+        {
+          "issuer": "REDDIT INC",
+          "title_of_class": "CL A",
+          "cusip": "75734B100",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -10.2131,
+          "previous_shares": 2528819,
+          "current_shares": 2270548,
+          "previous_weight_pct": 1.8304,
+          "weight_pct": 1.6032
+        },
+        {
+          "issuer": "BLOCK INC",
+          "title_of_class": "CL A",
+          "cusip": "852234103",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -20.0715,
+          "previous_shares": 4576007,
+          "current_shares": 3657534,
+          "previous_weight_pct": 1.4502,
+          "weight_pct": 1.3332
+        },
+        {
+          "issuer": "DANAHER CORP DEL",
+          "title_of_class": "COM",
+          "cusip": "235851102",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "INCREASED",
+          "share_change_pct": 178.2456,
+          "previous_shares": 456000,
+          "current_shares": 1268800,
+          "previous_weight_pct": 0.3622,
+          "weight_pct": 1.3935
+        },
+        {
+          "issuer": "APOLLO GLOBAL MGMT INC",
+          "title_of_class": "COM",
+          "cusip": "03769M106",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -46.4111,
+          "previous_shares": 2723110,
+          "current_shares": 1459285,
+          "previous_weight_pct": 1.3434,
+          "weight_pct": 0.8396
+        },
+        {
+          "issuer": "FERRARI N V",
+          "title_of_class": "COM",
+          "cusip": "N3167Y103",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "NEW",
+          "share_change_pct": null,
+          "previous_shares": 0,
+          "current_shares": 602700,
+          "previous_weight_pct": 0.0,
+          "weight_pct": 1.1737
+        },
+        {
+          "issuer": "SEAGATE TECHNOLOGY HLDNGS PL",
+          "title_of_class": "ORD SHS",
+          "cusip": "G7997R103",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "DECREASED",
+          "share_change_pct": -62.1186,
+          "previous_shares": 285100,
+          "current_shares": 108000,
+          "previous_weight_pct": 1.1472,
+          "weight_pct": 0.4938
         },
         {
           "issuer": "LIBERTY MEDIA CORP DEL",
@@ -3799,25 +3630,25 @@
           "cusip": "531229755",
           "put_call": null,
           "share_type": "SH",
-          "change_type": "DECREASED",
-          "share_change_pct": -15.0427,
-          "previous_shares": 2682000,
-          "current_shares": 2278555,
-          "previous_weight_pct": 0.9981,
-          "weight_pct": 0.904
-        },
-        {
-          "issuer": "ZSCALER INC",
-          "title_of_class": "COM",
-          "cusip": "98980G102",
-          "put_call": null,
-          "share_type": "SH",
           "change_type": "EXITED",
           "share_change_pct": -100.0,
-          "previous_shares": 1579766,
+          "previous_shares": 2278555,
           "current_shares": 0,
-          "previous_weight_pct": 0.9701,
+          "previous_weight_pct": 0.904,
           "weight_pct": 0.0
+        },
+        {
+          "issuer": "LIBERTY MEDIA CORP DEL",
+          "title_of_class": "COM SER C",
+          "cusip": "531229755",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "NEW",
+          "share_change_pct": null,
+          "previous_shares": 0,
+          "current_shares": 1364276,
+          "previous_weight_pct": 0.0,
+          "weight_pct": 0.6249
         },
         {
           "issuer": "CHIME FINL INC",
@@ -3825,12 +3656,90 @@
           "cusip": "16935C109",
           "put_call": null,
           "share_type": "SH",
+          "change_type": "EXITED",
+          "share_change_pct": -100.0,
+          "previous_shares": 5284045,
+          "current_shares": 0,
+          "previous_weight_pct": 0.4513,
+          "weight_pct": 0.0
+        },
+        {
+          "issuer": "WEBULL CORP",
+          "title_of_class": "ORD SHS",
+          "cusip": "G9572D103",
+          "put_call": null,
+          "share_type": "SH",
           "change_type": "DECREASED",
-          "share_change_pct": -52.3177,
-          "previous_shares": 11081780,
-          "current_shares": 5284045,
-          "previous_weight_pct": 0.9085,
-          "weight_pct": 0.4513
+          "share_change_pct": -29.8736,
+          "previous_shares": 6724137,
+          "current_shares": 4715394,
+          "previous_weight_pct": 0.1828,
+          "weight_pct": 0.1629
+        },
+        {
+          "issuer": "APPLIED DIGITAL CORP",
+          "title_of_class": "COM NEW",
+          "cusip": "038169207",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "EXITED",
+          "share_change_pct": -100.0,
+          "previous_shares": 885000,
+          "current_shares": 0,
+          "previous_weight_pct": 0.1376,
+          "weight_pct": 0.0
+        },
+        {
+          "issuer": "BENDING SPOONS SPA",
+          "title_of_class": "COM SHS",
+          "cusip": "T19377109",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "NEW",
+          "share_change_pct": null,
+          "previous_shares": 0,
+          "current_shares": 600000,
+          "previous_weight_pct": 0.0,
+          "weight_pct": 0.0991
+        },
+        {
+          "issuer": "CIPHER DIGITAL INC",
+          "title_of_class": "COM",
+          "cusip": "17253J106",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "EXITED",
+          "share_change_pct": -100.0,
+          "previous_shares": 927000,
+          "current_shares": 0,
+          "previous_weight_pct": 0.0947,
+          "weight_pct": 0.0
+        },
+        {
+          "issuer": "CORE SCIENTIFIC INC NEW",
+          "title_of_class": "COM",
+          "cusip": "21874A106",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "EXITED",
+          "share_change_pct": -100.0,
+          "previous_shares": 817000,
+          "current_shares": 0,
+          "previous_weight_pct": 0.0872,
+          "weight_pct": 0.0
+        },
+        {
+          "issuer": "XANADU QUANTUM TECHNOLO LTD",
+          "title_of_class": "SUB VTG B",
+          "cusip": "98390R102",
+          "put_call": null,
+          "share_type": "SH",
+          "change_type": "NEW",
+          "share_change_pct": null,
+          "previous_shares": 0,
+          "current_shares": 990000,
+          "previous_weight_pct": 0.0,
+          "weight_pct": 0.0225
         }
       ]
     }
